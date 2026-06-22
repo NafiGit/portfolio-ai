@@ -1,0 +1,5 @@
+.omx/
+.mcp.json
+.git/
+node_modules/
+README.md

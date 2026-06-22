@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.vercel/
+.env*
+.DS_Store
+# stray agent-harness state — never commit
+.omx/
+.mcp.json

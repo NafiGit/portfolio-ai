@@ -704,56 +704,6 @@ section{position:relative}
   </div>
 </section>
 
-<!-- What I Deliver -->
-<section class="impact-section" id="deliver">
-  <div class="section-inner">
-    <div class="section-label">What I Deliver</div>
-    <div class="section-title reveal">What I Ship</div>
-    <p class="section-desc reveal">Agent design to production monitoring. No handoffs.</p>
-    <div class="ship-grid reveal">
-      <div class="ship-col">
-        <h3><span class="ship-icon ship-icon-agent">&#9672;</span> Agentic Systems</h3>
-        <div class="ship-items">
-          <span class="ship-item">Agent Harnesses</span>
-          <span class="ship-item">Autonomous Loops</span>
-          <span class="ship-item">Subagent Spawning</span>
-          <span class="ship-item">Tool Orchestration</span>
-          <span class="ship-item">Browser Agents</span>
-          <span class="ship-item">Voice AI</span>
-          <span class="ship-item">Multi-Channel</span>
-          <span class="ship-item">Debate Models</span>
-        </div>
-      </div>
-      <div class="ship-col">
-        <h3><span class="ship-icon ship-icon-ctx">&#9670;</span> Context & Memory</h3>
-        <div class="ship-items">
-          <span class="ship-item">Token Efficiency</span>
-          <span class="ship-item">Context Engineering</span>
-          <span class="ship-item">RAG Pipelines</span>
-          <span class="ship-item">Vector Stores</span>
-          <span class="ship-item">Persistent Memory</span>
-          <span class="ship-item">RLHF Pipelines</span>
-          <span class="ship-item">LLM-as-a-Judge</span>
-          <span class="ship-item">Langfuse Tracing</span>
-        </div>
-      </div>
-      <div class="ship-col">
-        <h3><span class="ship-icon ship-icon-prod">&#9671;</span> Production Stack</h3>
-        <div class="ship-items">
-          <span class="ship-item">React / Next.js</span>
-          <span class="ship-item">Node / Django</span>
-          <span class="ship-item">MongoDB / Postgres</span>
-          <span class="ship-item">AWS (EC2, ECS, S3)</span>
-          <span class="ship-item">CI/CD + Docker</span>
-          <span class="ship-item">Meta Conversion API</span>
-          <span class="ship-item">Sentry Monitoring</span>
-          <span class="ship-item">Nginx / WAF</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Research -->
 <section id="research">
   <div class="section-inner">
@@ -1104,7 +1054,8 @@ section{position:relative}
         {key:'data',label:'Data & Databases',skills:['MongoDB','PostgreSQL','Redis','OpenSearch','Aggregation Pipelines']},
         {key:'security',label:'Security & Research',skills:['Nmap','Nessus','Wireshark','Ghidra','Volatility','FTK Imager','Crunch','Solidity']}
       ];
-      var COMMANDS={help:'list commands',ls:'list skill categories',cat:'show a category  ·  cat <category>',all:'print every skill',grep:'search skills  ·  grep <term>',whoami:'who is Nahfid',hire:'how to reach me',clear:'clear the screen'};
+      var COMMANDS={help:'list commands',ls:'list skill categories',cat:'show a category  ·  cat <category>',ship:'what Nahfid ships end to end',all:'print every skill',grep:'search skills  ·  grep <term>',whoami:'who is Nahfid',hire:'how to reach me',clear:'clear the screen'};
+      var SHIP=[{label:'Agentic Systems',skills:['Agent Harnesses','Autonomous Loops','Subagent Spawning','Tool Orchestration','Browser Agents','Voice AI','Multi-Channel','Debate Models']},{label:'Context & Memory',skills:['Token Efficiency','Context Engineering','RAG Pipelines','Vector Stores','Persistent Memory','RLHF Pipelines','LLM-as-a-Judge','Langfuse Tracing']},{label:'Production Stack',skills:['React / Next.js','Node / Django','MongoDB / Postgres','AWS (EC2, ECS, S3)','CI/CD + Docker','Meta Conversion API','Sentry Monitoring','Nginx / WAF']}];
       var out=document.getElementById('termOut'),body=document.getElementById('termBody'),line=document.getElementById('termInputLine'),
           input=document.getElementById('termInput'),ghost=document.getElementById('termGhost'),sug=document.getElementById('termSuggest'),term=document.getElementById('skillTerm');
       var sel=-1,sugItems=[],demoRunning=false,started=false;
@@ -1127,6 +1078,7 @@ section{position:relative}
         else if(c==='all'){print(CATS.map(function(x){return '<span class="tok-cat">'+esc(x.label)+'</span>\n'+pills(x.skills);}).join('\n\n'),'term-out');}
         else if(c==='grep'||c==='find'){var q=(arg||'').toLowerCase();if(!q){print('<span class="tok-dim">usage: grep &lt;term&gt;</span>','term-out');}else{var hits=[];CATS.forEach(function(x){x.skills.forEach(function(s){if(s.toLowerCase().indexOf(q)>-1)hits.push([x.label,s]);});});if(!hits.length)print('<span class="tok-dim">no skills matching </span>"'+esc(arg)+'"','term-out');else print(hits.map(function(h){return '<span class="term-pill">'+esc(h[1])+'</span> <span class="tok-dim">'+esc(h[0])+'</span>';}).join('\n'),'term-out');}}
         else if(c==='whoami'){print('<span class="tok-str">Nahfid Nissar</span><span class="tok-dim">, AI Engineer &amp; Researcher @ Nbyula</span>\n<span class="tok-dim">Autonomous agents · RLHF pipelines · production ML. IEEE + arXiv published.</span>','term-out');}
+        else if(c==='ship'||c==='deliver'){print('<span class="tok-dim">agent design to production monitoring. no handoffs.</span>\n'+SHIP.map(function(x){return '<span class="tok-cat">'+esc(x.label)+'</span>\n'+pills(x.skills);}).join('\n\n'),'term-out');}
         else if(c==='hire'||c==='contact'){print('<span class="tok-ok">→</span> <span class="tok-str">nissarnahfid@gmail.com</span>\n<span class="tok-dim">linkedin.com/in/nahfid  ·  github.com/NafiGit  ·  or hit “Get in Touch” up top.</span>','term-out');}
         else if(c==='clear'){out.innerHTML='';}
         else if(c==='sudo'){print('<span class="tok-dim">nahfid is not in the sudoers file. This incident will be reported. 🙂</span>','term-out');}
@@ -1176,7 +1128,7 @@ section{position:relative}
           .then(function(){return sleep(400);})
           .then(function(){return typeInto('cat agents');}).then(function(){return sleep(600);})
           .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(500);})
-          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">your turn. type </span><span class="tok-cmd">ls</span><span class="tok-dim">, </span><span class="tok-cmd">grep aws</span><span class="tok-dim">, or </span><span class="tok-cmd">whoami</span><span class="tok-dim">. press </span><span class="term-key">Tab</span><span class="tok-dim"> to autocomplete.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
+          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">your turn. type </span><span class="tok-cmd">ls</span><span class="tok-dim">, </span><span class="tok-cmd">ship</span><span class="tok-dim">, or </span><span class="tok-cmd">whoami</span><span class="tok-dim">. press </span><span class="term-key">Tab</span><span class="tok-dim"> to autocomplete.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
       }
       var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;io.disconnect();print('<span class="tok-dim">skill-shell ready. '+CATS.reduce(function(a,c){return a+c.skills.length;},0)+' skills across 7 categories loaded.</span>','term-out');demo();}});},{threshold:.35,rootMargin:'0px 0px -40px 0px'});
       io.observe(term);

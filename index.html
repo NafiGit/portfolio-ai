@@ -104,8 +104,7 @@ nav.scrolled{border-bottom-color:var(--card-border);background:rgba(7,8,15,.92)}
 .mobile-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .mobile-toggle span{width:22px;height:2px;background:var(--text);transition:all .3s}
 .live-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted);padding:.3rem .65rem;border:1px solid var(--card-border);border-radius:20px;background:rgba(14,18,33,.6)}
-.live-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;animation:livePulse 2s infinite}
-@keyframes livePulse{0%,100%{opacity:1;box-shadow:0 0 6px #22c55e}50%{opacity:.4;box-shadow:0 0 2px #22c55e}}
+.views-ico{opacity:.7;flex-shrink:0}
 
 /* ═══════════════ HERO ═══════════════ */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:5rem 2rem 4rem}
@@ -541,7 +540,7 @@ section{position:relative}
 <nav id="navbar">
   <div class="nav-left">
     <a href="#" class="nav-logo">N<span>.</span>N</a>
-    <div class="live-badge"><span class="live-dot"></span><span id="liveCount">–</span> views</div>
+    <div class="live-badge"><svg class="views-ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span id="liveCount">–</span> total views</div>
   </div>
   <div class="nav-links" id="navLinks">
     <a href="#workflow">Approach</a>

@@ -629,31 +629,17 @@ section{position:relative}
 
 <!-- How I Build -->
 <style>
-#workflow .wf{position:relative;margin-top:2.75rem;max-width:1000px}
-.wf-track{display:flex;align-items:stretch;gap:0}
-.wf-node{flex:1;min-width:0;position:relative;background:linear-gradient(180deg,rgba(129,140,248,.05),transparent 60%),var(--card);border:1px solid var(--card-border);border-radius:12px;padding:1.4rem 1.1rem 1.25rem;overflow:hidden;animation:wfNode 5s ease-in-out infinite;animation-delay:var(--d)}
-.wf-node::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#818cf8,#c7d2fe);transform:scaleX(0);transform-origin:left;animation:wfBar 5s ease-in-out infinite;animation-delay:var(--d)}
-.wf-step{position:absolute;top:.65rem;right:.8rem;font-family:var(--font-mono);font-size:.6rem;color:var(--text-dim);letter-spacing:.06em}
-.wf-name{display:block;font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.25rem}
-.wf-sub{display:block;font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);line-height:1.4}
-.wf-conn{flex:0 0 30px;align-self:center;position:relative;height:2px;background:var(--card-border);overflow:hidden}
-.wf-conn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#818cf8,transparent);transform:translateX(-100%);animation:wfFlow 5s linear infinite;animation-delay:var(--d)}
-@keyframes wfNode{0%,100%{border-color:var(--card-border);box-shadow:none;transform:translateY(0)}8%{border-color:rgba(129,140,248,.75);box-shadow:0 14px 40px rgba(129,140,248,.22);transform:translateY(-5px)}24%{border-color:var(--card-border);box-shadow:none;transform:translateY(0)}}
-@keyframes wfBar{0%,4%{transform:scaleX(0)}9%{transform:scaleX(1)}24%,100%{transform:scaleX(0)}}
-@keyframes wfFlow{0%{transform:translateX(-110%)}14%{transform:translateX(110%)}100%{transform:translateX(110%)}}
-.wf-loop{position:relative;margin-top:1.4rem;text-align:center}
-.wf-loop-label{display:inline-block;font-family:var(--font-mono);font-size:.78rem;color:var(--secondary);letter-spacing:.02em;margin-bottom:.1rem}
-.wf-loop-svg{display:block;width:100%;height:auto;max-height:92px;overflow:visible}
-.wf-loop-dot{filter:drop-shadow(0 0 7px #818cf8)}
-@media(prefers-reduced-motion:reduce){.wf-node,.wf-node::before,.wf-conn::after{animation:none}.wf-node{border-color:var(--card-border)}.wf-loop-dot{display:none}}
-@media(max-width:720px){
-  .wf-track{flex-direction:column;gap:0}
-  .wf-node{padding:1rem 1.1rem;animation:none;transform:none!important}
-  .wf-node::before{animation:none;transform:scaleX(1);opacity:.35}
-  .wf-conn{flex:0 0 22px;width:2px;height:22px;align-self:center}
-  .wf-conn::after{animation:none;background:none}
-  .wf-loop{margin-top:1.1rem}.wf-loop-svg{display:none}
-}
+#workflow .wf{margin-top:2.5rem;max-width:1000px}
+.wf-svg{width:100%;height:auto;display:block;overflow:visible}
+.wf-nr{fill:var(--card);stroke:var(--card-border);stroke-width:1}
+.wf-name-t{fill:var(--text);font-family:var(--font-display);font-weight:700;font-size:15px}
+.wf-sub-t{fill:var(--text-dim);font-family:var(--font-mono);font-size:9px}
+.wf-step-t{fill:var(--text-dim);font-family:var(--font-mono);font-size:8px}
+.wf-conn{stroke:#3b4150;stroke-width:2;fill:none}
+.wf-loop-path{stroke:#2b2f3a;stroke-width:2;fill:none}
+.wf-label-t{fill:var(--secondary);font-family:var(--font-mono);font-size:10px;letter-spacing:.5px}
+.wf-arrow{opacity:0}
+@media(max-width:680px){#workflow .wf{overflow-x:auto;-webkit-overflow-scrolling:touch}.wf-svg{min-width:640px}}
 </style>
 <section id="workflow">
   <div class="section-inner">
@@ -661,28 +647,66 @@ section{position:relative}
     <div class="section-title reveal">The autonomous loop</div>
     <p class="section-desc reveal">Every system I ship runs one loop: plan, act, observe, and self-correct until it is right. No human in the loop.</p>
     <div class="wf reveal">
-      <div class="wf-track">
-        <div class="wf-node" style="--d:0s"><span class="wf-step">01</span><span class="wf-name">Goal</span><span class="wf-sub">intent + context</span></div>
-        <div class="wf-conn" style="--d:.3s"></div>
-        <div class="wf-node" style="--d:.6s"><span class="wf-step">02</span><span class="wf-name">Plan</span><span class="wf-sub">decompose &amp; route</span></div>
-        <div class="wf-conn" style="--d:.9s"></div>
-        <div class="wf-node" style="--d:1.2s"><span class="wf-step">03</span><span class="wf-name">Act</span><span class="wf-sub">tools + subagents</span></div>
-        <div class="wf-conn" style="--d:1.5s"></div>
-        <div class="wf-node" style="--d:1.8s"><span class="wf-step">04</span><span class="wf-name">Observe</span><span class="wf-sub">eval + LLM-judge</span></div>
-        <div class="wf-conn" style="--d:2.1s"></div>
-        <div class="wf-node" style="--d:2.4s"><span class="wf-step">05</span><span class="wf-name">Ship</span><span class="wf-sub">to production</span></div>
-      </div>
-      <div class="wf-loop">
-        <span class="wf-loop-label">&#8635; self-correct until it&#39;s right</span>
-        <svg class="wf-loop-svg" viewBox="0 0 1000 92" fill="none" aria-hidden="true">
-          <path id="wfLoopPath" d="M 858 8 C 858 88, 142 88, 142 16" stroke="var(--card-border)" stroke-width="2" stroke-dasharray="3 9" stroke-linecap="round"/>
-          <path d="M 133 28 L 142 11 L 151 28" stroke="#818cf8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle r="4.5" fill="#818cf8" class="wf-loop-dot"><animateMotion dur="2.6s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#wfLoopPath"/></animateMotion></circle>
-        </svg>
-      </div>
+      <svg class="wf-svg" viewBox="0 0 1000 200" fill="none" aria-label="Autonomous loop: goal, plan, act, observe, ship, with a self-correct loop back to plan">
+        <defs>
+          <marker id="wfArrow" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" orient="auto"><path d="M0.5 1 L9 5 L0.5 9 Z" fill="#818cf8"/></marker>
+        </defs>
+
+        <!-- connectors (forward) -->
+        <path class="wf-conn wf-draw" d="M 176 52 H 206" marker-end="url(#wfArrow)"/>
+        <path class="wf-conn wf-draw" d="M 382 52 H 412" marker-end="url(#wfArrow)"/>
+        <path class="wf-conn wf-draw" d="M 588 52 H 618" marker-end="url(#wfArrow)"/>
+        <path class="wf-conn wf-draw" d="M 794 52 H 824" marker-end="url(#wfArrow)"/>
+
+        <!-- self-correct loop: Observe -> Plan -->
+        <path id="wfLoopPath" class="wf-loop-path wf-draw" d="M 706 101 C 706 176, 294 176, 294 101" marker-end="url(#wfArrow)"/>
+        <text class="wf-label-t" x="500" y="128" text-anchor="middle">&#8635; self-correct until it&#39;s right</text>
+
+        <!-- nodes -->
+        <g><rect class="wf-nr" x="0"   y="6" width="176" height="92" rx="12"/><text class="wf-step-t" x="162" y="26" text-anchor="end">01</text><text class="wf-name-t" x="18" y="52">Goal</text><text class="wf-sub-t" x="18" y="72">intent + context</text></g>
+        <g><rect class="wf-nr" x="206" y="6" width="176" height="92" rx="12"/><text class="wf-step-t" x="368" y="26" text-anchor="end">02</text><text class="wf-name-t" x="224" y="52">Plan</text><text class="wf-sub-t" x="224" y="72">decompose &amp; route</text></g>
+        <g><rect class="wf-nr" x="412" y="6" width="176" height="92" rx="12"/><text class="wf-step-t" x="574" y="26" text-anchor="end">03</text><text class="wf-name-t" x="430" y="52">Act</text><text class="wf-sub-t" x="430" y="72">tools + subagents</text></g>
+        <g><rect class="wf-nr" x="618" y="6" width="176" height="92" rx="12"/><text class="wf-step-t" x="780" y="26" text-anchor="end">04</text><text class="wf-name-t" x="636" y="52">Observe</text><text class="wf-sub-t" x="636" y="72">eval + LLM-judge</text></g>
+        <g><rect class="wf-nr" x="824" y="6" width="176" height="92" rx="12"/><text class="wf-step-t" x="986" y="26" text-anchor="end">05</text><text class="wf-name-t" x="842" y="52">Ship</text><text class="wf-sub-t" x="842" y="72">to production</text></g>
+
+        <!-- invisible motion path for the forward agent -->
+        <path id="wfFwdPath" d="M 88 52 H 912" fill="none" stroke="none"/>
+
+        <!-- traveling arrows -->
+        <path id="wfFwd" class="wf-arrow" d="M -6 -4.5 L 6 0 L -6 4.5 Z" fill="#c7d2fe"/>
+        <path id="wfLoopDot" class="wf-arrow" d="M -5 -4 L 5 0 L -5 4 Z" fill="#818cf8"/>
+      </svg>
     </div>
   </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  if(!window.gsap){return;}
+  gsap.registerPlugin(window.MotionPathPlugin, window.ScrollTrigger);
+  var svg=document.querySelector('#workflow .wf-svg'); if(!svg)return;
+  // prep draw-in
+  gsap.utils.toArray('#workflow .wf-draw').forEach(function(p){
+    var len=p.getTotalLength(); gsap.set(p,{strokeDasharray:len,strokeDashoffset:len});
+  });
+  function loops(){
+    gsap.set(['#wfFwd','#wfLoopDot'],{opacity:1});
+    // forward agent glides through the pipeline
+    gsap.to('#wfFwd',{motionPath:{path:'#wfFwdPath',align:'#wfFwdPath',autoRotate:true,alignOrigin:[.5,.5]},duration:3.4,ease:'none',repeat:-1,repeatDelay:.6});
+    // self-correct arrow flows Observe -> Plan (matches the arrowhead)
+    gsap.to('#wfLoopDot',{motionPath:{path:'#wfLoopPath',align:'#wfLoopPath',autoRotate:true,alignOrigin:[.5,.5]},duration:2.4,ease:'power1.inOut',repeat:-1,repeatDelay:.5});
+    // node highlight wave
+    gsap.to('#workflow .wf-nr',{stroke:'#818cf8',strokeWidth:1.8,duration:.35,stagger:{each:.5,repeat:-1,yoyo:true,repeatDelay:2}});
+  }
+  gsap.timeline({scrollTrigger:{trigger:'#workflow',start:'top 72%',once:true}})
+    .to('#workflow .wf-conn',{strokeDashoffset:0,duration:.5,stagger:.12,ease:'power2.out'})
+    .to('#wfLoopPath',{strokeDashoffset:0,duration:.9,ease:'power2.inOut'},'-=.15')
+    .add(loops);
+})();
+</script>
+
 
 <!-- Experience -->
 <section id="experience" style="background:var(--surface);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border)">

@@ -519,7 +519,7 @@ section{position:relative}
 <nav id="navbar">
   <div class="nav-left">
     <a href="#" class="nav-logo">N<span>.</span>N</a>
-    <div class="live-badge"><span class="live-dot"></span><span id="liveCount">1</span> viewing</div>
+    <div class="live-badge"><span class="live-dot"></span><span id="liveCount">–</span> views</div>
   </div>
   <div class="nav-links" id="navLinks">
     <a href="#about">About</a>
@@ -1567,34 +1567,23 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 })();
 
-// ═══════════════ LIVE VISITOR COUNTER ═══════════════
+// ═══════════════ PAGE VIEW COUNTER ═══════════════
+// Real total view count via a keyless shared counter (abacus.jasoncameron.dev).
+// Counts once per tab session; otherwise just reads the current total.
 (function() {
   const el = document.getElementById('liveCount');
-  const KEY = 'nahfid-portfolio-presence';
-  const HEARTBEAT_MS = 15000;
-  const EXPIRE_MS = 30000;
-  const sid = Math.random().toString(36).slice(2, 10);
-
-  function getStore() {
-    try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; }
-  }
-  function update() {
-    const store = getStore();
-    store[sid] = Date.now();
-    // purge stale sessions
-    const now = Date.now();
-    for (const k in store) { if (now - store[k] > EXPIRE_MS) delete store[k]; }
-    localStorage.setItem(KEY, JSON.stringify(store));
-    const count = Object.keys(store).length;
-    if (el) el.textContent = count;
-  }
-  update();
-  setInterval(update, HEARTBEAT_MS);
-  window.addEventListener('beforeunload', () => {
-    const store = getStore();
-    delete store[sid];
-    localStorage.setItem(KEY, JSON.stringify(store));
-  });
+  if (!el) return;
+  const BASE = 'https://abacus.jasoncameron.dev';
+  const PATH = '/nahfid-portfolio/pageviews';
+  const counted = sessionStorage.getItem('nahfid-viewed');
+  const url = BASE + (counted ? '/get' : '/hit') + PATH;
+  fetch(url)
+    .then(r => r.json())
+    .then(d => {
+      if (typeof d.value === 'number') el.textContent = d.value.toLocaleString();
+      sessionStorage.setItem('nahfid-viewed', '1');
+    })
+    .catch(() => { el.textContent = '—'; });
 })();
 </script>
 

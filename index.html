@@ -544,7 +544,7 @@ section{position:relative}
     <div class="live-badge"><span class="live-dot"></span><span id="liveCount">–</span> views</div>
   </div>
   <div class="nav-links" id="navLinks">
-    <a href="#about">About</a>
+    <a href="#workflow">Approach</a>
     <a href="#experience">Experience</a>
     <a href="#research">Research</a>
     <a href="#projects">Projects</a>
@@ -623,40 +623,52 @@ section{position:relative}
   </div>
 </div>
 
-<!-- About -->
-<section id="about">
+<!-- How I Build -->
+<style>
+#workflow .wf{position:relative;margin-top:2.75rem;max-width:1000px}
+.wf-track{display:flex;align-items:stretch;gap:0}
+.wf-node{flex:1;min-width:0;position:relative;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:1.35rem 1rem 1.2rem;overflow:hidden;animation:wfNode 5s ease-in-out infinite;animation-delay:var(--d)}
+.wf-node::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:#818cf8;transform:scaleX(0);transform-origin:left;animation:wfBar 5s ease-in-out infinite;animation-delay:var(--d)}
+.wf-name{display:block;font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.25rem}
+.wf-sub{display:block;font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);line-height:1.4}
+.wf-conn{flex:0 0 30px;align-self:center;position:relative;height:2px;background:var(--card-border);overflow:hidden}
+.wf-conn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#818cf8,transparent);transform:translateX(-100%);animation:wfFlow 5s linear infinite;animation-delay:var(--d)}
+@keyframes wfNode{0%,100%{border-color:var(--card-border);box-shadow:none;transform:translateY(0)}8%{border-color:rgba(129,140,248,.6);box-shadow:0 10px 32px rgba(129,140,248,.16);transform:translateY(-4px)}22%{border-color:var(--card-border);box-shadow:none;transform:translateY(0)}}
+@keyframes wfBar{0%,4%{transform:scaleX(0)}9%{transform:scaleX(1)}22%,100%{transform:scaleX(0)}}
+@keyframes wfFlow{0%{transform:translateX(-110%)}14%{transform:translateX(110%)}100%{transform:translateX(110%)}}
+.wf-loop{position:relative;margin-top:1.6rem;text-align:center;height:22px}
+.wf-loop::before{content:'';position:absolute;top:50%;left:7%;right:7%;height:2px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,var(--card-border) 0 6px,transparent 6px 13px)}
+.wf-loop::after{content:'';position:absolute;top:50%;height:2px;width:64px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,#818cf8,transparent);left:7%;animation:wfLoopFlow 5s linear infinite;animation-delay:2.9s}
+@keyframes wfLoopFlow{0%,4%{left:88%;opacity:0}9%{opacity:1}92%{opacity:1}100%{left:7%;opacity:0}}
+.wf-loop-label{position:relative;display:inline-block;background:var(--bg);padding:0 1rem;font-family:var(--font-mono);font-size:.78rem;color:var(--secondary);letter-spacing:.02em}
+@media(prefers-reduced-motion:reduce){.wf-node,.wf-node::before,.wf-conn::after,.wf-loop::after{animation:none}.wf-node{border-color:var(--card-border)}}
+@media(max-width:720px){
+  .wf-track{flex-direction:column;gap:0}
+  .wf-node{padding:1rem 1.1rem;animation:none;transform:none!important}
+  .wf-node::before{animation:none;transform:scaleX(1);opacity:.35}
+  .wf-conn{flex:0 0 22px;width:2px;height:22px;align-self:center}
+  .wf-conn::after{animation:none;background:none}
+  .wf-loop{margin-top:1.1rem}.wf-loop::after{display:none}
+}
+</style>
+<section id="workflow">
   <div class="section-inner">
-    <div class="section-label">About</div>
-    <div class="about-grid">
-      <div class="about-text reveal reveal-delay-2">
-        <p>
-          I build the full stack of intelligent systems: the <strong>agent harnesses</strong>, <strong>memory layers</strong>, <strong>self-correcting loops</strong>, and production infrastructure that make AI reliable at scale.
-        </p>
-        <p>
-          My focus: <strong>agentic architectures</strong> that plan, execute, and course-correct autonomously. Subagent orchestration. Context engineering for token efficiency. RLHF pipelines that close the feedback loop.
-        </p>
-        <p>
-          Research in <strong>LLM safety</strong>, <strong>cloud security</strong>, and <strong>low-resource NLP</strong>. Published in IEEE conferences.
-        </p>
+    <div class="section-label">How I Build</div>
+    <div class="section-title reveal">The autonomous loop</div>
+    <p class="section-desc reveal">Every system I ship runs one loop: plan, act, observe, and self-correct until it is right. No human in the loop.</p>
+    <div class="wf reveal">
+      <div class="wf-track">
+        <div class="wf-node" style="--d:0s"><span class="wf-name">Goal</span><span class="wf-sub">intent + context</span></div>
+        <div class="wf-conn" style="--d:.3s"></div>
+        <div class="wf-node" style="--d:.6s"><span class="wf-name">Plan</span><span class="wf-sub">decompose &amp; route</span></div>
+        <div class="wf-conn" style="--d:.9s"></div>
+        <div class="wf-node" style="--d:1.2s"><span class="wf-name">Act</span><span class="wf-sub">tools + subagents</span></div>
+        <div class="wf-conn" style="--d:1.5s"></div>
+        <div class="wf-node" style="--d:1.8s"><span class="wf-name">Observe</span><span class="wf-sub">eval + LLM-judge</span></div>
+        <div class="wf-conn" style="--d:2.1s"></div>
+        <div class="wf-node" style="--d:2.4s"><span class="wf-name">Ship</span><span class="wf-sub">to production</span></div>
       </div>
-    </div>
-    <div class="about-highlights reveal reveal-delay-3">
-      <div class="highlight-card">
-        <h4>Agent Harness & Autonomous Loops</h4>
-        <p>Custom harnesses with tool orchestration, subagent spawning, and self-correcting loops. No human in the loop.</p>
-      </div>
-      <div class="highlight-card">
-        <h4>Context Engineering & Memory</h4>
-        <p>Context-compact architectures, RAG pipelines, and persistent memory for coherent multi-turn agents.</p>
-      </div>
-      <div class="highlight-card">
-        <h4>RLHF & Eval Pipelines</h4>
-        <p>Human-in-the-loop annotation, automated evaluation, iterative prompt improvement. Data-driven agent quality.</p>
-      </div>
-      <div class="highlight-card">
-        <h4>Published Researcher</h4>
-        <p>IEEE conference publications. Ongoing work in LLM safety and low-resource NLP.</p>
-      </div>
+      <div class="wf-loop"><span class="wf-loop-label">&#8635; self-correct until it&#39;s right</span></div>
     </div>
   </div>
 </section>

@@ -1029,112 +1029,152 @@ section{position:relative}
 <section id="skills">
   <div class="section-inner">
     <div class="section-label">Technical Arsenal</div>
-    <div class="section-title reveal">Skills & Technologies</div>
-    <div class="skills-grid reveal">
+    <div class="section-title reveal">Explore the Stack</div>
+    <p class="section-desc reveal">Not a tag cloud — a live shell. Watch it demo, then type a command yourself: <span style="font-family:var(--font-mono)">ls</span>, <span style="font-family:var(--font-mono)">cat agents</span>, <span style="font-family:var(--font-mono)">grep aws</span>. <span style="opacity:.7">Tab autocompletes.</span></p>
+    <style>
+    .terminal-wrap{max-width:840px;margin:0 auto}
+    .terminal{background:#0c0d10;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:var(--font-mono)}
+    .term-bar{display:flex;align-items:center;gap:.5rem;padding:.7rem .9rem;background:#141519;border-bottom:1px solid var(--card-border)}
+    .term-dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+    .term-dot.r{background:#ff5f57}.term-dot.y{background:#febc2e}.term-dot.g{background:#28c840}
+    .term-title{margin-left:.6rem;font-size:.74rem;color:var(--text-dim);letter-spacing:.02em}
+    .term-body{padding:1.1rem 1.15rem 1.3rem;min-height:360px;max-height:480px;overflow-y:auto;font-size:.82rem;line-height:1.75;color:#d4d4d8;cursor:text}
+    .term-body::-webkit-scrollbar{width:8px}.term-body::-webkit-scrollbar-thumb{background:#2a2d33;border-radius:8px}
+    .term-line{white-space:pre-wrap;word-break:break-word}
+    .term-out{margin:.1rem 0 .5rem}
+    .term-cmdecho{margin:.25rem 0}
+    .tok-cmd{color:#818cf8}.tok-str{color:#e5e7eb}.tok-ok{color:#28c840}.tok-dim{color:#71717a}.tok-cat{color:#f5f5f5;font-weight:600}
+    .term-cmdecho .tok-prompt{color:#28c840;margin-right:.5rem}
+    .term-pill{display:inline-block;margin:.15rem .3rem .15rem 0;padding:.12rem .5rem;border:1px solid rgba(129,140,248,.28);border-radius:4px;color:#c7d2fe;background:rgba(129,140,248,.07);font-size:.78rem}
+    .term-inputline{display:flex;align-items:baseline;gap:.5rem}
+    .term-prompt{color:#28c840;flex-shrink:0}.term-prompt .arw{color:#818cf8}
+    .term-input-wrap{position:relative;flex:1;display:flex}
+    .term-input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:#e5e7eb;font-family:var(--font-mono);font-size:.82rem;caret-color:#818cf8;padding:0}
+    .term-ghost{position:absolute;left:0;top:0;pointer-events:none;color:#52555c;white-space:pre;font-size:.82rem}
+    .term-suggest{display:none;margin:.5rem 0 .2rem;width:fit-content;max-width:100%;background:#16181d;border:1px solid #2c2f36;border-radius:6px;box-shadow:0 12px 30px rgba(0,0,0,.5);overflow:hidden}
+    .term-suggest.open{display:block}
+    .sg-row{display:flex;align-items:center;gap:.6rem;padding:.35rem .7rem;cursor:pointer;font-size:.78rem}
+    .sg-row .sg-ico{width:14px;text-align:center;color:#818cf8;flex-shrink:0}
+    .sg-row .sg-txt{color:#e5e7eb}
+    .sg-row .sg-hint{margin-left:auto;color:#6b6f78;font-size:.72rem;padding-left:1.4rem;white-space:nowrap}
+    .sg-row.sel{background:rgba(129,140,248,.16)}.sg-row.sel .sg-txt{color:#fff}
+    .term-key{display:inline-block;padding:.03rem .35rem;border:1px solid #2f333a;border-radius:3px;color:#a1a1aa;font-size:.72rem;background:rgba(255,255,255,.03)}
+    @media(max-width:600px){.term-body{font-size:.74rem;min-height:300px}.term-title{display:none}.term-input,.term-ghost{font-size:.74rem}}
+    </style>
 
-      <div class="skill-category">
-        <h3><span class="skill-icon">&#9672;</span> Agent Architecture</h3>
-        <div class="skill-list">
-          <span class="skill-pill">Agent Harnesses</span>
-          <span class="skill-pill">Autonomous Loops</span>
-          <span class="skill-pill">Self-Correcting Loops</span>
-          <span class="skill-pill">Subagent Spawning</span>
-          <span class="skill-pill">Tool Orchestration</span>
-          <span class="skill-pill">Context Engineering</span>
-          <span class="skill-pill">Memory Systems</span>
-          <span class="skill-pill">Token Efficiency</span>
-          <span class="skill-pill">RLHF Pipelines</span>
-          <span class="skill-pill">LLM-as-a-Judge</span>
+    <div class="terminal-wrap reveal">
+      <div class="terminal" id="skillTerm">
+        <div class="term-bar">
+          <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+          <span class="term-title">nahfid@portfolio — ~/skills — zsh</span>
+        </div>
+        <div class="term-body" id="termBody">
+          <div class="term-output" id="termOut"></div>
+          <div class="term-inputline" id="termInputLine" style="display:none">
+            <span class="term-prompt">nahfid@skills <span class="arw">❯</span></span>
+            <span class="term-input-wrap">
+              <span class="term-ghost" id="termGhost"></span>
+              <input class="term-input" id="termInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="skills terminal input" />
+            </span>
+          </div>
+          <div class="term-suggest" id="termSuggest"></div>
         </div>
       </div>
-
-      <div class="skill-category">
-        <h3><span class="skill-icon">&#9672;</span> AI / ML Tooling</h3>
-        <div class="skill-list">
-          <span class="skill-pill">Langgraph</span>
-          <span class="skill-pill">Claude Agent SDK</span>
-          <span class="skill-pill">Browser Use</span>
-          <span class="skill-pill">Langchain</span>
-          <span class="skill-pill">Langfuse</span>
-          <span class="skill-pill">OpenAI API</span>
-          <span class="skill-pill">Vapi</span>
-          <span class="skill-pill">PyTorch</span>
-          <span class="skill-pill">Ollama</span>
-          <span class="skill-pill">RAG / Vector Stores</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <h3><span class="skill-icon">&#9670;</span> Python Ecosystem</h3>
-        <div class="skill-list">
-          <span class="skill-pill">Django / DRF</span>
-          <span class="skill-pill">FastAPI</span>
-          <span class="skill-pill">Celery</span>
-          <span class="skill-pill">Pandas</span>
-          <span class="skill-pill">NumPy</span>
-          <span class="skill-pill">Boto3</span>
-          <span class="skill-pill">Puppeteer</span>
-          <span class="skill-pill">Selenium</span>
-          <span class="skill-pill">Playwright</span>
-          <span class="skill-pill">Pytest</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <h3><span class="skill-icon">&#9671;</span> JavaScript / TypeScript</h3>
-        <div class="skill-list">
-          <span class="skill-pill">React</span>
-          <span class="skill-pill">Next.js</span>
-          <span class="skill-pill">Vue</span>
-          <span class="skill-pill">Node.js</span>
-          <span class="skill-pill">Express</span>
-          <span class="skill-pill">Nest.js</span>
-          <span class="skill-pill">Three.js</span>
-          <span class="skill-pill">CANNON.js</span>
-          <span class="skill-pill">Sentry</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <h3><span class="skill-icon">&#9673;</span> Cloud & Infrastructure</h3>
-        <div class="skill-list">
-          <span class="skill-pill">AWS (EC2, ECS, S3, Lambda)</span>
-          <span class="skill-pill">CloudFront / Route53</span>
-          <span class="skill-pill">DynamoDB</span>
-          <span class="skill-pill">CodePipeline / CodeBuild</span>
-          <span class="skill-pill">Docker</span>
-          <span class="skill-pill">Nginx / Apache</span>
-          <span class="skill-pill">Jenkins / Ansible</span>
-          <span class="skill-pill">WAF</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <h3><span class="skill-icon">&#9674;</span> Data & Databases</h3>
-        <div class="skill-list">
-          <span class="skill-pill">MongoDB</span>
-          <span class="skill-pill">PostgreSQL</span>
-          <span class="skill-pill">Redis</span>
-          <span class="skill-pill">OpenSearch</span>
-          <span class="skill-pill">Aggregation Pipelines</span>
-        </div>
-      </div>
-
-      <div class="skill-category">
-        <h3><span class="skill-icon">&#9670;</span> Security & Research</h3>
-        <div class="skill-list">
-          <span class="skill-pill">Nmap</span>
-          <span class="skill-pill">Nessus</span>
-          <span class="skill-pill">Wireshark</span>
-          <span class="skill-pill">Ghidra</span>
-          <span class="skill-pill">Volatility</span>
-          <span class="skill-pill">FTK Imager</span>
-          <span class="skill-pill">Crunch</span>
-          <span class="skill-pill">Solidity</span>
-        </div>
-      </div>
-
     </div>
+
+    <script>
+    (function(){
+      var CATS=[
+        {key:'agents',label:'Agent Architecture',skills:['Agent Harnesses','Autonomous Loops','Self-Correcting Loops','Subagent Spawning','Tool Orchestration','Context Engineering','Memory Systems','Token Efficiency','RLHF Pipelines','LLM-as-a-Judge']},
+        {key:'ai',label:'AI / ML Tooling',skills:['Langgraph','Claude Agent SDK','Browser Use','Langchain','Langfuse','OpenAI API','Vapi','PyTorch','Ollama','RAG / Vector Stores']},
+        {key:'python',label:'Python Ecosystem',skills:['Django / DRF','FastAPI','Celery','Pandas','NumPy','Boto3','Puppeteer','Selenium','Playwright','Pytest']},
+        {key:'js',label:'JavaScript / TypeScript',skills:['React','Next.js','Vue','Node.js','Express','Nest.js','Three.js','CANNON.js','Sentry']},
+        {key:'cloud',label:'Cloud & Infrastructure',skills:['AWS (EC2, ECS, S3, Lambda)','CloudFront / Route53','DynamoDB','CodePipeline / CodeBuild','Docker','Nginx / Apache','Jenkins / Ansible','WAF']},
+        {key:'data',label:'Data & Databases',skills:['MongoDB','PostgreSQL','Redis','OpenSearch','Aggregation Pipelines']},
+        {key:'security',label:'Security & Research',skills:['Nmap','Nessus','Wireshark','Ghidra','Volatility','FTK Imager','Crunch','Solidity']}
+      ];
+      var COMMANDS={help:'list commands',ls:'list skill categories',cat:'show a category  ·  cat <category>',all:'print every skill',grep:'search skills  ·  grep <term>',whoami:'who is Nahfid',hire:'how to reach me',clear:'clear the screen'};
+      var out=document.getElementById('termOut'),body=document.getElementById('termBody'),line=document.getElementById('termInputLine'),
+          input=document.getElementById('termInput'),ghost=document.getElementById('termGhost'),sug=document.getElementById('termSuggest'),term=document.getElementById('skillTerm');
+      var sel=-1,sugItems=[],demoRunning=false,started=false;
+      function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+      function pad(s,n){s=String(s);while(s.length<n)s+=' ';return s;}
+      function scroll(){body.scrollTop=body.scrollHeight;}
+      function print(html,cls){var d=document.createElement('div');d.className='term-line '+(cls||'');d.innerHTML=html;out.appendChild(d);scroll();return d;}
+      function colorize(cmd){var p=cmd.split(' ');var h='<span class="tok-cmd">'+esc(p[0])+'</span>';if(p.length>1)h+=' <span class="tok-str">'+esc(p.slice(1).join(' '))+'</span>';return h;}
+      function echoCmd(cmd){print('<span class="tok-prompt">nahfid@skills ❯</span>'+colorize(cmd),'term-cmdecho');}
+      function findCat(k){k=(k||'').toLowerCase();for(var i=0;i<CATS.length;i++)if(CATS[i].key===k||CATS[i].label.toLowerCase()===k)return CATS[i];return null;}
+      function pills(arr){return arr.map(function(s){return '<span class="term-pill">'+esc(s)+'</span>';}).join('');}
+      function run(raw){
+        var cmd=(raw||'').trim();closeSug();
+        if(!cmd){print('<span class="tok-prompt">nahfid@skills ❯</span>');return;}
+        echoCmd(cmd);
+        var p=cmd.split(/\s+/),c=p[0].toLowerCase(),arg=p.slice(1).join(' ');
+        if(c==='help'){print('<span class="tok-dim">available commands</span>\n'+Object.keys(COMMANDS).map(function(k){return '  <span class="tok-cmd">'+pad(k,8)+'</span><span class="tok-dim">'+COMMANDS[k]+'</span>';}).join('\n'),'term-out');}
+        else if(c==='ls'){print(CATS.map(function(x){return '<span class="tok-cat">'+pad(x.key,10)+'</span><span class="tok-dim">'+x.label+' ('+x.skills.length+')</span>';}).join('\n'),'term-out');}
+        else if(c==='cat'){var cc=findCat(arg);if(!cc)print('<span class="tok-dim">cat: no such category </span>'+esc(arg)+'\n<span class="tok-dim">try: </span>'+CATS.map(function(x){return x.key;}).join(', '),'term-out');else print('<span class="tok-cat">'+esc(cc.label)+'</span>\n'+pills(cc.skills),'term-out');}
+        else if(c==='all'){print(CATS.map(function(x){return '<span class="tok-cat">'+esc(x.label)+'</span>\n'+pills(x.skills);}).join('\n\n'),'term-out');}
+        else if(c==='grep'||c==='find'){var q=(arg||'').toLowerCase();if(!q){print('<span class="tok-dim">usage: grep &lt;term&gt;</span>','term-out');}else{var hits=[];CATS.forEach(function(x){x.skills.forEach(function(s){if(s.toLowerCase().indexOf(q)>-1)hits.push([x.label,s]);});});if(!hits.length)print('<span class="tok-dim">no skills matching </span>"'+esc(arg)+'"','term-out');else print(hits.map(function(h){return '<span class="term-pill">'+esc(h[1])+'</span> <span class="tok-dim">'+esc(h[0])+'</span>';}).join('\n'),'term-out');}}
+        else if(c==='whoami'){print('<span class="tok-str">Nahfid Nissar</span> <span class="tok-dim">— AI Engineer &amp; Researcher @ Nbyula</span>\n<span class="tok-dim">Autonomous agents · RLHF pipelines · production ML. IEEE + arXiv published.</span>','term-out');}
+        else if(c==='hire'||c==='contact'){print('<span class="tok-ok">→</span> <span class="tok-str">nissarnahfid@gmail.com</span>\n<span class="tok-dim">linkedin.com/in/nahfid  ·  github.com/NafiGit  ·  or hit “Get in Touch” up top.</span>','term-out');}
+        else if(c==='clear'){out.innerHTML='';}
+        else if(c==='sudo'){print('<span class="tok-dim">nahfid is not in the sudoers file. This incident will be reported. 🙂</span>','term-out');}
+        else{print('<span class="tok-dim">command not found: </span>'+esc(c)+' <span class="tok-dim">— type </span><span class="tok-cmd">help</span>','term-out');}
+      }
+      function computeSug(val){
+        var parts=val.split(/\s+/);
+        if(parts.length<=1){var pf=parts[0].toLowerCase();return Object.keys(COMMANDS).filter(function(k){return k.indexOf(pf)===0;}).map(function(k){return {label:k,ico:'&#9002;',kind:COMMANDS[k],complete:k+' '};});}
+        var c=parts[0].toLowerCase(),arg=parts.slice(1).join(' ').toLowerCase();
+        if(c==='cat')return CATS.filter(function(x){return x.key.indexOf(arg)===0||x.label.toLowerCase().indexOf(arg)>-1;}).map(function(x){return {label:x.key,ico:'&#9636;',kind:x.label,complete:'cat '+x.key};});
+        if(c==='grep'||c==='find'){var all=[];CATS.forEach(function(x){x.skills.forEach(function(s){all.push(s);});});return all.filter(function(s){return s.toLowerCase().indexOf(arg)>-1;}).slice(0,8).map(function(s){return {label:s,ico:'&#9670;',kind:'skill',complete:c+' '+s};});}
+        return [];
+      }
+      function closeSug(){sug.classList.remove('open');sug.innerHTML='';sel=-1;ghost.innerHTML='';}
+      function renderSug(val){
+        sugItems=computeSug(val);
+        if(!sugItems.length||!val.trim()){closeSug();return;}
+        if(sel>=sugItems.length)sel=sugItems.length-1;
+        sug.innerHTML=sugItems.map(function(it,i){return '<div class="sg-row'+(i===sel?' sel':'')+'" data-i="'+i+'"><span class="sg-ico">'+it.ico+'</span><span class="sg-txt">'+esc(it.label)+'</span><span class="sg-hint">'+esc(it.kind)+'</span></div>';}).join('');
+        sug.classList.add('open');
+        var top=sugItems[0];
+        if(top&&top.complete.indexOf(val)===0&&top.complete!==val)ghost.innerHTML='<span style="color:transparent">'+esc(val)+'</span>'+esc(top.complete.slice(val.length));
+        else ghost.innerHTML='';
+        scroll();
+      }
+      function accept(i){if(!sugItems.length)return;var it=sugItems[i<0?0:i];input.value=it.complete;sel=-1;renderSug(input.value);}
+      input.addEventListener('keydown',function(e){
+        if(demoRunning)abortDemo();
+        if(e.key==='Tab'){e.preventDefault();if(sugItems.length)accept(sel);return;}
+        if(e.key==='ArrowRight'){if(ghost.innerHTML&&input.selectionStart===input.value.length&&sugItems.length){e.preventDefault();accept(0);}return;}
+        if(e.key==='ArrowDown'){if(sug.classList.contains('open')){e.preventDefault();sel=(sel+1)%sugItems.length;renderSug(input.value);}return;}
+        if(e.key==='ArrowUp'){if(sug.classList.contains('open')){e.preventDefault();sel=(sel-1+sugItems.length)%sugItems.length;renderSug(input.value);}return;}
+        if(e.key==='Escape'){closeSug();return;}
+        if(e.key==='Enter'){e.preventDefault();if(sug.classList.contains('open')&&sel>-1){accept(sel);return;}var v=input.value;input.value='';closeSug();run(v);return;}
+      });
+      input.addEventListener('input',function(){sel=-1;renderSug(input.value);});
+      sug.addEventListener('mousedown',function(e){var r=e.target.closest?e.target.closest('.sg-row'):null;if(!r)return;e.preventDefault();accept(+r.getAttribute('data-i'));input.focus();});
+      body.addEventListener('mousedown',function(){if(demoRunning)abortDemo();});
+      body.addEventListener('click',function(){if(line.style.display!=='none')input.focus();});
+      function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+      function abortDemo(){if(!demoRunning)return;demoRunning=false;input.value='';closeSug();input.focus();}
+      function typeInto(target){return new Promise(function(res){var i=input.value.length;(function step(){if(!demoRunning||i>target.length){res();return;}input.value=target.slice(0,i);renderSug(input.value);i++;setTimeout(step,50+Math.random()*55);})();});}
+      function demo(){
+        demoRunning=true;line.style.display='flex';
+        var v;
+        Promise.resolve()
+          .then(function(){return sleep(350);})
+          .then(function(){return typeInto('help');}).then(function(){return sleep(320);})
+          .then(function(){if(!demoRunning)return;v=input.value;input.value='';run(v);return sleep(650);})
+          .then(function(){if(!demoRunning)return;return typeInto('cat cloud');}).then(function(){return sleep(500);})
+          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(700);})
+          .then(function(){if(!demoRunning)return;return typeInto('grep aws');}).then(function(){return sleep(520);})
+          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(420);})
+          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">your turn — try </span><span class="tok-cmd">ls</span><span class="tok-dim">, </span><span class="tok-cmd">cat agents</span><span class="tok-dim">, </span><span class="tok-cmd">whoami</span><span class="tok-dim">, or press </span><span class="term-key">Tab</span><span class="tok-dim"> to autocomplete.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
+      }
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;io.disconnect();print('<span class="tok-dim">skill-shell v1.0 — 7 categories, '+CATS.reduce(function(a,c){return a+c.skills.length;},0)+' skills loaded.</span>','term-out');demo();}});},{threshold:.25});
+      io.observe(term);
+    })();
+    </script>
   </div>
 </section>
 

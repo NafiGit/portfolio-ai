@@ -185,6 +185,9 @@ section{padding:7rem 2rem}
 .paper-card{display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:start;padding:2rem 2.25rem;background:var(--card);border:1px solid var(--card-border);border-radius:8px;transition:all .4s}
 .paper-card:hover{border-color:#52525b;background:#181a1e;transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.28)}
 .paper-index{font-family:var(--font-display);font-size:2.5rem;font-weight:800;color:var(--card-border);line-height:1}
+.paper-thumb{flex-shrink:0}
+.paper-thumb img{width:112px;height:150px;object-fit:cover;object-position:top center;border-radius:5px;border:1px solid var(--card-border);box-shadow:0 6px 18px rgba(0,0,0,.35);display:block;background:#fff;transition:transform .4s}
+.paper-card:hover .paper-thumb img{transform:scale(1.05)}
 .paper-content h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-bottom:.5rem;line-height:1.4}
 .paper-content p{font-size:.88rem;color:var(--text-muted);line-height:1.6;margin-bottom:.75rem}
 .paper-tags{display:flex;flex-wrap:wrap;gap:.4rem}
@@ -449,6 +452,7 @@ section{position:relative}
   .ship-grid{grid-template-columns:1fr}
   .paper-card{grid-template-columns:1fr;gap:1rem}
   .paper-index{display:none}
+  .paper-thumb img{width:100px;height:134px}
   .paper-venue{writing-mode:horizontal-tb;min-height:auto;border-left:none;border-bottom:2px solid;padding:.25rem .5rem;width:fit-content}
   .timeline{padding-left:2rem}
   .timeline-item::before{left:-2rem}
@@ -748,7 +752,7 @@ section{position:relative}
     <div class="research-grid reveal">
 
       <a href="https://doi.org/10.1109/ICAAIC60222.2024.10575628" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
-        <div class="paper-index">01</div>
+        <div class="paper-thumb"><img src="assets/paper-cryptojacking.png" alt="First page of 'Novel Attack Vector to Abuse AWS for Cryptojacking'" loading="lazy"></div>
         <div class="paper-content">
           <h3>Novel Attack Vector to Abuse AWS for Cryptojacking <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
           <p>Discovering and documenting novel attack vectors that exploit AWS services for unauthorized cryptocurrency mining, contributing to cloud security defense strategies.</p>
@@ -763,7 +767,7 @@ section{position:relative}
       </a>
 
       <a href="https://doi.org/10.1109/ICSSAS64001.2024.10760612" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
-        <div class="paper-index">02</div>
+        <div class="paper-thumb"><img src="assets/paper-navigating.png" alt="First page of 'Navigating the Cloud: A Review of Emerging Trends in Security'" loading="lazy"></div>
         <div class="paper-content">
           <h3>Navigating the Cloud: A Review of Emerging Trends in Security <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
           <p>Comprehensive survey of emerging security paradigms in cloud computing, analyzing current threat landscapes and defense mechanisms across major cloud providers.</p>
@@ -776,22 +780,8 @@ section{position:relative}
         <div class="paper-venue venue-icssas">ICSSAS '24</div>
       </a>
 
-      <div class="paper-card" style="color:inherit">
-        <div class="paper-index">03</div>
-        <div class="paper-content">
-          <h3>Mitigating Software Package Hallucinations in Open Source LLM Models</h3>
-          <p>Investigating and mitigating the tendency of large language models to hallucinate non-existent software packages, a supply-chain attack vector where adversaries can register hallucinated package names with malicious code.</p>
-          <div class="paper-tags">
-            <span class="paper-tag">In Progress</span>
-            <span class="paper-tag">LLM Safety</span>
-            <span class="paper-tag">Supply Chain Security</span>
-          </div>
-        </div>
-        <div class="paper-venue venue-ieee" style="color:var(--text-dim);border-color:var(--text-dim)">Research</div>
-      </div>
-
       <a href="https://arxiv.org/abs/2604.11066" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
-        <div class="paper-index">04</div>
+        <div class="paper-thumb"><img src="assets/paper-kspret.png" alt="First page of 'KS-PRET-5M: A 5 Million Word, 12 Million Token Kashmiri Pretraining Corpus'" loading="lazy"></div>
         <div class="paper-content">
           <h3>KS-PRET-5M: A 5 Million Word, 12 Million Token Kashmiri Pretraining Corpus</h3>
           <p>Building the largest known pretraining corpus for Kashmiri, a low-resource language with ~7M speakers. Enabling foundation model development for an underserved linguistic community.</p>
@@ -805,7 +795,7 @@ section{position:relative}
       </a>
 
       <a href="https://arxiv.org/abs/2606.15883" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
-        <div class="paper-index">05</div>
+        <div class="paper-thumb"><img src="assets/paper-koshur.png" alt="First page of 'Koshur Diacritizer: A Byte-Level Sequence-to-Sequence Model for Kashmiri Diacritic Restoration'" loading="lazy"></div>
         <div class="paper-content">
           <h3>Koshur Diacritizer: A Byte-Level Sequence-to-Sequence Model for Kashmiri Diacritic Restoration <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
           <p>The first dedicated neural model for Kashmiri diacritic restoration. A ByT5 byte-level seq2seq model with script-aware normalization and skeleton-preserving inference recovers omitted Perso-Arabic diacritics. Achieves 77.5% expert-rated accuracy; released a 23.7k aligned sentence-pair dataset.</p>

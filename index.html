@@ -77,7 +77,8 @@
   --font-display:'Syne',sans-serif;--font-body:'Manrope',sans-serif;--font-mono:'Fira Code',monospace;
 }
 html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--primary-dim) var(--bg)}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;overflow-x:hidden}
+html{overflow-x:clip}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;overflow-x:clip}
 ::selection{background:var(--primary);color:var(--bg)}
 a{color:var(--secondary);text-decoration:none;transition:color .2s}
 a:hover{color:var(--primary)}
@@ -254,18 +255,6 @@ a.project-card{text-decoration:none;color:inherit;display:block}
 .cert-list{list-style:none;display:flex;flex-direction:column;gap:.75rem}
 .cert-list li{display:flex;align-items:center;gap:.75rem;font-size:.9rem;color:var(--text-muted);flex-wrap:nowrap}
 .cert-list li::before{content:'\2713';color:var(--secondary);font-weight:700;flex-shrink:0;margin-top:2px}
-
-/* ═══════════════ WHAT I SHIP ═══════════════ */
-.impact-section{background:var(--surface);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border)}
-.ship-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.ship-col h3{font-family:var(--font-display);font-size:1.05rem;font-weight:700;margin-bottom:1.25rem;color:var(--text);line-height:1.3;display:flex;align-items:center;gap:.6rem}
-.ship-col h3 .ship-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
-.ship-icon-agent{background:rgba(99,102,241,.15);color:var(--primary)}
-.ship-icon-ctx{background:rgba(34,211,238,.15);color:var(--secondary)}
-.ship-icon-prod{background:rgba(245,158,11,.15);color:var(--accent)}
-.ship-items{display:flex;flex-wrap:wrap;gap:.45rem}
-.ship-item{font-size:.8rem;padding:.4rem .75rem;background:var(--card);border:1px solid var(--card-border);border-radius:5px;color:var(--text-muted);transition:all .2s;line-height:1.3}
-.ship-item:hover{border-color:var(--primary-dim);color:var(--text)}
 
 /* ═══════════════ CONTACT ═══════════════ */
 .contact{text-align:center;padding:8rem 2rem}
@@ -705,14 +694,39 @@ section{position:relative}
 </section>
 
 <!-- Research -->
-<section id="research">
-  <div class="section-inner">
-    <div class="section-label">Research</div>
-    <div class="section-title reveal">Research</div>
-    <p class="section-desc reveal">Published and ongoing work in cloud security, LLM safety, and low-resource NLP.</p>
-    <div class="research-grid reveal">
+<style>
+.hscroll-outer{position:relative}
+.hscroll-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
+.hscroll-track{display:flex;gap:2rem;padding:0 max(6vw,1.5rem);align-items:center;will-change:transform}
+.hpanel{flex:0 0 auto}
+.hpanel-intro{width:min(400px,82vw);display:flex;flex-direction:column;justify-content:center}
+.hpanel-intro .section-title{margin-bottom:.85rem}
+.paper-card.hpanel{width:min(600px,86vw);animation:none!important;transform:none}
+.hscroll-cue{margin-top:1.6rem;font-family:var(--font-mono);font-size:.74rem;color:var(--text-dim);display:flex;align-items:center;gap:.5rem;letter-spacing:.1em;text-transform:uppercase}
+.hscroll-cue i{font-style:normal;font-size:1rem;display:inline-block;animation:cueMove 1.4s ease-in-out infinite}
+@keyframes cueMove{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
+.hscroll-progress{position:absolute;left:max(6vw,1.5rem);right:max(6vw,1.5rem);bottom:5.5vh;height:2px;background:var(--card-border);border-radius:2px}
+.hscroll-progress i{display:block;height:100%;width:0;background:var(--primary);border-radius:2px}
+@media(max-width:899px){
+  .hscroll-sticky{position:static;height:auto;overflow:visible;display:block;padding:0}
+  .hscroll-track{flex-direction:column;transform:none!important;gap:1.5rem;padding:0}
+  .hpanel,.hpanel-intro,.paper-card.hpanel{width:auto}
+  .hscroll-cue,.hscroll-progress{display:none}
+}
+</style>
 
-      <a href="https://doi.org/10.1109/ICAAIC60222.2024.10575628" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
+<section id="research" class="hscroll-outer">
+  <div class="hscroll-sticky">
+    <div class="hscroll-track" id="researchTrack">
+
+      <div class="hpanel hpanel-intro">
+        <div class="section-label">Research</div>
+        <div class="section-title">Research</div>
+        <p class="section-desc">Published and ongoing work in cloud security, LLM safety, and low-resource NLP.</p>
+        <div class="hscroll-cue">scroll <i>&#8594;</i></div>
+      </div>
+
+      <a href="https://doi.org/10.1109/ICAAIC60222.2024.10575628" target="_blank" class="paper-card hpanel" style="text-decoration:none;color:inherit">
         <div class="paper-thumb"><img src="assets/paper-cryptojacking.png" alt="First page of 'Novel Attack Vector to Abuse AWS for Cryptojacking'" loading="lazy"></div>
         <div class="paper-content">
           <h3>Novel Attack Vector to Abuse AWS for Cryptojacking <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
@@ -727,7 +741,7 @@ section{position:relative}
         <div class="paper-venue venue-icaaic">ICAAIC '24</div>
       </a>
 
-      <a href="https://doi.org/10.1109/ICSSAS64001.2024.10760612" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
+      <a href="https://doi.org/10.1109/ICSSAS64001.2024.10760612" target="_blank" class="paper-card hpanel" style="text-decoration:none;color:inherit">
         <div class="paper-thumb"><img src="assets/paper-navigating.png" alt="First page of 'Navigating the Cloud: A Review of Emerging Trends in Security'" loading="lazy"></div>
         <div class="paper-content">
           <h3>Navigating the Cloud: A Review of Emerging Trends in Security <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
@@ -741,7 +755,7 @@ section{position:relative}
         <div class="paper-venue venue-icssas">ICSSAS '24</div>
       </a>
 
-      <a href="https://arxiv.org/abs/2604.11066" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
+      <a href="https://arxiv.org/abs/2604.11066" target="_blank" class="paper-card hpanel" style="text-decoration:none;color:inherit">
         <div class="paper-thumb"><img src="assets/paper-kspret.png" alt="First page of 'KS-PRET-5M: A 5 Million Word, 12 Million Token Kashmiri Pretraining Corpus'" loading="lazy"></div>
         <div class="paper-content">
           <h3>KS-PRET-5M: A 5 Million Word, 12 Million Token Kashmiri Pretraining Corpus</h3>
@@ -755,7 +769,7 @@ section{position:relative}
         <div class="paper-venue venue-corpus">arXiv</div>
       </a>
 
-      <a href="https://arxiv.org/abs/2606.15883" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
+      <a href="https://arxiv.org/abs/2606.15883" target="_blank" class="paper-card hpanel" style="text-decoration:none;color:inherit">
         <div class="paper-thumb"><img src="assets/paper-koshur.png" alt="First page of 'Koshur Diacritizer: A Byte-Level Sequence-to-Sequence Model for Kashmiri Diacritic Restoration'" loading="lazy"></div>
         <div class="paper-content">
           <h3>Koshur Diacritizer: A Byte-Level Sequence-to-Sequence Model for Kashmiri Diacritic Restoration <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
@@ -769,7 +783,7 @@ section{position:relative}
         <div class="paper-venue venue-corpus">arXiv</div>
       </a>
 
-      <a href="https://arxiv.org/abs/2606.23144" target="_blank" class="paper-card" style="text-decoration:none;color:inherit">
+      <a href="https://arxiv.org/abs/2606.23144" target="_blank" class="paper-card hpanel" style="text-decoration:none;color:inherit">
         <div class="paper-thumb"><img src="assets/paper-koshurpixel.png" alt="First page of 'Koshur Pixel: A Large-Scale Synthetic OCR Dataset for Kashmiri'" loading="lazy"></div>
         <div class="paper-content">
           <h3>Koshur Pixel: A Large-Scale Synthetic OCR Dataset for Kashmiri <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
@@ -784,8 +798,40 @@ section{position:relative}
       </a>
 
     </div>
+    <div class="hscroll-progress"><i id="researchBar"></i></div>
   </div>
 </section>
+
+<script>
+(function(){
+  var outer=document.getElementById('research');
+  if(!outer)return;
+  var track=document.getElementById('researchTrack');
+  var bar=document.getElementById('researchBar');
+  var enabled=false,maxX=0;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function layout(){
+    if(reduce||window.innerWidth<900){enabled=false;outer.style.height='';track.style.transform='';if(bar)bar.style.width='';return;}
+    enabled=true;
+    maxX=Math.max(0,track.scrollWidth-window.innerWidth);
+    outer.style.height=(window.innerHeight+maxX)+'px';
+    tick();
+  }
+  function tick(){
+    if(!enabled)return;
+    var total=outer.offsetHeight-window.innerHeight;
+    var p=total>0?Math.min(Math.max(-outer.getBoundingClientRect().top/total,0),1):0;
+    track.style.transform='translate3d('+(-p*maxX).toFixed(1)+'px,0,0)';
+    if(bar)bar.style.width=(p*100).toFixed(1)+'%';
+  }
+  var ticking=false;
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(function(){tick();ticking=false;});}},{passive:true});
+  window.addEventListener('resize',layout);
+  layout();
+  window.addEventListener('load',layout);
+  setTimeout(layout,400);setTimeout(layout,1200);
+})();
+</script>
 
 <!-- Projects -->
 <section id="projects" style="background:var(--surface);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border)">
@@ -991,7 +1037,7 @@ section{position:relative}
   <div class="section-inner">
     <div class="section-label">Technical Arsenal</div>
     <div class="section-title reveal">Explore the Stack</div>
-    <p class="section-desc reveal">A live shell. Try <span style="font-family:var(--font-mono)">ls</span>, <span style="font-family:var(--font-mono)">cat agents</span>, or <span style="font-family:var(--font-mono)">grep aws</span>.</p>
+    <p class="section-desc reveal">A tiny filesystem. Try <span style="font-family:var(--font-mono)">ls</span>, <span style="font-family:var(--font-mono)">cd skills</span>, or <span style="font-family:var(--font-mono)">tree</span>.</p>
     <style>
     .terminal-wrap{max-width:840px;margin:0 auto}
     .terminal{background:#0c0d10;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:var(--font-mono)}
@@ -1004,7 +1050,7 @@ section{position:relative}
     .term-line{white-space:pre-wrap;word-break:break-word}
     .term-out{margin:.1rem 0 .5rem}
     .term-cmdecho{margin:.25rem 0}
-    .tok-cmd{color:#818cf8}.tok-str{color:#e5e7eb}.tok-ok{color:#28c840}.tok-dim{color:#71717a}.tok-cat{color:#f5f5f5;font-weight:600}
+    .tok-cmd{color:#818cf8}.tok-str{color:#e5e7eb}.tok-dir{color:#818cf8;font-weight:600}.tok-ok{color:#28c840}.tok-dim{color:#71717a}.tok-cat{color:#f5f5f5;font-weight:600}
     .term-cmdecho .tok-prompt{color:#28c840;margin-right:.5rem}
     .term-pill{display:inline-block;margin:.15rem .3rem .15rem 0;padding:.12rem .5rem;border:1px solid rgba(129,140,248,.28);border-radius:4px;color:#c7d2fe;background:rgba(129,140,248,.07);font-size:.78rem}
     .term-inputline{display:flex;align-items:center;gap:.5rem}
@@ -1027,15 +1073,15 @@ section{position:relative}
       <div class="terminal" id="skillTerm">
         <div class="term-bar">
           <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-          <span class="term-title">nahfid@portfolio  ~/skills</span>
+          <span class="term-title">nahfid@portfolio</span>
         </div>
         <div class="term-body" id="termBody">
           <div class="term-output" id="termOut"></div>
           <div class="term-inputline" id="termInputLine" style="display:none">
-            <span class="term-prompt">nahfid@skills <span class="arw">❯</span></span>
+            <span class="term-prompt">nahfid <span id="termCwd" class="tok-dir">~</span> <span class="arw">&#10095;</span></span>
             <span class="term-input-wrap">
               <span class="term-ghost" id="termGhost"></span>
-              <input class="term-input" id="termInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="skills terminal input" />
+              <input class="term-input" id="termInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="filesystem terminal input" />
             </span>
           </div>
           <div class="term-suggest" id="termSuggest"></div>
@@ -1045,51 +1091,79 @@ section{position:relative}
 
     <script>
     (function(){
-      var CATS=[
-        {key:'agents',label:'Agent Architecture',skills:['Agent Harnesses','Autonomous Loops','Self-Correcting Loops','Subagent Spawning','Tool Orchestration','Context Engineering','Memory Systems','Token Efficiency','RLHF Pipelines','LLM-as-a-Judge']},
-        {key:'ai',label:'AI / ML Tooling',skills:['Langgraph','Claude Agent SDK','Browser Use','Langchain','Langfuse','OpenAI API','Vapi','PyTorch','Ollama','RAG / Vector Stores']},
-        {key:'python',label:'Python Ecosystem',skills:['Django / DRF','FastAPI','Celery','Pandas','NumPy','Boto3','Puppeteer','Selenium','Playwright','Pytest']},
-        {key:'js',label:'JavaScript / TypeScript',skills:['React','Next.js','Vue','Node.js','Express','Nest.js','Three.js','CANNON.js','Sentry']},
-        {key:'cloud',label:'Cloud & Infrastructure',skills:['AWS (EC2, ECS, S3, Lambda)','CloudFront / Route53','DynamoDB','CodePipeline / CodeBuild','Docker','Nginx / Apache','Jenkins / Ansible','WAF']},
-        {key:'data',label:'Data & Databases',skills:['MongoDB','PostgreSQL','Redis','OpenSearch','Aggregation Pipelines']},
-        {key:'security',label:'Security & Research',skills:['Nmap','Nessus','Wireshark','Ghidra','Volatility','FTK Imager','Crunch','Solidity']}
+      var SKILLS=[
+        {slug:'agents',label:'Agent Architecture',skills:['Agent Harnesses','Autonomous Loops','Self-Correcting Loops','Subagent Spawning','Tool Orchestration','Context Engineering','Memory Systems','Token Efficiency','RLHF Pipelines','LLM-as-a-Judge']},
+        {slug:'ai',label:'AI / ML Tooling',skills:['Langgraph','Claude Agent SDK','Browser Use','Langchain','Langfuse','OpenAI API','Vapi','PyTorch','Ollama','RAG / Vector Stores']},
+        {slug:'python',label:'Python Ecosystem',skills:['Django / DRF','FastAPI','Celery','Pandas','NumPy','Boto3','Puppeteer','Selenium','Playwright','Pytest']},
+        {slug:'js',label:'JavaScript / TypeScript',skills:['React','Next.js','Vue','Node.js','Express','Nest.js','Three.js','CANNON.js','Sentry']},
+        {slug:'cloud',label:'Cloud & Infrastructure',skills:['AWS (EC2, ECS, S3, Lambda)','CloudFront / Route53','DynamoDB','CodePipeline / CodeBuild','Docker','Nginx / Apache','Jenkins / Ansible','WAF']},
+        {slug:'data',label:'Data & Databases',skills:['MongoDB','PostgreSQL','Redis','OpenSearch','Aggregation Pipelines']},
+        {slug:'security',label:'Security & Research',skills:['Nmap','Nessus','Wireshark','Ghidra','Volatility','FTK Imager','Crunch','Solidity']}
       ];
-      var COMMANDS={help:'list commands',ls:'list skill categories',cat:'show a category  ·  cat <category>',ship:'what Nahfid ships end to end',all:'print every skill',grep:'search skills  ·  grep <term>',whoami:'who is Nahfid',hire:'how to reach me',clear:'clear the screen'};
-      var SHIP=[{label:'Agentic Systems',skills:['Agent Harnesses','Autonomous Loops','Subagent Spawning','Tool Orchestration','Browser Agents','Voice AI','Multi-Channel','Debate Models']},{label:'Context & Memory',skills:['Token Efficiency','Context Engineering','RAG Pipelines','Vector Stores','Persistent Memory','RLHF Pipelines','LLM-as-a-Judge','Langfuse Tracing']},{label:'Production Stack',skills:['React / Next.js','Node / Django','MongoDB / Postgres','AWS (EC2, ECS, S3)','CI/CD + Docker','Meta Conversion API','Sentry Monitoring','Nginx / WAF']}];
+      var SHIP=[
+        {slug:'agentic-systems',label:'Agentic Systems',skills:['Agent Harnesses','Autonomous Loops','Subagent Spawning','Tool Orchestration','Browser Agents','Voice AI','Multi-Channel','Debate Models']},
+        {slug:'context-memory',label:'Context & Memory',skills:['Token Efficiency','Context Engineering','RAG Pipelines','Vector Stores','Persistent Memory','RLHF Pipelines','LLM-as-a-Judge','Langfuse Tracing']},
+        {slug:'production-stack',label:'Production Stack',skills:['React / Next.js','Node / Django','MongoDB / Postgres','AWS (EC2, ECS, S3)','CI/CD + Docker','Meta Conversion API','Sentry Monitoring','Nginx / WAF']}
+      ];
+      function mk(list){var d={};list.forEach(function(x){d[x.slug+'.txt']={cat:x.label,skills:x.skills};});return d;}
+      var FS={
+        'skills':{d:mk(SKILLS)},
+        'ship':{d:mk(SHIP)},
+        'about.txt':{body:'<span class="tok-str">Nahfid Nissar</span>\nAI Engineer &amp; Researcher @ Nbyula\n\nBuilds autonomous agents, RLHF pipelines, and production ML systems.\nPublished in IEEE and on arXiv. Based in India.'},
+        'contact.txt':{body:'<span class="tok-dim">email    </span>nissarnahfid@gmail.com\n<span class="tok-dim">github   </span>github.com/NafiGit\n<span class="tok-dim">linkedin </span>linkedin.com/in/nahfid\n<span class="tok-dim">x        </span>x.com/NahfidN'},
+        'README.txt':{body:'This is Nahfid&#39;s skill shell.\n\n<span class="tok-dir">folders</span>  skills/ ship/\n<span class="tok-dir">files</span>    about.txt contact.txt\n\nMove with <span class="tok-cmd">cd</span>, list with <span class="tok-cmd">ls</span>, read with <span class="tok-cmd">cat</span>. Try: cd skills'}
+      };
+      var COMMANDS={ls:'list this folder',cd:'change folder  ·  cd <folder>',cat:'read a file  ·  cat <file>',pwd:'where am I',tree:'show the whole tree',clear:'clear the screen',help:'this list'};
+
       var out=document.getElementById('termOut'),body=document.getElementById('termBody'),line=document.getElementById('termInputLine'),
-          input=document.getElementById('termInput'),ghost=document.getElementById('termGhost'),sug=document.getElementById('termSuggest'),term=document.getElementById('skillTerm');
-      var sel=-1,sugItems=[],demoRunning=false,started=false;
+          input=document.getElementById('termInput'),ghost=document.getElementById('termGhost'),sug=document.getElementById('termSuggest'),
+          term=document.getElementById('skillTerm'),cwdEl=document.getElementById('termCwd');
+      var sel=-1,sugItems=[],demoRunning=false,started=false,cwd=[];
       function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-      function pad(s,n){s=String(s);while(s.length<n)s+=' ';return s;}
       function scroll(){body.scrollTop=body.scrollHeight;}
       function print(html,cls){var d=document.createElement('div');d.className='term-line '+(cls||'');d.innerHTML=html;out.appendChild(d);scroll();return d;}
+      function pills(a){return a.map(function(s){return '<span class="term-pill">'+esc(s)+'</span>';}).join('');}
+      function cwdStr(){return '~'+(cwd.length?'/'+cwd.join('/'):'');}
+      function setCwd(){cwdEl.textContent=cwdStr();}
       function colorize(cmd){var p=cmd.split(' ');var h='<span class="tok-cmd">'+esc(p[0])+'</span>';if(p.length>1)h+=' <span class="tok-str">'+esc(p.slice(1).join(' '))+'</span>';return h;}
-      function echoCmd(cmd){print('<span class="tok-prompt">nahfid@skills ❯</span>'+colorize(cmd),'term-cmdecho');}
-      function findCat(k){k=(k||'').toLowerCase();for(var i=0;i<CATS.length;i++)if(CATS[i].key===k||CATS[i].label.toLowerCase()===k)return CATS[i];return null;}
-      function pills(arr){return arr.map(function(s){return '<span class="term-pill">'+esc(s)+'</span>';}).join('');}
+      function echoCmd(cmd){print('<span class="tok-prompt">nahfid '+cwdStr()+' &#10095;</span>'+colorize(cmd),'term-cmdecho');}
+      function dirAt(segs){var d=FS;for(var i=0;i<segs.length;i++){var n=d[segs[i]];if(!n||!n.d)return null;d=n.d;}return d;}
+      function nodeAt(segs){if(!segs.length)return {d:FS};var d=FS,n=null;for(var i=0;i<segs.length;i++){n=d[segs[i]];if(!n)return null;if(i<segs.length-1){if(!n.d)return null;d=n.d;}}return n;}
+      function resolve(arg){var segs=(arg.charAt(0)==='/'||arg.charAt(0)==='~')?[]:cwd.slice();arg.split('/').forEach(function(p){if(!p||p==='.'||p==='~')return;if(p==='..'){segs.pop();return;}segs.push(p);});return segs;}
+      function listDir(d){var ns=Object.keys(d).sort(function(a,b){var da=d[a].d?0:1,db=d[b].d?0:1;return da-db||a.localeCompare(b);});return ns.map(function(nm){return d[nm].d?'<span class="tok-dir">'+nm+'/</span>':'<span class="tok-str">'+nm+'</span>';}).join('   ');}
+      function tree(d,pre){var ns=Object.keys(d).sort(function(a,b){var da=d[a].d?0:1,db=d[b].d?0:1;return da-db||a.localeCompare(b);});var o='';ns.forEach(function(nm,i){var last=i===ns.length-1;o+=pre+(last?'└─ ':'├─ ')+(d[nm].d?'<span class="tok-dir">'+nm+'/</span>':nm)+'\n';if(d[nm].d)o+=tree(d[nm].d,pre+(last?'   ':'│  '));});return o;}
+
       function run(raw){
         var cmd=(raw||'').trim();closeSug();
-        if(!cmd){print('<span class="tok-prompt">nahfid@skills ❯</span>');return;}
+        if(!cmd){print('<span class="tok-prompt">nahfid '+cwdStr()+' &#10095;</span>');return;}
         echoCmd(cmd);
         var p=cmd.split(/\s+/),c=p[0].toLowerCase(),arg=p.slice(1).join(' ');
-        if(c==='help'){print('<span class="tok-dim">available commands</span>\n'+Object.keys(COMMANDS).map(function(k){return '  <span class="tok-cmd">'+pad(k,8)+'</span><span class="tok-dim">'+COMMANDS[k]+'</span>';}).join('\n'),'term-out');}
-        else if(c==='ls'){print(CATS.map(function(x){return '<span class="tok-cat">'+pad(x.key,10)+'</span><span class="tok-dim">'+x.label+' ('+x.skills.length+')</span>';}).join('\n'),'term-out');}
-        else if(c==='cat'){var cc=findCat(arg);if(!cc)print('<span class="tok-dim">cat: no such category </span>'+esc(arg)+'\n<span class="tok-dim">try: </span>'+CATS.map(function(x){return x.key;}).join(', '),'term-out');else print('<span class="tok-cat">'+esc(cc.label)+'</span>\n'+pills(cc.skills),'term-out');}
-        else if(c==='all'){print(CATS.map(function(x){return '<span class="tok-cat">'+esc(x.label)+'</span>\n'+pills(x.skills);}).join('\n\n'),'term-out');}
-        else if(c==='grep'||c==='find'){var q=(arg||'').toLowerCase();if(!q){print('<span class="tok-dim">usage: grep &lt;term&gt;</span>','term-out');}else{var hits=[];CATS.forEach(function(x){x.skills.forEach(function(s){if(s.toLowerCase().indexOf(q)>-1)hits.push([x.label,s]);});});if(!hits.length)print('<span class="tok-dim">no skills matching </span>"'+esc(arg)+'"','term-out');else print(hits.map(function(h){return '<span class="term-pill">'+esc(h[1])+'</span> <span class="tok-dim">'+esc(h[0])+'</span>';}).join('\n'),'term-out');}}
-        else if(c==='whoami'){print('<span class="tok-str">Nahfid Nissar</span><span class="tok-dim">, AI Engineer &amp; Researcher @ Nbyula</span>\n<span class="tok-dim">Autonomous agents · RLHF pipelines · production ML. IEEE + arXiv published.</span>','term-out');}
-        else if(c==='ship'||c==='deliver'){print('<span class="tok-dim">agent design to production monitoring. no handoffs.</span>\n'+SHIP.map(function(x){return '<span class="tok-cat">'+esc(x.label)+'</span>\n'+pills(x.skills);}).join('\n\n'),'term-out');}
-        else if(c==='hire'||c==='contact'){print('<span class="tok-ok">→</span> <span class="tok-str">nissarnahfid@gmail.com</span>\n<span class="tok-dim">linkedin.com/in/nahfid  ·  github.com/NafiGit  ·  or hit “Get in Touch” up top.</span>','term-out');}
+        if(c==='help'){print(Object.keys(COMMANDS).map(function(k){return '  <span class="tok-cmd">'+(k+'      ').slice(0,6)+'</span><span class="tok-dim">'+COMMANDS[k]+'</span>';}).join('\n'),'term-out');}
+        else if(c==='ls'){var t=arg?resolve(arg):cwd;var d=dirAt(t);if(d){print(listDir(d),'term-out');}else{var n=nodeAt(resolve(arg));if(n&&!n.d)print('<span class="tok-str">'+esc(arg)+'</span>','term-out');else print('<span class="tok-dim">ls: no such directory: </span>'+esc(arg),'term-out');}}
+        else if(c==='cd'){if(!arg||arg==='~'||arg==='/'){cwd=[];setCwd();}else{var segs=resolve(arg);var d=dirAt(segs);if(d){cwd=segs;setCwd();}else{var n=nodeAt(segs);if(n&&!n.d)print('<span class="tok-dim">cd: not a directory: </span>'+esc(arg),'term-out');else print('<span class="tok-dim">cd: no such directory: </span>'+esc(arg),'term-out');}}}
+        else if(c==='cat'){if(!arg){print('<span class="tok-dim">usage: cat &lt;file&gt;</span>','term-out');}else{var n=nodeAt(resolve(arg));if(!n)print('<span class="tok-dim">cat: no such file: </span>'+esc(arg),'term-out');else if(n.d)print('<span class="tok-dim">cat: </span>'+esc(arg)+'<span class="tok-dim"> is a directory</span>','term-out');else if(n.skills)print('<span class="tok-cat">'+esc(n.cat)+'</span>\n'+pills(n.skills),'term-out');else print(n.body,'term-out');}}
+        else if(c==='pwd'){print(cwdStr(),'term-out');}
+        else if(c==='tree'){print('<span class="tok-dir">~</span>\n'+tree(FS,''),'term-out');}
+        else if(c==='whoami'){print(FS['about.txt'].body,'term-out');}
+        else if(c==='hire'||c==='contact'){print(FS['contact.txt'].body,'term-out');}
         else if(c==='clear'){out.innerHTML='';}
         else if(c==='sudo'){print('<span class="tok-dim">nahfid is not in the sudoers file. This incident will be reported. 🙂</span>','term-out');}
         else{print('<span class="tok-dim">command not found: </span>'+esc(c)+' <span class="tok-dim">. try </span><span class="tok-cmd">help</span>','term-out');}
       }
+
       function computeSug(val){
         var parts=val.split(/\s+/);
         if(parts.length<=1){var pf=parts[0].toLowerCase();return Object.keys(COMMANDS).filter(function(k){return k.indexOf(pf)===0;}).map(function(k){return {label:k,ico:'&#9002;',kind:COMMANDS[k],complete:k+' '};});}
-        var c=parts[0].toLowerCase(),arg=parts.slice(1).join(' ').toLowerCase();
-        if(c==='cat')return CATS.filter(function(x){return x.key.indexOf(arg)===0||x.label.toLowerCase().indexOf(arg)>-1;}).map(function(x){return {label:x.key,ico:'&#9636;',kind:x.label,complete:'cat '+x.key};});
-        if(c==='grep'||c==='find'){var all=[];CATS.forEach(function(x){x.skills.forEach(function(s){all.push(s);});});return all.filter(function(s){return s.toLowerCase().indexOf(arg)>-1;}).slice(0,8).map(function(s){return {label:s,ico:'&#9670;',kind:'skill',complete:c+' '+s};});}
+        var c=parts[0].toLowerCase(),arg=parts.slice(1).join(' ');
+        if(c==='cd'||c==='ls'||c==='cat'){
+          var slash=arg.lastIndexOf('/');var base=slash>=0?arg.slice(0,slash):'';var frag=(slash>=0?arg.slice(slash+1):arg).toLowerCase();
+          var d=dirAt(base?resolve(base):cwd.slice());if(!d)return [];
+          var dirsOnly=(c==='cd');
+          return Object.keys(d).filter(function(nm){if(dirsOnly&&!d[nm].d)return false;return nm.toLowerCase().indexOf(frag)===0;}).sort().slice(0,8).map(function(nm){
+            var isdir=!!d[nm].d;var path=(base?base+'/':'')+nm+(isdir?'/':'');
+            return {label:nm+(isdir?'/':''),ico:isdir?'&#9636;':'&#9002;',kind:isdir?'folder':'file',complete:c+' '+path};
+          });
+        }
         return [];
       }
       function closeSug(){sug.classList.remove('open');sug.innerHTML='';sel=-1;ghost.innerHTML='';}
@@ -1104,7 +1178,7 @@ section{position:relative}
         else ghost.innerHTML='';
         scroll();
       }
-      function accept(i){if(!sugItems.length)return;var it=sugItems[i<0?0:i];input.value=it.complete;sel=-1;renderSug(input.value);}
+      function accept(i){if(!sugItems.length)return;input.value=sugItems[i<0?0:i].complete;sel=-1;renderSug(input.value);}
       input.addEventListener('keydown',function(e){
         if(demoRunning)abortDemo();
         if(e.key==='Tab'){e.preventDefault();if(sugItems.length)accept(sel);return;}
@@ -1122,15 +1196,18 @@ section{position:relative}
       function abortDemo(){if(!demoRunning)return;demoRunning=false;input.value='';closeSug();input.focus();}
       function typeInto(target){return new Promise(function(res){var i=input.value.length;(function step(){if(!demoRunning||i>target.length){res();return;}input.value=target.slice(0,i);renderSug(input.value);i++;setTimeout(step,50+Math.random()*55);})();});}
       function demo(){
-        demoRunning=true;line.style.display='flex';
-        var v;
+        demoRunning=true;line.style.display='flex';var v;
         Promise.resolve()
           .then(function(){return sleep(400);})
-          .then(function(){return typeInto('cat agents');}).then(function(){return sleep(600);})
+          .then(function(){return typeInto('ls');}).then(function(){return sleep(450);})
+          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(650);})
+          .then(function(){if(!demoRunning)return;return typeInto('cd skills');}).then(function(){return sleep(500);})
+          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(550);})
+          .then(function(){if(!demoRunning)return;return typeInto('ls');}).then(function(){return sleep(450);})
           .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(500);})
-          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">your turn. type </span><span class="tok-cmd">ls</span><span class="tok-dim">, </span><span class="tok-cmd">ship</span><span class="tok-dim">, or </span><span class="tok-cmd">whoami</span><span class="tok-dim">. press </span><span class="term-key">Tab</span><span class="tok-dim"> to autocomplete.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
+          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">poke around. try </span><span class="tok-cmd">cat agents.txt</span><span class="tok-dim">, </span><span class="tok-cmd">cd ../ship</span><span class="tok-dim">, or </span><span class="tok-cmd">tree</span><span class="tok-dim">. </span><span class="term-key">Tab</span><span class="tok-dim"> completes paths.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
       }
-      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;io.disconnect();print('<span class="tok-dim">skill-shell ready. '+CATS.reduce(function(a,c){return a+c.skills.length;},0)+' skills across 7 categories loaded.</span>','term-out');demo();}});},{threshold:.35,rootMargin:'0px 0px -40px 0px'});
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;io.disconnect();print('<span class="tok-dim">skill-shell v1 · a tiny filesystem. type </span><span class="tok-cmd">ls</span><span class="tok-dim"> to look around.</span>','term-out');demo();}});},{threshold:.35,rootMargin:'0px 0px -40px 0px'});
       io.observe(term);
     })();
     </script>

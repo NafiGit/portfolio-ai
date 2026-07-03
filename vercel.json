@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/daresume", "destination": "/assets/resume.pdf" }
+  ]
+}

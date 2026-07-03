@@ -23,7 +23,7 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Nahfid Nissar — AI Engineer & Researcher. nahfid.vercel.app">
+<meta property="og:image:alt" content="Nahfid Nissar, AI Engineer & Researcher. nahfid.vercel.app">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
@@ -32,7 +32,7 @@
 <meta name="twitter:title" content="Nahfid Nissar - AI Engineer & Researcher">
 <meta name="twitter:description" content="I build autonomous agents, RLHF pipelines, and production ML systems. Published in IEEE.">
 <meta name="twitter:image" content="https://nahfid.vercel.app/assets/og-image.png">
-<meta name="twitter:image:alt" content="Nahfid Nissar — AI Engineer & Researcher">
+<meta name="twitter:image:alt" content="Nahfid Nissar, AI Engineer & Researcher">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -672,7 +672,7 @@ section{position:relative}
 
       <div class="timeline-item">
         <div class="timeline-header">
-          <span class="timeline-role">SDE Intern — AI & Full-Stack</span>
+          <span class="timeline-role">SDE Intern, AI &amp; Full-Stack</span>
           <span class="timeline-meta">Dec 2024 – Jan 2026</span>
         </div>
         <div class="timeline-company"><a href="https://nbyula.com" target="_blank">Nbyula</a> <span style="color:var(--text-dim)">|</span> EdTech Platform, Bangalore</div>
@@ -689,7 +689,7 @@ section{position:relative}
 
       <div class="timeline-item">
         <div class="timeline-header">
-          <span class="timeline-role">SDE Intern — Full-Stack</span>
+          <span class="timeline-role">SDE Intern, Full-Stack</span>
           <span class="timeline-meta">Apr 2024 – Sep 2024</span>
         </div>
         <div class="timeline-company"><a href="https://creditmitra.in" target="_blank">CreditMitra</a> <span style="color:var(--text-dim)">|</span> FinTech, Hyderabad</div>
@@ -1041,7 +1041,7 @@ section{position:relative}
   <div class="section-inner">
     <div class="section-label">Technical Arsenal</div>
     <div class="section-title reveal">Explore the Stack</div>
-    <p class="section-desc reveal">Not a tag cloud — a live shell. Watch it demo, then type a command yourself: <span style="font-family:var(--font-mono)">ls</span>, <span style="font-family:var(--font-mono)">cat agents</span>, <span style="font-family:var(--font-mono)">grep aws</span>. <span style="opacity:.7">Tab autocompletes.</span></p>
+    <p class="section-desc reveal">A live shell. Try <span style="font-family:var(--font-mono)">ls</span>, <span style="font-family:var(--font-mono)">cat agents</span>, or <span style="font-family:var(--font-mono)">grep aws</span>.</p>
     <style>
     .terminal-wrap{max-width:840px;margin:0 auto}
     .terminal{background:#0c0d10;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:var(--font-mono)}
@@ -1057,11 +1057,11 @@ section{position:relative}
     .tok-cmd{color:#818cf8}.tok-str{color:#e5e7eb}.tok-ok{color:#28c840}.tok-dim{color:#71717a}.tok-cat{color:#f5f5f5;font-weight:600}
     .term-cmdecho .tok-prompt{color:#28c840;margin-right:.5rem}
     .term-pill{display:inline-block;margin:.15rem .3rem .15rem 0;padding:.12rem .5rem;border:1px solid rgba(129,140,248,.28);border-radius:4px;color:#c7d2fe;background:rgba(129,140,248,.07);font-size:.78rem}
-    .term-inputline{display:flex;align-items:baseline;gap:.5rem}
+    .term-inputline{display:flex;align-items:center;gap:.5rem}
     .term-prompt{color:#28c840;flex-shrink:0}.term-prompt .arw{color:#818cf8}
     .term-input-wrap{position:relative;flex:1;display:flex}
-    .term-input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:#e5e7eb;font-family:var(--font-mono);font-size:.82rem;caret-color:#818cf8;padding:0}
-    .term-ghost{position:absolute;left:0;top:0;pointer-events:none;color:#52555c;white-space:pre;font-size:.82rem}
+    .term-input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:#e5e7eb;font-family:var(--font-mono);font-size:.82rem;line-height:1.6;caret-color:#818cf8;padding:0}
+    .term-ghost{position:absolute;left:0;top:50%;transform:translateY(-50%);pointer-events:none;color:#52555c;white-space:pre;font-size:.82rem;line-height:1.6}
     .term-suggest{display:none;margin:.5rem 0 .2rem;width:fit-content;max-width:100%;background:#16181d;border:1px solid #2c2f36;border-radius:6px;box-shadow:0 12px 30px rgba(0,0,0,.5);overflow:hidden}
     .term-suggest.open{display:block}
     .sg-row{display:flex;align-items:center;gap:.6rem;padding:.35rem .7rem;cursor:pointer;font-size:.78rem}
@@ -1077,7 +1077,7 @@ section{position:relative}
       <div class="terminal" id="skillTerm">
         <div class="term-bar">
           <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-          <span class="term-title">nahfid@portfolio — ~/skills — zsh</span>
+          <span class="term-title">nahfid@portfolio  ~/skills</span>
         </div>
         <div class="term-body" id="termBody">
           <div class="term-output" id="termOut"></div>
@@ -1126,11 +1126,11 @@ section{position:relative}
         else if(c==='cat'){var cc=findCat(arg);if(!cc)print('<span class="tok-dim">cat: no such category </span>'+esc(arg)+'\n<span class="tok-dim">try: </span>'+CATS.map(function(x){return x.key;}).join(', '),'term-out');else print('<span class="tok-cat">'+esc(cc.label)+'</span>\n'+pills(cc.skills),'term-out');}
         else if(c==='all'){print(CATS.map(function(x){return '<span class="tok-cat">'+esc(x.label)+'</span>\n'+pills(x.skills);}).join('\n\n'),'term-out');}
         else if(c==='grep'||c==='find'){var q=(arg||'').toLowerCase();if(!q){print('<span class="tok-dim">usage: grep &lt;term&gt;</span>','term-out');}else{var hits=[];CATS.forEach(function(x){x.skills.forEach(function(s){if(s.toLowerCase().indexOf(q)>-1)hits.push([x.label,s]);});});if(!hits.length)print('<span class="tok-dim">no skills matching </span>"'+esc(arg)+'"','term-out');else print(hits.map(function(h){return '<span class="term-pill">'+esc(h[1])+'</span> <span class="tok-dim">'+esc(h[0])+'</span>';}).join('\n'),'term-out');}}
-        else if(c==='whoami'){print('<span class="tok-str">Nahfid Nissar</span> <span class="tok-dim">— AI Engineer &amp; Researcher @ Nbyula</span>\n<span class="tok-dim">Autonomous agents · RLHF pipelines · production ML. IEEE + arXiv published.</span>','term-out');}
+        else if(c==='whoami'){print('<span class="tok-str">Nahfid Nissar</span><span class="tok-dim">, AI Engineer &amp; Researcher @ Nbyula</span>\n<span class="tok-dim">Autonomous agents · RLHF pipelines · production ML. IEEE + arXiv published.</span>','term-out');}
         else if(c==='hire'||c==='contact'){print('<span class="tok-ok">→</span> <span class="tok-str">nissarnahfid@gmail.com</span>\n<span class="tok-dim">linkedin.com/in/nahfid  ·  github.com/NafiGit  ·  or hit “Get in Touch” up top.</span>','term-out');}
         else if(c==='clear'){out.innerHTML='';}
         else if(c==='sudo'){print('<span class="tok-dim">nahfid is not in the sudoers file. This incident will be reported. 🙂</span>','term-out');}
-        else{print('<span class="tok-dim">command not found: </span>'+esc(c)+' <span class="tok-dim">— type </span><span class="tok-cmd">help</span>','term-out');}
+        else{print('<span class="tok-dim">command not found: </span>'+esc(c)+' <span class="tok-dim">. try </span><span class="tok-cmd">help</span>','term-out');}
       }
       function computeSug(val){
         var parts=val.split(/\s+/);
@@ -1173,16 +1173,12 @@ section{position:relative}
         demoRunning=true;line.style.display='flex';
         var v;
         Promise.resolve()
-          .then(function(){return sleep(350);})
-          .then(function(){return typeInto('help');}).then(function(){return sleep(320);})
-          .then(function(){if(!demoRunning)return;v=input.value;input.value='';run(v);return sleep(650);})
-          .then(function(){if(!demoRunning)return;return typeInto('cat cloud');}).then(function(){return sleep(500);})
-          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(700);})
-          .then(function(){if(!demoRunning)return;return typeInto('grep aws');}).then(function(){return sleep(520);})
-          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(420);})
-          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">your turn — try </span><span class="tok-cmd">ls</span><span class="tok-dim">, </span><span class="tok-cmd">cat agents</span><span class="tok-dim">, </span><span class="tok-cmd">whoami</span><span class="tok-dim">, or press </span><span class="term-key">Tab</span><span class="tok-dim"> to autocomplete.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
+          .then(function(){return sleep(400);})
+          .then(function(){return typeInto('cat agents');}).then(function(){return sleep(600);})
+          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(500);})
+          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">your turn. type </span><span class="tok-cmd">ls</span><span class="tok-dim">, </span><span class="tok-cmd">grep aws</span><span class="tok-dim">, or </span><span class="tok-cmd">whoami</span><span class="tok-dim">. press </span><span class="term-key">Tab</span><span class="tok-dim"> to autocomplete.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
       }
-      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;io.disconnect();print('<span class="tok-dim">skill-shell v1.0 — 7 categories, '+CATS.reduce(function(a,c){return a+c.skills.length;},0)+' skills loaded.</span>','term-out');demo();}});},{threshold:.25});
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;io.disconnect();print('<span class="tok-dim">skill-shell ready. '+CATS.reduce(function(a,c){return a+c.skills.length;},0)+' skills across 7 categories loaded.</span>','term-out');demo();}});},{threshold:.35,rootMargin:'0px 0px -40px 0px'});
       io.observe(term);
     })();
     </script>
@@ -1524,7 +1520,7 @@ document.querySelectorAll('.project-card:not(.reel-card)').forEach(card => {
           break;
         }
       } catch {
-        // network error — retry
+        // network error, retry
       }
       if (i < maxAttempts - 1) {
         await new Promise(r => setTimeout(r, 400 * (i + 1)));
@@ -1638,7 +1634,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
       if (typeof d.value === 'number') el.textContent = d.value.toLocaleString();
       sessionStorage.setItem('nahfid-viewed', '1');
     })
-    .catch(() => { el.textContent = '—'; });
+    .catch(() => { el.textContent = '·'; });
 })();
 </script>
 

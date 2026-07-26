@@ -158,8 +158,8 @@
     var width = Math.max(320, container.clientWidth || 960);
     var small = width < 640;
     var SF = small ? 0.82 : 1;                      // scale factor for type + radii
-    var projFont = 13 * SF, techFont = 10 * SF;
-    var projChar = 7.7 * SF, techChar = 7.0 * SF;   // rough advance widths incl. tracking
+    var projFont = 13 * SF, techFont = small ? 10 : 10 * SF;  // tech labels never shrink below 10px
+    var projChar = 7.7 * SF, techChar = 7.0 * (small ? 1 : SF); // rough advance widths incl. tracking
 
     var rProject = d3.scaleSqrt().domain([1, 4]).range([8.5 * SF, 13 * SF]);
     function nodeR(n) {
@@ -184,7 +184,7 @@
 
     /* svg scaffold */
     var svg = d3.select(container).append('svg')
-      .attr('role', 'img')
+      .attr('role', 'group')
       .attr('aria-label', 'System map: six shipped projects connected to the technologies powering them. Shared nodes like Langgraph and Claude bridge the clusters.');
 
     var linkSel = svg.append('g').selectAll('line')
@@ -197,7 +197,7 @@
       .attr('class', function (n) { return 'sm-node pre sm-node--' + n.kind; })
       .attr('data-id', function (n) { return n.id; })
       .attr('tabindex', 0)
-      .attr('role', 'img')
+      .attr('role', 'button')
       .attr('aria-label', function (n) {
         return n.kind === 'project'
           ? n.name + ', project built with ' + n.tech.join(', ')

@@ -82,7 +82,7 @@ setTimeout(function(){
   --line-2:rgba(255,255,255,.15);
   --fg:#F7F6F3;
   --muted:#8E8E97;
-  --dim:#5A5A63;
+  --dim:#7C7C86; /* 4.5:1 on --bg; below this fails WCAG for body-size text */
   --mint:#7EE7B0;
   --cream:#E8DFC9;
 
@@ -270,6 +270,8 @@ section{position:relative}
 .sec-idx{font-family:var(--mono);font-size:.6875rem;color:var(--dim);letter-spacing:.16em}
 /* d3 sections: reserve height only when JS will fill them, so no-JS pages don't show dead space */
 .viz-lede{max-width:34rem;color:var(--muted);font-size:1rem;line-height:1.6;margin:0 0 2.25rem}
+.viz-hint{display:none}
+.js .viz-hint{display:inline}
 .js #sysmapViz{min-height:520px}
 .js #timelineViz{min-height:420px}
 @media(max-width:760px){.js #timelineViz{min-height:520px}}
@@ -329,7 +331,10 @@ section{position:relative}
     padding-block:clamp(4rem,8vh,6rem);
   }
 }
-.rtrack-outer{overflow:hidden}
+/* Swipeable by default so papers 4-6 stay reachable with reduced motion or no JS;
+   the pinned-scrub matchMedia block switches this to hidden while it owns the motion. */
+.rtrack-outer{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rtrack-outer::-webkit-scrollbar{display:none}
 .rtrack{display:flex;gap:1.25rem;padding-inline:var(--gutter);will-change:transform}
 .paper{
   flex:0 0 min(420px,82vw);
@@ -484,9 +489,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
   backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
   border-radius:16px;display:flex;flex-direction:column;overflow:hidden;
   opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;
-  transition:opacity .4s var(--ease),transform .4s var(--ease);
+  visibility:hidden;
+  transition:opacity .4s var(--ease),transform .4s var(--ease),visibility 0s linear .4s;
 }
-.chat-panel.open{opacity:1;transform:none;pointer-events:auto}
+.chat-panel.open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition-delay:0s}
 .chat-head{
   padding:.9rem 1.1rem;border-bottom:1px solid var(--line);
   display:flex;align-items:center;justify-content:space-between;
@@ -509,6 +515,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
   transition:border-color .3s var(--ease);
 }
 .chat-form input:focus{border-color:var(--line-2)}
+.chat-form input:focus-visible{outline:1px solid var(--muted);outline-offset:2px}
 .chat-form button{
   padding:.6rem .9rem;border-radius:9px;background:var(--fg);color:var(--bg);
   font-size:.8125rem;font-weight:500;
@@ -691,9 +698,10 @@ html.js .js-split.ready{visibility:visible}
       <h2 class="section-title js-split">The work, <span class="serif-accent">connected.</span></h2>
       <span class="sec-idx">02 — ONE SYSTEM</span>
     </div>
-    <p class="viz-lede">Six shipped systems and the technologies powering them — shared nodes like
-      LangGraph and Claude bridge the clusters. Hover any node to trace its chain.</p>
-    <div id="sysmapViz" role="img" aria-label="Interactive map linking Nahfid's projects to the technologies behind them"></div>
+    <p class="viz-lede">Six shipped systems — the five above plus the voice-AI work — and the
+      technologies powering them. Shared nodes like LangGraph and Claude bridge the
+      clusters.<span class="viz-hint"> Tap or hover any node to trace its chain.</span></p>
+    <div id="sysmapViz" role="group" aria-label="Interactive map linking Nahfid's projects to the technologies behind them"></div>
   </div>
 </section>
 
@@ -770,7 +778,7 @@ html.js .js-split.ready{visibility:visible}
       <h2 class="section-title js-split">Two years of shipping, <span class="serif-accent">accelerating.</span></h2>
       <span class="sec-idx">04 — TRAJECTORY</span>
     </div>
-    <div id="timelineViz" role="img" aria-label="Timeline of six publications and three roles, 2024 to 2026"></div>
+    <div id="timelineViz" role="group" aria-label="Timeline of six publications and three roles, 2024 to 2026"></div>
   </div>
 </section>
 
@@ -901,7 +909,7 @@ html.js .js-split.ready{visibility:visible}
     <div class="msg bot">Ask me anything about Nahfid's work — the agents, the papers, or what he shipped where.</div>
   </div>
   <form class="chat-form" id="chatForm">
-    <input id="chatInput" placeholder="What has he built?" autocomplete="off">
+    <input id="chatInput" placeholder="What has he built?" autocomplete="off" aria-label="Ask a question about Nahfid">
     <button type="submit">Send</button>
   </form>
 </div>
@@ -984,7 +992,12 @@ html.js .js-split.ready{visibility:visible}
         if (!window.d3) return;
         var pending = 2;
         function done(){
-          if (--pending === 0 && window.ScrollTrigger) ScrollTrigger.refresh();
+          if (--pending !== 0) return;
+          if (window.ScrollTrigger) ScrollTrigger.refresh();
+          /* refresh cancels an in-flight smooth anchor scroll — re-issue it */
+          if (lastAnchor.el && performance.now() - lastAnchor.t < 3000) {
+            lastAnchor.el.scrollIntoView();
+          }
         }
         addScript('/assets/js/viz-sysmap.js', function(){
           if (sy && window.initSysMap) window.initSysMap(sy, {height:520});
@@ -996,12 +1009,21 @@ html.js .js-split.ready{visibility:visible}
         });
       });
     }
+    var lastAnchor = {el:null, t:0};
+    document.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) lastAnchor = {el:el, t:performance.now()};
+    });
     if ('IntersectionObserver' in window) {
       var vio = new IntersectionObserver(function(es){
         es.forEach(function(e){ if (e.isIntersecting) { loadViz(); vio.disconnect(); } });
       }, {rootMargin:'120% 0px'});
       if (sy) vio.observe(sy);
       if (tl) vio.observe(tl);
+      /* also load during idle so the first anchor click rarely races the refresh */
+      (window.requestIdleCallback || function(f){ setTimeout(f, 2500); })(loadViz, {timeout:4000});
     } else {
       loadViz();
     }
@@ -1057,7 +1079,10 @@ html.js .js-split.ready{visibility:visible}
   /* ── Research: pinned horizontal scroll, desktop only ── */
   mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', function(){
     var track = document.getElementById('rtrack');
+    var outer = document.getElementById('rtrackOuter');
     if (!track) return;
+    /* the scrub owns the motion here; native overflow scrolling would double it */
+    if (outer) { outer.scrollLeft = 0; outer.style.overflowX = 'hidden'; }
     var dist = function(){ return Math.max(0, track.scrollWidth - innerWidth + 80); };
     gsap.to(track, {
       x: function(){ return -dist(); },
@@ -1069,6 +1094,7 @@ html.js .js-split.ready{visibility:visible}
         pin:true, scrub:1, anticipatePin:1, invalidateOnRefresh:true
       }
     });
+    return function(){ if (outer) outer.style.overflowX = ''; };
   });
 
   /* ── Hero parallax: transform on the media layer only, stays composited ── */
@@ -1107,12 +1133,16 @@ html.js .js-split.ready{visibility:visible}
     d.innerHTML = esc(text).replace(/\n/g,'<br>');
     body.appendChild(d); body.scrollTop = body.scrollHeight; return d;
   }
+  panel.inert = true;
   fab.addEventListener('click', function(){
     panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+    panel.inert = false;
     setTimeout(function(){ input.focus(); }, 380);
   });
   closeBtn.addEventListener('click', function(){
     panel.classList.remove('open'); panel.setAttribute('aria-hidden','true');
+    panel.inert = true;
+    fab.focus();
   });
   addEventListener('keydown', function(e){
     if (e.key === 'Escape' && panel.classList.contains('open')) closeBtn.click();

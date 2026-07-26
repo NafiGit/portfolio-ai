@@ -188,7 +188,7 @@
 
       svg = root.append('svg')
         .attr('viewBox', '0 0 ' + w + ' ' + h)
-        .attr('role', 'img')
+        .attr('role', 'group')
         .attr('aria-label',
           'Timeline, 2024 to 2026: six publications, four of them in 2026, ' +
           'alongside roles at CreditMitra and Nbyula.');
@@ -319,7 +319,7 @@
           .attr('stroke', p.kind === 'arxiv' ? COL.muted : 'none')
           .attr('stroke-width', p.kind === 'arxiv' ? 1.5 : 0)
           .attr('tabindex', 0)
-          .attr('role', 'img')
+          .attr('role', 'button')
           .attr('aria-label', p.title + ' — ' + p.venue + ' ' + p.year);
 
         /* generous invisible hit area */

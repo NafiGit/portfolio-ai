@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nahfid Nissar — AI / ML Engineer</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root{
+    --ink:#1f2937; --muted:#4b5563; --line:#e5e7eb;
+    --accent:#0f3d5c; --accent2:#c2410c; --band:#fbe7d3; --chip:#f3f4f6;
+  }
+  html,body{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    font-family:"Helvetica Neue",Arial,sans-serif; color:var(--ink);
+    font-size:9.2px; line-height:1.4; width:210mm;
+  }
+  a{ color:var(--accent); text-decoration:none; }
+
+  /* Header */
+  .band{ background:var(--band); padding:16px 20px 14px; display:flex; justify-content:space-between; align-items:flex-end; }
+  .name{ font-size:30px; font-weight:800; letter-spacing:1px; color:var(--accent); line-height:1; }
+  .role{ font-size:12px; font-weight:700; color:var(--accent2); letter-spacing:2px; margin-top:6px; text-transform:uppercase; }
+  .contact{ text-align:right; font-size:9px; color:var(--muted); line-height:1.7; }
+  .contact a{ color:var(--muted); }
+
+  /* Layout */
+  .wrap{ display:grid; grid-template-columns:63% 37%; gap:0; padding:14px 20px 18px; }
+  .col{ padding-right:16px; }
+  .col.right{ padding-right:0; padding-left:16px; border-left:1px solid var(--line); }
+
+  h2{ font-size:10px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; color:var(--accent);
+      border-bottom:1.5px solid var(--accent); padding-bottom:2px; margin:12px 0 6px; }
+  .col > h2:first-child, .col > .summary + h2 { margin-top:0; }
+
+  .summary{ font-size:9.4px; color:var(--muted); line-height:1.5; }
+
+  .job{ margin-bottom:8px; }
+  .job .top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .job .t{ font-weight:800; color:var(--ink); font-size:9.8px; }
+  .job .co{ font-weight:600; color:var(--accent2); }
+  .job .date{ font-size:8.4px; color:var(--muted); white-space:nowrap; padding-left:8px; font-weight:600; }
+  ul{ list-style:none; margin-top:2px; }
+  li{ position:relative; padding-left:10px; margin-bottom:2.5px; color:var(--muted); }
+  li:before{ content:"▪"; position:absolute; left:0; color:var(--accent2); font-size:7px; top:1px; }
+  b, strong{ color:var(--ink); font-weight:700; }
+
+  .skillrow{ margin-bottom:5px; }
+  .skillrow .lbl{ font-weight:800; color:var(--ink); }
+  .pubs li{ margin-bottom:3px; }
+  .venue{ color:var(--accent2); font-weight:700; font-size:8.2px; }
+  .proj b{ color:var(--accent); }
+  .edu .deg{ font-weight:800; }
+  .meta{ color:var(--muted); }
+  .tight li{ margin-bottom:1.5px; }
+</style>
+</head>
+<body>
+  <div class="band">
+    <div>
+      <div class="name">NAHFID NISSAR</div>
+      <div class="role">AI / ML Engineer</div>
+    </div>
+    <div class="contact">
+      Bangalore, India<br>
+      <a href="mailto:nissarnahfid@gmail.com">nissarnahfid@gmail.com</a><br>
+      <a href="https://linkedin.com/in/nahfid">linkedin.com/in/nahfid</a> · <a href="https://github.com/NafiGit">github.com/NafiGit</a><br>
+      <a href="https://nahfid.vercel.app">nahfid.vercel.app</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- LEFT -->
+    <div class="col left">
+      <div class="summary">
+        AI engineer building <b>production LLM-agent systems</b>. Shipped an async Document AI pipeline serving
+        <b>10,000 users</b> and an autonomous prompt-optimization agent (GEPA) that opens PRs against a live
+        production agent. Full-stack foundation (MERN / Next.js) and <b>IEEE-published</b> security research.
+      </div>
+
+      <h2>Experience</h2>
+
+      <div class="job">
+        <div class="top"><div><span class="t">AI Engineer (SDE 1)</span>, <span class="co">Nbyula</span> — Bangalore</div><div class="date">Jan 2026 – Present</div></div>
+        <ul>
+          <li>Built an autonomous <b>Prompt Improvement Agent</b> (GEPA over production traces) that evaluates the main Nbyula agent and opens <b>autonomous PRs</b> to improve it.</li>
+          <li>Shipped a full <b>async Document AI pipeline serving 10,000 users</b> — classification, extraction, QA, and automated lead-nudging on poor-quality uploads.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="top"><div><span class="t">AI / Full-Stack Engineer (SDE Intern)</span>, <span class="co">Nbyula</span> — Bangalore</div><div class="date">Dec 2024 – Jan 2026</div></div>
+        <ul>
+          <li>Built a <b>LangGraph + whatsapp-web.js agent</b> that re-engages disengaged leads with messages personalized from CRM data.</li>
+          <li>Shipped an <b>OpenAI agent</b> (Instagram @gmat_nbyula via ManyChat) that converted inbound Instagram leads to enrollments.</li>
+          <li>Built a <b>content-moderation system</b> (fine-tuned BERT + LLM-as-judge) that cut spam — including drugs / NSFW — by <b>99%</b>.</li>
+          <li>Built an <b>automated foreign-application filing agent</b> for MS applications (Browser Use + Claude Agent SDK + LangGraph).</li>
+          <li>Reduced clicks on SOP / Essay flows with direct Razorpay checkout → <b>₹80K product-led sales</b>.</li>
+          <li>Added lead filtering / sorting and call + Google Meet auditing to the CRM; introduced an Operations role for coach tracking.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="top"><div><span class="t">Full-Stack Engineer (SDE Intern)</span>, <span class="co">CreditMitra</span> — Hyderabad</div><div class="date">Apr 2024 – Sep 2024</div></div>
+        <ul>
+          <li>Built and shipped <b>creditmitra.in</b> (responsive; AWS S3 / Route 53 / CloudFront) with role-based access policies.</li>
+          <li>Implemented a MERN backend with SEO, chatbot, email, and a <b>Jenkins / Ansible CI/CD</b> pipeline on EC2.</li>
+          <li>Instrumented server-side conversion tracking (MS Clarity, GTM, Mautic, Meta Pixel, UTM) for ad targeting.</li>
+          <li>Built an <b>HRMS web app + PWA</b> — attendance, payroll, offer letters, employee directory.</li>
+        </ul>
+      </div>
+
+      <h2>Research &amp; Publications</h2>
+      <ul class="pubs">
+        <li><b>KS-PRET-5M</b> — a 5M-word / 12M-token Kashmiri pretraining corpus.</li>
+        <li><i>Novel Attack Vectors to Abuse AWS for Cryptojacking</i> — <span class="venue">IEEE · ICAAIC'24</span></li>
+        <li><i>Navigating the Cloud: Emerging Trends in Security</i> — <span class="venue">IEEE · ICSSAS'24</span></li>
+        <li>Mitigating software-package hallucinations in open-source LLMs.</li>
+        <li class="meta">ORCID 0009-0002-2805-4687 · IEEE TDSC contributor</li>
+      </ul>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col right">
+      <h2>AI / ML Skills</h2>
+      <div class="skillrow"><span class="lbl">LLM agents:</span> LangGraph, LangChain, Claude Agent SDK, OpenAI Agents, Browser Use, GEPA prompt optimization, RAG, LLM-as-judge, fine-tuning (BERT)</div>
+      <div class="skillrow"><span class="lbl">Eval / tracing:</span> Langfuse</div>
+      <div class="skillrow"><span class="lbl">Orchestration:</span> N8N, Make, Vapi · <span class="lbl">Serving:</span> Ollama</div>
+      <div class="skillrow"><span class="lbl">Models:</span> Claude, GPT-4o, Gemini, Llama</div>
+
+      <h2>Engineering</h2>
+      <div class="skillrow"><span class="lbl">Python:</span> FastAPI, Django / DRF, PyTorch, Pandas, Celery, Boto3</div>
+      <div class="skillrow"><span class="lbl">JS / TS:</span> React, Next.js, Node, Express, Nest.js, Three.js</div>
+      <div class="skillrow"><span class="lbl">Also:</span> Java / Spring Boot, Solidity</div>
+      <div class="skillrow"><span class="lbl">Cloud:</span> AWS (EC2, ECS, Lambda, S3, CloudFront, DynamoDB, CodePipeline), Docker, Nginx / Apache</div>
+      <div class="skillrow"><span class="lbl">Data:</span> MongoDB, PostgreSQL, Redis</div>
+      <div class="skillrow"><span class="lbl">Test:</span> Playwright, Puppeteer, Selenium, Pytest</div>
+      <div class="skillrow"><span class="lbl">Security:</span> Nmap, Wireshark, Ghidra, Volatility</div>
+
+      <h2>Selected Projects</h2>
+      <ul class="proj tight">
+        <li><b>blogllm.com</b> — AI blog auto-curating LLM research into a daily email digest.</li>
+        <li><b>AuditX</b> — compliance / audit platform executing CIS-benchmark scripts.</li>
+        <li><b>ruluka.com</b> — full-stack e-commerce (MERN, Redis, AWS).</li>
+        <li><b>Saloonz</b> — React Native app with real-time haircut simulation (MediaPipe).</li>
+      </ul>
+
+      <h2>Education</h2>
+      <div class="edu">
+        <div class="deg">KL University — B.Tech CSE (Honors)</div>
+        <div class="meta">Cybersecurity &amp; Blockchain · 2021–2025 · CGPA <b>9.1 / 10</b></div>
+      </div>
+
+      <h2>Certifications</h2>
+      <ul class="tight">
+        <li>AWS Cloud Practitioner</li>
+        <li>Ethical Hacking — IIT Kharagpur (NPTEL)</li>
+        <li>RedHat Certified Enterprise App Dev (Java)</li>
+      </ul>
+
+      <h2>Leadership</h2>
+      <ul class="tight">
+        <li>Founder, KL University Stand-Up Comedy Club — team of 20, 1,000+ attendees.</li>
+        <li>Student mentor — co-led 80 students.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

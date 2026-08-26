@@ -6,3 +6,6 @@ node_modules/
 # stray agent-harness state — never commit
 .omx/
 .mcp.json
+
+# local resume backups
+assets/*.pdf.bak

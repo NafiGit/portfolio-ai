@@ -1977,5 +1977,20 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     desc.parentNode.insertBefore(m, desc.nextSibling); }
 })();
 </script>
+<style>
+#research .paper-card>.pcard-idx{position:absolute;top:14px;right:16px;font-family:var(--font-mono);font-size:.66rem;color:#9db4ff;opacity:.5;letter-spacing:.06em;z-index:3;pointer-events:none}
+#research .paper-card{position:relative}
+#research .paper-card:hover{border-color:rgba(157,180,255,.5)!important}
+#research .paper-eyebrow::before{content:"// ";opacity:.7}
+</style>
+<script>
+(function(){
+  var papers=document.querySelectorAll('#research .paper-card');
+  papers.forEach(function(c,i){ var x=document.createElement('span'); x.className='pcard-idx'; x.textContent='['+('0'+(i+1)).slice(-2)+']'; c.appendChild(x); });
+  var intro=document.querySelector('#research .hpanel-intro .section-desc');
+  if(intro){ var m=document.createElement('div'); m.className='projects-manifest'; m.style.marginTop='1rem';
+    m.innerHTML='&gt; cat ./research &nbsp;&mdash;&nbsp; <b>'+papers.length+' entries</b> <span class="caret">_</span>'; intro.parentNode.insertBefore(m, intro.nextSibling); }
+})();
+</script>
 </body>
 </html>

@@ -671,7 +671,7 @@ section{position:relative}
     var SW = 216, SH = Math.round(SW * img.height / img.width);
     function sample(im){ var c=document.createElement('canvas'); c.width=SW; c.height=SH; var x=c.getContext('2d'); x.drawImage(im,0,0,SW,SH); return x.getImageData(0,0,SW,SH).data; }
     var cd = sample(img), dd = sample(depth);
-    var scale = 6.4 / SW, DEPTH = 2.6, T = 46;
+    var scale = 6.4 / SW, DEPTH = 1.9, T = 46;
     var tgt=[], col=[], st=[], rnd=[];
     for(var iy=0; iy<SH; iy++){
       for(var ix=0; ix<SW; ix++){
@@ -692,7 +692,7 @@ section{position:relative}
     geo.setAttribute('aStart', new THREE.BufferAttribute(new Float32Array(st),3));
     geo.setAttribute('aColor', new THREE.BufferAttribute(new Float32Array(col),3));
     geo.setAttribute('aRnd', new THREE.BufferAttribute(new Float32Array(rnd),1));
-    uniforms = { uProgress:{value:0}, uTime:{value:0}, uSize:{value:14.5}, uPR:{value:PR}, uPointer:{value:new THREE.Vector3()}, uPointerOn:{value:0} };
+    uniforms = { uProgress:{value:0}, uTime:{value:0}, uSize:{value:16.5}, uPR:{value:PR}, uPointer:{value:new THREE.Vector3()}, uPointerOn:{value:0} };
     points = new THREE.Points(geo, new THREE.ShaderMaterial({ uniforms:uniforms, vertexShader:VERT, fragmentShader:FRAG, transparent:true, depthWrite:false, depthTest:false }));
     scene.add(points);
     resize();
@@ -713,8 +713,8 @@ section{position:relative}
       curOn+=((pointerOn?1:0)-curOn)*0.08; uniforms.uPointerOn.value=curOn;
       if(pointerOn){ raycaster.setFromCamera(pointerNDC,camera); raycaster.ray.intersectPlane(plane,pointerWorld); uniforms.uPointer.value.copy(pointerWorld); }
       // auto-rotate to reveal the real depth; pointer nudges it
-      var pr = pointerOn ? (pointerNDC.x*0.4) : 0;
-      points.rotation.y += ((Math.sin(t*0.32)*0.42 + pr) - points.rotation.y) * 0.05;
+      var pr = pointerOn ? (pointerNDC.x*0.32) : 0;
+      points.rotation.y += ((Math.sin(t*0.30)*0.20 + pr) - points.rotation.y) * 0.05;
       points.rotation.x += ((pointerOn? -pointerNDC.y*0.18 : Math.sin(t*0.22)*0.05) - points.rotation.x) * 0.05;
     }
     renderer.render(scene,camera); raf=requestAnimationFrame(frame);

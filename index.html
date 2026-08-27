@@ -548,7 +548,6 @@ section{position:relative}
     <div class="live-badge"><svg class="views-ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span id="liveCount">–</span> total views</div>
   </div>
   <div class="nav-links" id="navLinks">
-    <a href="#workflow">Approach</a>
     <a href="#experience">Experience</a>
     <a href="#research">Research</a>
     <a href="#projects">Projects</a>
@@ -581,8 +580,14 @@ section{position:relative}
         <a href="#projects" class="btn btn-outline">See the work</a>
       </div>
     </div>
+    <style>
+    .hero-portrait{position:relative}
+    .hero-portrait #faceCanvas{width:100%;max-width:540px;aspect-ratio:1/1;display:block;margin:0 auto;cursor:crosshair}
+    .hero-portrait #faceFallback{width:100%;max-width:540px;border-radius:18px;display:none;margin:0 auto}
+    </style>
     <div class="hero-portrait">
-      <img src="assets/profile.png" alt="Nahfid Nissar, AI Engineer &amp; Researcher" width="1260" height="1242" fetchpriority="high">
+      <canvas id="faceCanvas" role="img" aria-label="Interactive particle portrait of Nahfid Nissar"></canvas>
+      <img id="faceFallback" src="assets/profile.png" alt="Nahfid Nissar, AI Engineer &amp; Researcher" width="1260" height="1242" fetchpriority="high">
     </div>
   </div>
   <script>
@@ -604,6 +609,161 @@ section{position:relative}
   </script>
   <div class="hero-scroll"><span></span></div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var cvs = document.getElementById('faceCanvas');
+  var fb = document.getElementById('faceFallback');
+  if(!cvs || !window.THREE){ if(fb) fb.style.display='block'; if(cvs) cvs.style.display='none'; return; }
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  var renderer;
+  try{ renderer = new THREE.WebGLRenderer({ canvas: cvs, antialias: true, alpha: true, powerPreference:'high-performance' }); }
+  catch(e){ if(fb) fb.style.display='block'; cvs.style.display='none'; return; }
+  renderer.setClearColor(0x000000, 0);
+  var PR = Math.min(window.devicePixelRatio || 1, 2);
+  renderer.setPixelRatio(PR);
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0, 0, 9);
+
+  var points = null, uniforms = null;
+  var raycaster = new THREE.Raycaster();
+  var plane = new THREE.Plane(new THREE.Vector3(0,0,1), 0);
+  var pointerNDC = new THREE.Vector2(0,0), pointerWorld = new THREE.Vector3();
+  var pointerOn = 0;
+
+  var VERT = [
+    'uniform float uProgress; uniform float uTime; uniform float uSize; uniform float uPR;',
+    'uniform vec3 uPointer; uniform float uPointerOn;',
+    'attribute vec3 aTarget; attribute vec3 aStart; attribute vec3 aColor; attribute float aRnd;',
+    'varying vec3 vColor;',
+    'void main(){',
+    '  float p = clamp((uProgress - aRnd*0.35)/0.65, 0.0, 1.0);',
+    '  p = p*p*(3.0-2.0*p);',
+    '  vec3 pos = mix(aStart, aTarget, p);',
+    '  pos.x += sin(uTime*0.8 + aRnd*6.2831)*0.015;',
+    '  pos.y += cos(uTime*0.7 + aRnd*6.2831)*0.015;',
+    '  pos.z += sin(uTime*0.9 + aRnd*12.566)*0.03;',
+    '  if(uPointerOn > 0.5){',
+    '    vec2 d = pos.xy - uPointer.xy; float dist = length(d); float R = 0.95;',
+    '    if(dist < R){ float f = (R - dist)/R; pos.xy += normalize(d + 1e-4) * f*f*0.75; pos.z += f*0.5; }',
+    '  }',
+    '  vColor = aColor;',
+    '  vec4 mv = modelViewMatrix * vec4(pos, 1.0);',
+    '  gl_PointSize = uSize * uPR * (1.0 / -mv.z);',
+    '  gl_Position = projectionMatrix * mv;',
+    '}'
+  ].join('\n');
+  var FRAG = [
+    'precision mediump float; varying vec3 vColor;',
+    'void main(){',
+    '  vec2 c = gl_PointCoord - 0.5; float d = length(c);',
+    '  if(d > 0.5) discard;',
+    '  float a = smoothstep(0.5, 0.12, d);',
+    '  vec3 col = mix(vColor, vec3(0.55,0.75,1.0), 0.12);',
+    '  gl_FragColor = vec4(col, a);',
+    '}'
+  ].join('\n');
+
+  function build(img){
+    var SW = 190, SH = Math.round(SW * img.height / img.width);
+    var oc = document.createElement('canvas'); oc.width = SW; oc.height = SH;
+    var octx = oc.getContext('2d'); octx.drawImage(img, 0, 0, SW, SH);
+    var data = octx.getImageData(0, 0, SW, SH).data;
+    var scale = 6.0 / SW;
+    var T = 42; // luminance threshold to drop the dark background
+    var tgt = [], col = [], st = [], rnd = [];
+    for(var iy=0; iy<SH; iy++){
+      for(var ix=0; ix<SW; ix++){
+        var i = (iy*SW + ix)*4;
+        var r = data[i], g = data[i+1], b = data[i+2];
+        var lum = 0.299*r + 0.587*g + 0.114*b;
+        if(lum < T) continue;
+        var x = (ix - SW/2) * scale;
+        var y = (SH/2 - iy) * scale;
+        var z = (lum/255 - 0.5) * 0.6;
+        tgt.push(x, y, z);
+        col.push(r/255, g/255, b/255);
+        st.push((Math.random()-0.5)*16, (Math.random()-0.5)*16, (Math.random()-0.5)*10);
+        rnd.push(Math.random());
+      }
+    }
+    var n = rnd.length;
+    var geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(tgt), 3));
+    geo.setAttribute('aTarget', new THREE.BufferAttribute(new Float32Array(tgt), 3));
+    geo.setAttribute('aStart', new THREE.BufferAttribute(new Float32Array(st), 3));
+    geo.setAttribute('aColor', new THREE.BufferAttribute(new Float32Array(col), 3));
+    geo.setAttribute('aRnd', new THREE.BufferAttribute(new Float32Array(rnd), 1));
+    uniforms = {
+      uProgress:{value:0}, uTime:{value:0}, uSize:{value:15.0}, uPR:{value:PR},
+      uPointer:{value:new THREE.Vector3()}, uPointerOn:{value:0}
+    };
+    var mat = new THREE.ShaderMaterial({
+      uniforms: uniforms, vertexShader: VERT, fragmentShader: FRAG,
+      transparent: true, depthWrite: false, depthTest: false
+    });
+    points = new THREE.Points(geo, mat);
+    scene.add(points);
+    resize();
+    if(reduce){ uniforms.uProgress.value = 1; renderer.render(scene, camera); }
+    else { start(); }
+    return n;
+  }
+
+  function resize(){
+    var w = cvs.clientWidth || 480, h = cvs.clientHeight || 480;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+    if(uniforms) uniforms.uPR.value = PR;
+  }
+  window.addEventListener('resize', resize);
+
+  cvs.addEventListener('pointermove', function(e){
+    var r = cvs.getBoundingClientRect();
+    pointerNDC.x = ((e.clientX - r.left)/r.width)*2 - 1;
+    pointerNDC.y = -(((e.clientY - r.top)/r.height)*2 - 1);
+    pointerOn = 1;
+  }, { passive:true });
+  cvs.addEventListener('pointerleave', function(){ pointerOn = 0; });
+
+  var clock = new THREE.Clock();
+  var running = false, raf = 0, curOn = 0;
+  function frame(){
+    var t = clock.getElapsedTime();
+    if(uniforms){
+      uniforms.uTime.value = t;
+      uniforms.uProgress.value = Math.min(uniforms.uProgress.value + 0.012, 1);
+      curOn += ((pointerOn?1:0) - curOn) * 0.08;
+      uniforms.uPointerOn.value = curOn;
+      if(pointerOn){
+        raycaster.setFromCamera(pointerNDC, camera);
+        raycaster.ray.intersectPlane(plane, pointerWorld);
+        uniforms.uPointer.value.copy(pointerWorld);
+      }
+      points.rotation.y = Math.sin(t*0.25)*0.06;
+    }
+    renderer.render(scene, camera);
+    raf = requestAnimationFrame(frame);
+  }
+  function start(){ if(running) return; running = true; clock.start(); raf = requestAnimationFrame(frame); }
+  function stop(){ running = false; if(raf) cancelAnimationFrame(raf); }
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){ if(!reduce) start(); } else stop(); });
+    }, { threshold: 0.02 }).observe(cvs);
+  }
+
+  var img = new Image();
+  img.onload = function(){ try{ build(img); }catch(e){ if(fb) fb.style.display='block'; cvs.style.display='none'; } };
+  img.onerror = function(){ if(fb) fb.style.display='block'; cvs.style.display='none'; };
+  img.src = 'assets/profile.png';
+})();
+
+</script>
 
 <!-- Stats Bar -->
 <div class="stats-bar">
@@ -628,252 +788,9 @@ section{position:relative}
 </div>
 
 <!-- How I Build -->
-<style>
-#workflow .wf{margin-top:2.5rem;max-width:1000px;margin-left:auto;margin-right:auto}
-.wf-stage{position:relative;width:100%;height:clamp(340px,48vw,540px)}
-#wfCanvas{width:100%;height:100%;display:block;touch-action:pan-y}
-.wf-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;color:var(--text-dim);font-family:var(--font-mono);font-size:.85rem}
-.wf-fallback[hidden]{display:none}
-.wf-cap{margin-top:.85rem;text-align:center;color:var(--text-dim);font-family:var(--font-mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
-@media(max-width:680px){.wf-stage{height:clamp(300px,72vw,420px)}}
-</style>
-<section id="workflow">
-  <div class="section-inner">
-    <div class="section-label">How I Build</div>
-    <div class="section-title reveal">The autonomous loop</div>
-    <p class="section-desc reveal">Every system I ship runs one loop: plan, act, observe, and self-correct until it is right. No human in the loop.</p>
-    <div class="wf reveal">
-      <div class="wf-stage" id="wfStage">
-        <canvas id="wfCanvas" role="img" aria-label="3D visualization of an autonomous agent loop: Goal, Plan, Act, Observe, Ship, with continuous self-correction, no human in the loop."></canvas>
-        <p class="wf-fallback" id="wfFallback" hidden>Goal &rarr; Plan &rarr; Act &rarr; Observe &rarr; Ship &mdash; a self-correcting loop, no human in the loop.</p>
-      </div>
-      <div class="wf-cap">&#8635; plan &middot; act &middot; observe &middot; self-correct &mdash; until it&#39;s right</div>
-    </div>
-  </div>
-</section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-(function(){
-  var cvs = document.getElementById('wfCanvas');
-  if(!cvs) return;
-  var stage = document.getElementById('wfStage');
-  var fallback = document.getElementById('wfFallback');
-  if(!window.THREE){ if(fallback) fallback.hidden = false; return; }
-
-  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
-  var renderer, scene, camera, group, ambient = null;
-  try {
-    renderer = new THREE.WebGLRenderer({ canvas: cvs, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  } catch(e){ if(fallback) fallback.hidden = false; return; }
-  renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(48, 1, 0.1, 100);
-  camera.position.set(0, 0, 9.2);
-  group = new THREE.Group();
-  group.rotation.x = -0.28;
-  scene.add(group);
-
-  // ---------- shared glow texture ----------
-  function glowTex(){
-    var c = document.createElement('canvas'); c.width = c.height = 128;
-    var g = c.getContext('2d');
-    var r = g.createRadialGradient(64,64,0,64,64,64);
-    r.addColorStop(0,'rgba(255,255,255,1)');
-    r.addColorStop(0.25,'rgba(232,238,255,0.55)');
-    r.addColorStop(1,'rgba(255,255,255,0)');
-    g.fillStyle = r; g.fillRect(0,0,128,128);
-    return new THREE.CanvasTexture(c);
-  }
-  var GT = glowTex();
-
-  function halo(size, color, op){
-    var m = new THREE.SpriteMaterial({ map: GT, color: color, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false });
-    var s = new THREE.Sprite(m); s.scale.set(size, size, 1); return s;
-  }
-
-  function labelSprite(name, sub){
-    var w = 340, h = 150;
-    var c = document.createElement('canvas'); c.width = w; c.height = h;
-    var g = c.getContext('2d');
-    g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.font = '700 46px Inter, system-ui, sans-serif'; g.fillStyle = '#f4f4f5'; g.fillText(name, w/2, 58);
-    g.font = '500 25px "JetBrains Mono", ui-monospace, monospace'; g.fillStyle = '#a1a1aa'; g.fillText(sub, w/2, 102);
-    var t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter;
-    var m = new THREE.SpriteMaterial({ map: t, transparent: true, depthWrite: false });
-    var s = new THREE.Sprite(m); s.scale.set(2.0, 0.88, 1); return s;
-  }
-
-  // ---------- nodes ----------
-  var R = 3.0, N = 5;
-  var stages = [['Goal','intent + context'],['Plan','decompose & route'],['Act','tools + subagents'],['Observe','eval + judge'],['Ship','to production']];
-  var nodes = [], nodePos = [];
-  for(var i=0;i<N;i++){
-    var a = Math.PI/2 - i*(2*Math.PI/N);
-    var pos = new THREE.Vector3(Math.cos(a)*R, Math.sin(a)*R, 0);
-    nodePos.push(pos);
-    var core = new THREE.Mesh(new THREE.SphereGeometry(0.17,24,24), new THREE.MeshBasicMaterial({ color: 0xdfe3ea }));
-    core.position.copy(pos);
-    var h = halo(1.5, 0xbcd0ff, 0.55); h.position.copy(pos);
-    group.add(h); group.add(core);
-    var dir = pos.clone().normalize();
-    var lab = labelSprite(stages[i][0], stages[i][1]);
-    lab.position.copy(pos.clone().add(dir.multiplyScalar(1.25)));
-    group.add(lab);
-    nodes.push({ core: core, halo: h });
-  }
-
-  // ---------- connections ----------
-  function tube(curve, rad, color, op){
-    var geo = new THREE.TubeGeometry(curve, 48, rad, 10, false);
-    var mat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false });
-    return new THREE.Mesh(geo, mat);
-  }
-  var curves = [];
-  for(var i=0;i<N;i++){
-    var p0 = nodePos[i], p1 = nodePos[(i+1)%N];
-    var mid = p0.clone().add(p1).multiplyScalar(0.5);
-    var ctrl = mid.clone().add(mid.clone().normalize().multiplyScalar(0.85));
-    var cv = new THREE.QuadraticBezierCurve3(p0, ctrl, p1);
-    curves.push({ curve: cv, accent: false });
-    group.add(tube(cv, 0.016, 0x8895a8, 0.5));
-  }
-  // self-correct chord: Observe(3) -> Plan(1)
-  (function(){
-    var p0 = nodePos[3], p1 = nodePos[1];
-    var mid = p0.clone().add(p1).multiplyScalar(0.5);
-    var ctrl = mid.clone().add(mid.clone().normalize().multiplyScalar(-1.4));
-    var cv = new THREE.QuadraticBezierCurve3(p0, ctrl, p1);
-    curves.push({ curve: cv, accent: true });
-    group.add(tube(cv, 0.02, 0x9db4ff, 0.55));
-  })();
-
-  // ---------- pulses ----------
-  function pulseSprite(accent){
-    var m = new THREE.SpriteMaterial({ map: GT, color: accent ? 0xbcd0ff : 0xffffff, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false });
-    var s = new THREE.Sprite(m); s.scale.set(0.42, 0.42, 1); return s;
-  }
-  var pulses = [];
-  curves.forEach(function(c){
-    for(var k=0;k<2;k++){
-      var s = pulseSprite(c.accent); group.add(s);
-      pulses.push({ curve: c.curve, t: k/2, speed: (c.accent ? 0.16 : 0.22) + Math.random()*0.03, spr: s });
-    }
-  });
-
-  // ---------- central wire core + ring guide ----------
-  var coreWire = new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(0.82, 1)),
-    new THREE.LineBasicMaterial({ color: 0x3a3f4a, transparent: true, opacity: 0.6 })
-  );
-  group.add(coreWire);
-  (function(){
-    var pts = [];
-    for(var i=0;i<=110;i++){ var a = i/110*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a)*R, Math.sin(a)*R, 0)); }
-    var g = new THREE.BufferGeometry().setFromPoints(pts);
-    group.add(new THREE.Line(g, new THREE.LineBasicMaterial({ color: 0x272a30, transparent: true, opacity: 0.7 })));
-  })();
-
-  // ---------- ambient particles ----------
-  (function(){
-    var n = 520, arr = new Float32Array(n*3);
-    for(var i=0;i<n;i++){
-      var r = 4 + Math.random()*5, th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
-      arr[i*3] = r*Math.sin(ph)*Math.cos(th);
-      arr[i*3+1] = r*Math.sin(ph)*Math.sin(th);
-      arr[i*3+2] = r*Math.cos(ph);
-    }
-    var g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(arr, 3));
-    var m = new THREE.PointsMaterial({ color: 0x9aa0aa, size: 0.035, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false });
-    ambient = new THREE.Points(g, m); scene.add(ambient);
-  })();
-
-  // ---------- sizing ----------
-  function resize(){
-    var w = stage.clientWidth || 600;
-    var h = stage.clientHeight || 360;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h; camera.updateProjectionMatrix();
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  // ---------- parallax ----------
-  var tx = 0, ty = 0, cx = 0, cy = 0;
-  window.addEventListener('pointermove', function(e){
-    var r = stage.getBoundingClientRect();
-    if(!r.width) return;
-    tx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width/2)) / (r.width/2)));
-    ty = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height/2)) / (r.height/2)));
-  }, { passive: true });
-
-  // ---------- render ----------
-  var clock = new THREE.Clock();
-  var running = false, raf = 0;
-
-  function update(dt, t){
-    cx += (tx - cx) * 0.05; cy += (ty - cy) * 0.05;
-    group.rotation.y = cx * 0.5;
-    group.rotation.x = -0.28 + cy * 0.28;
-    group.rotation.z = Math.sin(t * 0.15) * 0.04;
-
-    for(var i=0;i<pulses.length;i++){
-      var p = pulses[i];
-      p.t += p.speed * dt; if(p.t > 1) p.t -= 1;
-      p.spr.position.copy(p.curve.getPointAt(p.t));
-      var f = Math.sin(p.t * Math.PI);
-      p.spr.material.opacity = 0.35 + 0.6 * f;
-    }
-
-    var af = (t * 1.35) % N;
-    for(var i=0;i<N;i++){
-      var d = Math.abs(i - af); d = Math.min(d, N - d);
-      var g = Math.exp(-d * d * 1.6);
-      var nd = nodes[i];
-      var sc = 1.4 + g * 1.8; nd.halo.scale.set(sc, sc, 1);
-      nd.halo.material.opacity = 0.32 + g * 0.65;
-      var c = 0.78 + g * 0.22; nd.core.material.color.setRGB(c, c, c);
-      var cs = 1 + g * 0.6; nd.core.scale.set(cs, cs, cs);
-    }
-    coreWire.rotation.y += dt * 0.25; coreWire.rotation.x += dt * 0.12;
-    if(ambient){ ambient.rotation.y += dt * 0.02; ambient.rotation.x += dt * 0.01; }
-  }
-
-  function frame(){
-    var dt = Math.min(clock.getDelta(), 0.05);
-    update(dt, clock.elapsedTime);
-    renderer.render(scene, camera);
-    raf = requestAnimationFrame(frame);
-  }
-  function start(){ if(running) return; running = true; clock.start(); raf = requestAnimationFrame(frame); }
-  function stop(){ running = false; if(raf) cancelAnimationFrame(raf); }
-  function renderStatic(){ update(0, 0.8); renderer.render(scene, camera); }
-
-  // first paint immediately so the section is never blank
-  renderStatic();
-
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(es){
-      es.forEach(function(en){
-        if(en.isIntersecting){ reduce ? renderStatic() : start(); }
-        else stop();
-      });
-    }, { threshold: 0.08 });
-    io.observe(stage);
-  } else if(!reduce){
-    start();
-  }
-})();
-
-</script>
-
-
 <!-- Experience -->
 <section id="experience" style="background:var(--surface);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border)">
   <div class="section-inner">
@@ -888,9 +805,9 @@ section{position:relative}
         </div>
         <div class="timeline-company"><a href="https://nbyula.com" target="_blank">Nbyula</a> <span style="color:var(--text-dim)">|</span> EdTech Platform, Bangalore</div>
         <ul class="timeline-points">
-          <li>Shipped an <strong>autonomous prompt-optimization agent</strong> (GEPA over production traces) that evaluates the live Nbyula agent and opens <strong>self-authored PRs</strong> to improve it &mdash; closing the RLHF loop with no human in the loop</li>
-          <li>Built an <strong>async Document AI pipeline serving 10,000 users</strong>: classification, extraction, QA, and role-gated autofill of structured profile fields from raw uploads</li>
-          <li>Hardened live production &mdash; resolved <strong>infinite-loop, worker-starvation, and voice-AI race-condition</strong> incidents on real user traffic</li>
+          <li>Shipped a <strong>GEPA prompt-optimization agent</strong> that audits the live Nbyula agent and opens <strong>self-authored PRs</strong> &mdash; an RLHF loop, no human in it</li>
+          <li>Built an <strong>async Document AI pipeline serving 10,000 users</strong> &mdash; classify, extract, QA, autofill</li>
+          <li>Fixed critical prod incidents: infinite loops, worker starvation, voice-AI races</li>
         </ul>
       </div>
 
@@ -901,13 +818,11 @@ section{position:relative}
         </div>
         <div class="timeline-company"><a href="https://nbyula.com" target="_blank">Nbyula</a> <span style="color:var(--text-dim)">|</span> EdTech Platform, Bangalore</div>
         <ul class="timeline-points">
-          <li>Built <strong>autonomous outreach agents</strong> (LangGraph + WhatsApp Web) that re-engage disengaged leads with messages personalized from CRM context &mdash; no human in the loop</li>
-          <li>Shipped an <strong>Instagram DM conversion agent</strong> (agentic flows via ManyChat) that turned inbound social traffic into qualified sign-ups</li>
-          <li>Engineered a self-correcting <strong>content-moderation pipeline</strong> (fine-tuned BERT + LLM-as-a-Judge) that <strong>cut spam &mdash; including drugs and NSFW &mdash; by 99%</strong></li>
-          <li>Built an <strong>autonomous browser agent</strong> (Browser Use + Claude Agent SDK + LangGraph) that completes multi-step visa/application forms across external portals end-to-end</li>
-          <li>Integrated <strong>voice AI</strong>, <strong>diarized real-time transcription</strong>, and <strong>tool-augmented search</strong> into the conversational-agent stack</li>
-          <li>Drove <strong>&#8377;80K in product-led sales</strong> by cutting friction on SOP/Essay flows with inline Razorpay checkout; built CRM dashboards, lead management, and <strong>Meta Conversion API</strong> server-side events</li>
-          <li>Grew <a href="https://instagram.com/gmat_nbyula" target="_blank">@gmat_nbyula</a>, teaching <strong>GMAT</strong> quant/verbal via short-form reels</li>
+          <li>Built <strong>autonomous outreach agents</strong> (LangGraph + WhatsApp) that re-engage leads from CRM context</li>
+          <li>Shipped an <strong>Instagram DM agent</strong> (ManyChat) that converts social traffic to sign-ups</li>
+          <li><strong>Content-moderation pipeline</strong> (fine-tuned BERT + LLM-as-judge) that <strong>cut spam 99%</strong></li>
+          <li><strong>Autonomous browser agent</strong> (Browser Use + Claude SDK) that fills multi-step visa forms end-to-end</li>
+          <li>Drove <strong>&#8377;80K in sales</strong>; built CRM dashboards, lead management, voice AI + diarized transcription</li>
         </ul>
       </div>
 
@@ -918,9 +833,9 @@ section{position:relative}
         </div>
         <div class="timeline-company"><a href="https://creditmitra.in" target="_blank">CreditMitra</a> <span style="color:var(--text-dim)">|</span> FinTech, Hyderabad</div>
         <ul class="timeline-points">
-          <li>Built and shipped <strong>creditmitra.in</strong> end-to-end &mdash; MERN on AWS (S3, CloudFront, Route&nbsp;53) with role-based access control</li>
-          <li>Automated deploys with <strong>Jenkins + Ansible CI/CD</strong>; instrumented server-side conversion analytics (MS Clarity, GTM, Meta Pixel)</li>
-          <li>Built an internal <strong>HRMS PWA</strong> &mdash; attendance, payroll, offer letters, and employee directory</li>
+          <li>Built <strong>creditmitra.in</strong> end-to-end &mdash; MERN on AWS (S3 / CloudFront / Route&nbsp;53), role-based access</li>
+          <li><strong>Jenkins + Ansible CI/CD</strong>; server-side analytics (Clarity, GTM, Meta Pixel)</li>
+          <li>Internal <strong>HRMS PWA</strong> &mdash; attendance, payroll, offer letters, directory</li>
         </ul>
       </div>
 
@@ -981,7 +896,7 @@ section{position:relative}
         <div class="paper-content">
           <div class="paper-eyebrow venue-icaaic">IEEE &middot; ICAAIC 2024</div>
           <h3>Novel Attack Vector to Abuse AWS for Cryptojacking <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
-          <p>Discovering and documenting novel attack vectors that exploit AWS services for unauthorized cryptocurrency mining, contributing to cloud security defense strategies.</p>
+          <p>Novel AWS attack vectors for unauthorized crypto-mining &mdash; and the defenses.</p>
           <div class="paper-tags">
             <span class="paper-tag">Published</span>
             <span class="paper-tag">Cloud Security</span>
@@ -998,7 +913,7 @@ section{position:relative}
         <div class="paper-content">
           <div class="paper-eyebrow venue-icssas">IEEE &middot; ICSSAS 2024</div>
           <h3>Navigating the Cloud: A Review of Emerging Trends in Security <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
-          <p>Comprehensive survey of emerging security paradigms in cloud computing, analyzing current threat landscapes and defense mechanisms across major cloud providers.</p>
+          <p>A survey of emerging cloud-security threats and defenses across major providers.</p>
           <div class="paper-tags">
             <span class="paper-tag">Published</span>
             <span class="paper-tag">Cloud Computing</span>
@@ -1014,7 +929,7 @@ section{position:relative}
         <div class="paper-content">
           <div class="paper-eyebrow venue-corpus">arXiv &middot; 2604.11066</div>
           <h3>KS-PRET-5M: A 5 Million Word, 12 Million Token Kashmiri Pretraining Corpus</h3>
-          <p>Building the largest known pretraining corpus for Kashmiri, a low-resource language with ~7M speakers. Enabling foundation model development for an underserved linguistic community.</p>
+          <p>The largest known Kashmiri pretraining corpus &mdash; foundation-model data for a ~7M-speaker language.</p>
           <div class="paper-tags">
             <span class="paper-tag">Low-Resource NLP</span>
             <span class="paper-tag">Corpus Construction</span>
@@ -1030,7 +945,7 @@ section{position:relative}
         <div class="paper-content">
           <div class="paper-eyebrow venue-corpus">arXiv &middot; 2606.15883</div>
           <h3>Koshur Diacritizer: A Byte-Level Sequence-to-Sequence Model for Kashmiri Diacritic Restoration <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
-          <p>The first dedicated neural model for Kashmiri diacritic restoration. A ByT5 byte-level seq2seq model with script-aware normalization and skeleton-preserving inference recovers omitted Perso-Arabic diacritics. Achieves 77.5% expert-rated accuracy; released a 23.7k aligned sentence-pair dataset.</p>
+          <p>First neural model for Kashmiri diacritic restoration (ByT5) &mdash; 77.5% expert accuracy; 23.7k sentence-pair dataset released.</p>
           <div class="paper-tags">
             <span class="paper-tag">Low-Resource NLP</span>
             <span class="paper-tag">Diacritization</span>
@@ -1046,7 +961,7 @@ section{position:relative}
         <div class="paper-content">
           <div class="paper-eyebrow venue-corpus">arXiv &middot; 2606.23144</div>
           <h3>Koshur Pixel: A Large-Scale Synthetic OCR Dataset for Kashmiri <svg style="display:inline;vertical-align:middle;margin-left:6px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></h3>
-          <p>A comprehensive synthetic OCR dataset for Kashmiri, a low-resource language in Perso-Arabic Nastaliq script. Renders the KS-PRET-5M corpus into 613,078 multi-font, multi-granularity image-text pairs with 25+ real-world degradation augmentations, breaking the annotated-data barrier for Kashmiri OCR.</p>
+          <p>Synthetic OCR dataset for Kashmiri Nastaliq &mdash; 613k image-text pairs, 25+ degradations.</p>
           <div class="paper-tags">
             <span class="paper-tag">Computer Vision</span>
             <span class="paper-tag">OCR</span>
@@ -1113,7 +1028,7 @@ section{position:relative}
         <div class="project-preview"><img src="assets/minecraft-buildoff.png" alt="The Great Buildoff" loading="lazy"></div>
         <div class="project-type">AI Game Layer · Emergent AI Hackathon</div>
         <h3>Minecraft AI Agent Layer</h3>
-        <p>Built at the Emergent AI hackathon. 5 AI agents compete autonomously in "The Great Buildoff". Each agent confined to a 10x10 platform, builds unique structures via API. Custom harness with pathfinding, patrol loops, spawn protection, and event tracking.</p>
+        <p>5 AI agents compete autonomously in a build-off &mdash; custom harness with pathfinding and event tracking.</p>
         <div class="project-tech">
           <span class="tech-tag">Agent Harness</span>
           <span class="tech-tag">Mineflayer</span>
@@ -1128,7 +1043,7 @@ section{position:relative}
         <svg class="project-link-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         <div class="project-type">Autonomous Agent</div>
         <h3>Browser Automation Filing Agent</h3>
-        <p>Navigates multi-step web forms across external portals. Plans route, fills fields, self-corrects on errors, submits. Human-in-the-loop checkpoints for approval on sensitive steps.</p>
+        <p>Navigates multi-step web forms end-to-end &mdash; plans, fills, self-corrects, submits, with human checkpoints.</p>
         <div class="project-tech">
           <span class="tech-tag">Browser Use</span>
           <span class="tech-tag">Claude Agent SDK</span>
@@ -1208,7 +1123,7 @@ section{position:relative}
       <div class="project-card" data-category="web">
         <div class="project-type">E-Commerce</div>
         <h3>ruluka.com</h3>
-        <p>Full-stack fashion e-commerce platform with catalog, payments, order management, and Redis-cached product search.</p>
+        <p>Full-stack fashion e-commerce &mdash; catalog, payments, orders, Redis-cached search.</p>
         <div class="project-tech">
           <span class="tech-tag">MERN</span>
           <span class="tech-tag">Redis</span>
@@ -1221,7 +1136,7 @@ section{position:relative}
         <svg class="project-link-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         <div class="project-type">Interactive 3D &middot; Live</div>
         <h3>Surabhi Cultural Fest</h3>
-        <p>Immersive 3D web experience for a university cultural fest. Interactive Three.js scenes with real-time WebGL animations.</p>
+        <p>Immersive 3D site for a university fest &mdash; interactive Three.js / WebGL.</p>
         <div class="project-tech">
           <span class="tech-tag">Three.js</span>
           <span class="tech-tag">React</span>
@@ -1233,7 +1148,7 @@ section{position:relative}
       <div class="project-card" data-category="security">
         <div class="project-type">Security Platform</div>
         <h3>AuditX</h3>
-        <p>Compliance platform for executing CIS benchmark scripts and managing security audits. Automated baseline verification for enterprise infrastructure.</p>
+        <p>Compliance platform for running CIS-benchmark scripts and security audits.</p>
         <div class="project-tech">
           <span class="tech-tag">CIS Benchmarks</span>
           <span class="tech-tag">Compliance</span>
@@ -1245,7 +1160,7 @@ section{position:relative}
         <svg class="project-link-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         <div class="project-type">Tool &middot; Live</div>
         <h3>E-Commerce Price Comparison</h3>
-        <p>Comparison tool for similar products across Flipkart and Amazon. Side-by-side pricing, ratings, and availability.</p>
+        <p>Compares products across Flipkart &amp; Amazon &mdash; price, ratings, availability.</p>
         <div class="project-tech">
           <span class="tech-tag">Web Scraping</span>
           <span class="tech-tag">React</span>
@@ -1256,7 +1171,7 @@ section{position:relative}
       <div class="project-card" data-category="security">
         <div class="project-type">Research</div>
         <h3>Cryptojacking Evolution Viz</h3>
-        <p>NLP-powered visualization mapping how cryptojacking attack techniques evolved over time. Analyzes threat intelligence reports and plots progression.</p>
+        <p>NLP-powered visualization of how cryptojacking techniques evolved over time.</p>
         <div class="project-tech">
           <span class="tech-tag">NLP</span>
           <span class="tech-tag">Data Visualization</span>
@@ -1280,7 +1195,7 @@ section{position:relative}
 <div class="project-card" data-category="ai">
         <div class="project-type">Computer Vision</div>
         <h3>Saloonz: AR Haircut Simulation</h3>
-        <p>Mobile app with real-time AR haircut simulation using Mediapipe face/head tracking and 3D overlay rendering.</p>
+        <p>Real-time AR haircut simulation &mdash; MediaPipe face tracking + 3D overlays.</p>
         <div class="project-tech">
           <span class="tech-tag">React Native</span>
           <span class="tech-tag">Mediapipe</span>

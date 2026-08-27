@@ -110,7 +110,7 @@
       g.setAttribute('aStart',new THREE.BufferAttribute(new Float32Array(st),3));
       g.setAttribute('aColor',new THREE.BufferAttribute(new Float32Array(cl),3));
       g.setAttribute('aRnd',new THREE.BufferAttribute(new Float32Array(rn),1));
-      fu={uTime:{value:0},uSize:{value:13.0},uPR:{value:Math.min(window.devicePixelRatio||1,2)},uProg:{value:0}};
+      fu={uTime:{value:0},uSize:{value:13.0},uPR:{value:Math.min(window.devicePixelRatio||1,2)},uProg:{value:(forcedT!==null?1:0)}};
       fpts=new THREE.Points(g,new THREE.ShaderMaterial({uniforms:fu,vertexShader:FVERT,fragmentShader:FFRAG,transparent:true,depthWrite:false,depthTest:false}));
       fpts.position.set(0,0.5,2);
       scene.add(fpts);

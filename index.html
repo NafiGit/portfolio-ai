@@ -1956,6 +1956,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 #projects .project-card::before{background:linear-gradient(90deg,#9db4ff,rgba(157,180,255,0))!important;height:2px}
 #projects .project-card:hover{border-color:rgba(157,180,255,.55)!important;box-shadow:0 16px 44px rgba(0,0,0,.4),0 0 24px rgba(157,180,255,.08)!important}
 #projects .tech-tag{border:1px solid rgba(157,180,255,.18)}
+#projects .project-card>.pcard-idx{top:auto!important;bottom:14px!important;right:16px!important}
 .projects-manifest{font-family:var(--font-mono);font-size:.8rem;color:var(--text-dim);margin:-.6rem 0 1.7rem;letter-spacing:.02em}
 .projects-manifest b{color:#9db4ff;font-weight:400}
 .projects-manifest .caret{color:#9db4ff;animation:mfblink 1.1s step-end infinite}
@@ -1991,6 +1992,27 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   if(intro){ var m=document.createElement('div'); m.className='projects-manifest'; m.style.marginTop='1rem';
     m.innerHTML='&gt; cat ./research &nbsp;&mdash;&nbsp; <b>'+papers.length+' entries</b> <span class="caret">_</span>'; intro.parentNode.insertBefore(m, intro.nextSibling); }
 })();
+</script>
+<style>html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}.lenis.lenis-stopped{overflow:hidden}</style>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+(function(){
+  if(typeof Lenis === 'undefined') return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;
+  document.querySelectorAll('.term-body, .reel-embed').forEach(function(el){ el.setAttribute('data-lenis-prevent',''); });
+  var lenis = new Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 1 });
+  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href');
+      if(id && id.length > 1){ var el = document.querySelector(id); if(el){ e.preventDefault(); lenis.scrollTo(el, { offset: -10 }); } }
+    });
+  });
+  window.__lenis = lenis;
+})();
+
 </script>
 </body>
 </html>

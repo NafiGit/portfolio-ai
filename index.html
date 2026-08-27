@@ -1949,5 +1949,33 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 })();
 
 </script>
+<style>
+#projects .project-type::before{content:"// ";color:#9db4ff;opacity:.75}
+#projects .project-card>.pcard-idx{position:absolute;top:12px;right:14px;font-family:var(--font-mono);font-size:.68rem;color:#9db4ff;opacity:.45;letter-spacing:.06em;z-index:3;pointer-events:none}
+#projects .project-card:hover>.pcard-idx{opacity:1}
+#projects .project-card::before{background:linear-gradient(90deg,#9db4ff,rgba(157,180,255,0))!important;height:2px}
+#projects .project-card:hover{border-color:rgba(157,180,255,.55)!important;box-shadow:0 16px 44px rgba(0,0,0,.4),0 0 24px rgba(157,180,255,.08)!important}
+#projects .tech-tag{border:1px solid rgba(157,180,255,.18)}
+.projects-manifest{font-family:var(--font-mono);font-size:.8rem;color:var(--text-dim);margin:-.6rem 0 1.7rem;letter-spacing:.02em}
+.projects-manifest b{color:#9db4ff;font-weight:400}
+.projects-manifest .caret{color:#9db4ff;animation:mfblink 1.1s step-end infinite}
+@keyframes mfblink{50%{opacity:0}}
+</style>
+<script>
+(function(){
+  var G='01</>{}[]#$%&*=x!01_';
+  function scr(el,dur){ if(el._s)return; var f=el.getAttribute('data-final'); if(f===null){f=el.textContent;el.setAttribute('data-final',f);} el._s=true; dur=dur||300; var n=f.length,st=performance.now(); if(window.Sound)window.Sound.blip(600+Math.random()*180,0.05);
+    (function tk(now){ var p=Math.min((now-st)/dur,1),r=Math.floor(p*n),o=''; for(var i=0;i<n;i++){var c=f[i]; o+= c===' '?' ':(i<r?c:G[(Math.random()*G.length)|0]);} el.textContent=o; if(p<1)requestAnimationFrame(tk); else{el.textContent=f;el._s=false;} })(performance.now()); }
+  var cards=document.querySelectorAll('#projects .project-card');
+  cards.forEach(function(c,i){
+    var idx=document.createElement('span'); idx.className='pcard-idx'; idx.textContent='['+('0'+(i+1)).slice(-2)+']'; c.appendChild(idx);
+    if(!c.classList.contains('reel-card')){ var h=c.querySelector('h3'); if(h && !h.querySelector('a')) c.addEventListener('mouseenter',function(){ scr(h,300); }); }
+  });
+  var grid=document.querySelector('#projects .projects-grid'), desc=document.querySelector('#projects .section-desc');
+  if(grid&&desc){ var m=document.createElement('div'); m.className='projects-manifest';
+    m.innerHTML='&gt; ls ./selected-work &nbsp;&mdash;&nbsp; <b>'+cards.length+' entries</b> &nbsp;&middot;&nbsp; filter to query <span class="caret">_</span>';
+    desc.parentNode.insertBefore(m, desc.nextSibling); }
+})();
+</script>
 </body>
 </html>

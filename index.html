@@ -1844,5 +1844,110 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 })();
 </script>
 
+<style>
+#scanlines{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.45;mix-blend-mode:overlay;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px)}
+#soundToggle{position:fixed;left:18px;bottom:18px;z-index:80;width:44px;height:44px;border-radius:50%;background:rgba(18,20,24,.82);border:1px solid var(--card-border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:border-color .25s,transform .2s}
+#soundToggle:hover{border-color:#9db4ff;transform:scale(1.06)}
+#soundToggle .eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px}
+#soundToggle .eq i{width:2px;height:4px;background:#9db4ff}
+#soundToggle.on .eq i{animation:eqp 1s ease-in-out infinite}
+#soundToggle.on .eq i:nth-child(2){animation-delay:.18s}
+#soundToggle.on .eq i:nth-child(3){animation-delay:.36s}
+@keyframes eqp{0%,100%{height:4px}50%{height:13px}}
+.section-label .lbl-bit{color:#9db4ff;font-family:var(--font-mono);opacity:.7;margin-right:.55ch;letter-spacing:.04em}
+@media(prefers-reduced-motion:reduce){#scanlines{display:none}#soundToggle.on .eq i{animation:none}}
+</style>
+<div id="scanlines" aria-hidden="true"></div>
+<button id="soundToggle" aria-label="Enable sound" title="Toggle sci-fi sound"><span class="eq"><i></i><i></i><i></i></span></button>
+<script>
+(function(){
+  var GLYPHS = '01</>{}[]#$%&*+=x!?01_01';
+  function scramble(el, dur){
+    if(el._scr) return;
+    var finalText = el.getAttribute('data-final');
+    if(finalText === null){ finalText = el.textContent; el.setAttribute('data-final', finalText); }
+    el._scr = true;
+    dur = dur || 780;
+    var len = finalText.length, start = performance.now();
+    if(window.Sound) window.Sound.blip(520 + Math.random()*220, 0.06);
+    function tick(now){
+      var p = Math.min((now - start)/dur, 1);
+      var reveal = Math.floor(p*len), out = '';
+      for(var i=0;i<len;i++){
+        var c = finalText[i];
+        if(c === ' '){ out += ' '; continue; }
+        out += (i < reveal) ? c : GLYPHS[(Math.random()*GLYPHS.length)|0];
+      }
+      el.textContent = out;
+      if(p < 1) requestAnimationFrame(tick);
+      else { el.textContent = finalText; el._scr = false; }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // ---- sci-fi sound (WebAudio, off by default) ----
+  window.Sound = (function(){
+    var ctx, master, ambientOn = false, enabled = false;
+    function init(){
+      if(ctx) return;
+      var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+    }
+    function startAmbient(){
+      var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 440; lp.connect(master);
+      var g = ctx.createGain(); g.gain.value = 0.07; g.connect(lp);
+      [55, 55.4, 82.5].forEach(function(f){ var o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f; o.connect(g); o.start(); });
+      var lfo = ctx.createOscillator(); lfo.frequency.value = 0.06; var lg = ctx.createGain(); lg.gain.value = 130; lfo.connect(lg); lg.connect(lp.frequency); lfo.start();
+    }
+    function blip(freq, dur){
+      if(!enabled || !ctx) return;
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'square'; o.frequency.value = freq || 660;
+      var t = ctx.currentTime; dur = dur || 0.07;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.linearRampToValueAtTime(0.045, t + 0.004);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
+    }
+    function enable(){ init(); if(!ctx) return; if(ctx.state === 'suspended') ctx.resume(); if(!ambientOn){ startAmbient(); ambientOn = true; } enabled = true; master.gain.linearRampToValueAtTime(0.85, ctx.currentTime + 0.6); }
+    function disable(){ enabled = false; if(master) master.gain.linearRampToValueAtTime(0.0, ctx.currentTime + 0.4); }
+    return { enable: enable, disable: disable, blip: blip, isOn: function(){ return enabled; } };
+  })();
+
+  var toggle = document.getElementById('soundToggle');
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      if(window.Sound.isOn()){ window.Sound.disable(); toggle.classList.remove('on'); toggle.setAttribute('aria-label','Enable sound'); }
+      else { window.Sound.enable(); toggle.classList.add('on'); window.Sound.blip(880,0.09); toggle.setAttribute('aria-label','Mute sound'); }
+    });
+  }
+
+  // ---- decode section titles on enter; bit accents on labels ----
+  var titles = document.querySelectorAll('.section-title');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){ scramble(en.target); io.unobserve(en.target); } });
+    }, { threshold: 0.4 });
+    titles.forEach(function(t){ io.observe(t); });
+  }
+
+  document.querySelectorAll('.section-label').forEach(function(l, i){
+    if(l.querySelector('.lbl-bit')) return;
+    var bit = document.createElement('span'); bit.className = 'lbl-bit';
+    bit.textContent = '0' + (i+1) + ' //';
+    l.insertBefore(bit, l.firstChild);
+  });
+
+  // ---- nav + button micro-interactions (scramble + blip) ----
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('mouseenter', function(){ scramble(a, 320); if(window.Sound) window.Sound.blip(700, 0.04); });
+  });
+  document.querySelectorAll('.btn, .nav-cta').forEach(function(b){
+    b.addEventListener('mouseenter', function(){ if(window.Sound) window.Sound.blip(560, 0.05); });
+  });
+})();
+
+</script>
 </body>
 </html>

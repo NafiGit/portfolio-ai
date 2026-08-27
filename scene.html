@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NAHFID.AI — scene</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#e8ecf4;--dim:#7c8598;--accent:#9db4ff}
+  html,body{background:#050609;color:var(--ink);font-family:"JetBrains Mono",ui-monospace,monospace;overflow-x:hidden}
+  #glcanvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:1}
+  #scroll-space{position:relative;z-index:2;height:600vh;pointer-events:none}
+  #hud{position:fixed;inset:0;z-index:3;pointer-events:none;mix-blend-mode:screen}
+  .hud-frame{position:absolute;inset:18px;border:1px solid rgba(157,180,255,.18)}
+  .hud-corner{position:absolute;width:16px;height:16px;border:2px solid var(--accent);opacity:.7}
+  .hud-corner.tl{top:12px;left:12px;border-right:0;border-bottom:0}
+  .hud-corner.tr{top:12px;right:12px;border-left:0;border-bottom:0}
+  .hud-corner.bl{bottom:12px;left:12px;border-right:0;border-top:0}
+  .hud-corner.br{bottom:12px;right:12px;border-left:0;border-top:0}
+  .hud-tl{position:absolute;top:30px;left:34px;font-size:11px;letter-spacing:.15em;color:var(--accent)}
+  .hud-tr{position:absolute;top:30px;right:34px;font-size:11px;letter-spacing:.12em;color:var(--dim);text-align:right}
+  .hud-bl{position:absolute;bottom:30px;left:34px;font-size:11px;color:var(--dim);letter-spacing:.1em}
+  #progress-read{color:var(--accent)}
+  .blink{animation:bk 1.1s step-end infinite}@keyframes bk{50%{opacity:0}}
+</style>
+</head>
+<body>
+<canvas id="glcanvas"></canvas>
+<div id="scroll-space"></div>
+<div id="hud">
+  <div class="hud-frame"></div>
+  <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
+  <span class="hud-corner bl"></span><span class="hud-corner br"></span>
+  <div class="hud-tl">&#9672; NAHFID.AI // ONBOARD INTELLIGENCE</div>
+  <div class="hud-tr">SECTOR <span id="sector-read">00</span> / 05<br>NAV <span id="progress-read">0.00</span></div>
+  <div class="hud-bl">scroll to fly <span class="blink">&#9656;</span></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var canvas = document.getElementById('glcanvas');
+  if(!window.THREE){ document.body.innerHTML='<p style="padding:2rem">WebGL required.</p>'; return; }
+
+  var params = new URLSearchParams(location.search);
+  var forcedT = params.has('t') ? Math.max(0, Math.min(1, parseFloat(params.get('t')))) : null;
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  renderer.setClearColor(0x050609, 1);
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x050609, 0.012);
+  var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 300);
+
+  var Z_START = 12, Z_END = -88;
+  var STATIONS = [
+    { z:  4, label: 'AI CORE' },
+    { z:-14, label: 'EXPERIENCE' },
+    { z:-32, label: 'PROJECTS' },
+    { z:-50, label: 'RESEARCH' },
+    { z:-68, label: 'STACK' },
+    { z:-84, label: 'CONTACT' }
+  ];
+
+  (function(){
+    var n=1400, pos=new Float32Array(n*3);
+    for(var i=0;i<n;i++){ pos[i*3]=(Math.random()-0.5)*120; pos[i*3+1]=(Math.random()-0.5)*80; pos[i*3+2]=Z_END - Math.random()*40 + 20; }
+    var g=new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color:0x8fa4d8, size:0.13, transparent:true, opacity:.7 })));
+  })();
+
+  function labelSprite(text){
+    var c=document.createElement('canvas'); c.width=512; c.height=128;
+    var x=c.getContext('2d'); x.textAlign='center'; x.textBaseline='middle';
+    x.font='700 60px Inter, system-ui, sans-serif'; x.fillStyle='#e8ecf4'; x.fillText(text, 256, 64);
+    var t=new THREE.CanvasTexture(c); t.minFilter=THREE.LinearFilter;
+    var s=new THREE.Sprite(new THREE.SpriteMaterial({ map:t, transparent:true, depthWrite:false }));
+    s.scale.set(9, 2.25, 1); return s;
+  }
+
+  STATIONS.forEach(function(st, i){
+    var ring = new THREE.Mesh(
+      new THREE.TorusGeometry(4.2, 0.03, 8, 64),
+      new THREE.MeshBasicMaterial({ color: i===0?0xbcd0ff:0x5566aa, transparent:true, opacity:.7 })
+    );
+    ring.position.set(0, 0, st.z);
+    ring.userData.spin = 0.2 + i*0.05;
+    scene.add(ring);
+    var inner = new THREE.Mesh(new THREE.TorusGeometry(3.0,0.02,8,64), new THREE.MeshBasicMaterial({color:0x33406b,transparent:true,opacity:.5}));
+    inner.position.set(0,0,st.z); scene.add(inner); ring.userData.inner=inner;
+    var lab = labelSprite(st.label); lab.position.set(0, 5.6, st.z); scene.add(lab);
+    st.ring = ring;
+  });
+
+  function applyProgress(p){
+    document.getElementById('progress-read').textContent = p.toFixed(2);
+    var z = Z_START + (Z_END - Z_START) * p;
+    camera.position.z = z;
+    camera.position.x = Math.sin(p * Math.PI * 3) * 2.4;
+    camera.position.y = Math.cos(p * Math.PI * 2) * 1.4;
+    camera.lookAt(0, 0, z - 12);
+    var sec = 0, best = 1e9;
+    for(var i=0;i<STATIONS.length;i++){ var dd = Math.abs(STATIONS[i].z - z); if(dd < best){ best = dd; sec = i; } }
+    document.getElementById('sector-read').textContent = ('0'+sec).slice(-2);
+  }
+
+  function resize(){ var w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  window.addEventListener('resize', resize); resize();
+
+  var progress = forcedT !== null ? forcedT : 0;
+  var lenis = null;
+  if(forcedT === null && window.Lenis){
+    lenis = new Lenis({ lerp:0.08, smoothWheel:true });
+    lenis.on('scroll', function(e){ progress = e.progress; });
+    function lraf(t){ lenis.raf(t); requestAnimationFrame(lraf); } requestAnimationFrame(lraf);
+  } else if(forcedT === null){
+    window.addEventListener('scroll', function(){ var max=document.documentElement.scrollHeight-window.innerHeight; progress=max>0?window.scrollY/max:0; }, {passive:true});
+  }
+
+  var t0 = performance.now();
+  function loop(){
+    var tm=(performance.now()-t0)/1000;
+    STATIONS.forEach(function(st){ if(st.ring){ st.ring.rotation.z=tm*st.ring.userData.spin; if(st.ring.userData.inner) st.ring.userData.inner.rotation.z=-tm*st.ring.userData.spin*0.7; } });
+    applyProgress(progress);
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  }
+  loop();
+  window.__scene = { applyProgress: applyProgress, stations: STATIONS };
+})();
+</script>
+</body>
+</html>

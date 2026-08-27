@@ -87,13 +87,13 @@
       '}'].join('\n');
     var FFRAG=[
       'precision mediump float; varying vec3 vColor; varying float vNear;',
-      'void main(){ vec2 c=gl_PointCoord-0.5; float d=length(c); if(d>0.5) discard;',
-      ' float a=smoothstep(0.5,0.12,d);',
+      'void main(){ vec2 c=gl_PointCoord-0.5;',
+      ' float a=1.0-smoothstep(0.40,0.5,max(abs(c.x),abs(c.y)));',
       ' vec3 tint=mix(vec3(0.30,0.45,0.75), vec3(0.80,0.90,1.0), vNear);',
       ' gl_FragColor=vec4(mix(vColor,tint,0.25)+vNear*0.05, a); }'].join('\n');
     var fu=null, fpts=null;
     function build(img, depth){
-      var SW=170, SH=Math.round(SW*img.height/img.width);
+      var SW=132, SH=Math.round(SW*img.height/img.width);
       function samp(im){ var c=document.createElement('canvas'); c.width=SW;c.height=SH; var x=c.getContext('2d'); x.drawImage(im,0,0,SW,SH); return x.getImageData(0,0,SW,SH).data; }
       var cd=samp(img), dd=samp(depth);
       var FACE_W=8.0, scale=FACE_W/SW, DEPTH=2.2, T=46;
@@ -110,7 +110,7 @@
       g.setAttribute('aStart',new THREE.BufferAttribute(new Float32Array(st),3));
       g.setAttribute('aColor',new THREE.BufferAttribute(new Float32Array(cl),3));
       g.setAttribute('aRnd',new THREE.BufferAttribute(new Float32Array(rn),1));
-      fu={uTime:{value:0},uSize:{value:13.0},uPR:{value:Math.min(window.devicePixelRatio||1,2)},uProg:{value:(forcedT!==null?1:0)}};
+      fu={uTime:{value:0},uSize:{value:22.0},uPR:{value:Math.min(window.devicePixelRatio||1,2)},uProg:{value:(forcedT!==null?1:0)}};
       fpts=new THREE.Points(g,new THREE.ShaderMaterial({uniforms:fu,vertexShader:FVERT,fragmentShader:FFRAG,transparent:true,depthWrite:false,depthTest:false}));
       fpts.position.set(0,0.5,2);
       scene.add(fpts);

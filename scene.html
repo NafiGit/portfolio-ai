@@ -37,6 +37,30 @@
   <div class="hud-tr">SECTOR <span id="sector-read">00</span> / 05<br>NAV <span id="progress-read">0.00</span></div>
   <div class="hud-bl">scroll to fly <span class="blink">&#9656;</span></div>
 </div>
+<style>
+#panels{position:fixed;inset:0;z-index:4;pointer-events:none}
+.scene-panel{position:absolute;left:44px;top:50%;transform:translateY(-50%) translateX(-12px);width:min(360px,40vw);opacity:0;transition:opacity .5s,transform .5s;background:rgba(8,11,16,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:1px solid rgba(157,180,255,.25);padding:1.2rem 1.3rem;pointer-events:none}
+.scene-panel.show{opacity:1;transform:translateY(-50%) translateX(0);pointer-events:auto}
+.scene-panel:before,.scene-panel:after{content:"";position:absolute;width:12px;height:12px;border:2px solid #9db4ff}
+.scene-panel:before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.scene-panel:after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.sp-sec{font-size:10px;letter-spacing:.22em;color:#9db4ff;margin-bottom:.5rem}
+.sp-h{font-size:1.15rem;color:#eef2fb;font-weight:700;margin-bottom:.7rem;font-family:Inter,system-ui,sans-serif}
+.scene-panel ul{list-style:none;margin:0;padding:0}
+.scene-panel li{font-size:12.5px;color:#c3ccdb;line-height:1.5;margin-bottom:.5rem;padding-left:14px;position:relative}
+.scene-panel li:before{content:"\25B8";position:absolute;left:0;color:#9db4ff}
+.scene-panel a{color:#9db4ff;text-decoration:none}
+.sp-cta{display:inline-block;margin-top:.4rem;padding:.5rem .9rem;border:1px solid #9db4ff;color:#eef2fb;font-size:12px;letter-spacing:.05em}
+@media(max-width:680px){.scene-panel{left:20px;width:min(320px,72vw)}}
+</style>
+<div id="panels">
+  <div class="scene-panel" data-lo="0.17" data-hi="0.35"><div class="sp-sec">SECTOR 01 // EXPERIENCE</div><div class="sp-h">Nbyula — SDE 1 · 2026&rarr;now</div><ul><li>Built a <b>GEPA agent</b> that opens its own PRs to improve the live agent (RLHF loop, no human in it)</li><li>Async <b>Document AI pipeline</b> serving <b>10,000 users</b></li><li>Hardened live production (loops, worker starvation, voice-AI races)</li><li>Prior intern: agents, spam cut <b>99%</b>, <b>&#8377;80K</b> product-led sales</li></ul></div>
+  <div class="scene-panel" data-lo="0.35" data-hi="0.53"><div class="sp-sec">SECTOR 02 // PROJECTS</div><div class="sp-h">Selected Work</div><ul><li><b>blogllm.com</b> — autonomous LLM research digest, emailed daily</li><li><b>Browser agent</b> — fills multi-step visa forms end-to-end</li><li><b>Content moderation</b> — BERT + LLM-judge, spam &minus;99%</li><li><b>Minecraft AI build-off</b> — 5 autonomous agents</li></ul></div>
+  <div class="scene-panel" data-lo="0.53" data-hi="0.71"><div class="sp-sec">SECTOR 03 // RESEARCH</div><div class="sp-h">Published</div><ul><li><b>IEEE ICAAIC&#39;24</b> — Novel AWS cryptojacking vectors</li><li><b>IEEE ICSSAS&#39;24</b> — Emerging cloud-security trends</li><li><b>arXiv</b> — KS-PRET-5M: 12M-token Kashmiri corpus</li><li><b>arXiv</b> — Koshur Pixel: 613k-pair Kashmiri OCR set</li></ul></div>
+  <div class="scene-panel" data-lo="0.71" data-hi="0.88"><div class="sp-sec">SECTOR 04 // STACK</div><div class="sp-h">Technical Arsenal</div><ul><li><b>Agents:</b> LangGraph, Claude Agent SDK, RAG, LLM-as-judge</li><li><b>ML:</b> PyTorch, fine-tuning (BERT), Langfuse</li><li><b>Web:</b> Next.js, Node, FastAPI, React</li><li><b>Infra:</b> AWS, Docker, Mongo / Postgres / Redis</li></ul></div>
+  <div class="scene-panel" data-lo="0.88" data-hi="1.01"><div class="sp-sec">SECTOR 05 // CONTACT</div><div class="sp-h">Board with me</div><ul><li><a href="mailto:nissarnahfid@gmail.com">nissarnahfid@gmail.com</a></li><li><a href="https://linkedin.com/in/nahfid" target="_blank">linkedin.com/in/nahfid</a></li><li><a href="https://github.com/NafiGit" target="_blank">github.com/NafiGit</a></li></ul><a class="sp-cta" href="mailto:nissarnahfid@gmail.com?subject=Let%27s%20work%20together">GET IN TOUCH &rarr;</a></div>
+</div>
+
 <div id="poster-intro" style="background-image:url('assets/scene/poster-nahfid.png')"><div class="enter blink">SCROLL TO BOARD &#9662;</div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -181,6 +205,8 @@
     if(window.__faceU){ window.__faceU.uTime.value=tm; window.__faceU.uProg.value=Math.min(window.__faceU.uProg.value+0.01,1);
       if(window.__facePts){ window.__facePts.rotation.y=Math.sin(tm*0.3)*0.28; } }
     var pin=document.getElementById('poster-intro'); if(pin){ pin.style.opacity=Math.max(0,1-progress/0.05); }
+    var pnls=document.querySelectorAll('.scene-panel');
+    for(var pi=0;pi<pnls.length;pi++){ var lo=parseFloat(pnls[pi].getAttribute('data-lo')), hi=parseFloat(pnls[pi].getAttribute('data-hi')); if(progress>=lo&&progress<hi) pnls[pi].classList.add('show'); else pnls[pi].classList.remove('show'); }
     applyProgress(progress);
     renderer.render(scene, camera);
     requestAnimationFrame(loop);

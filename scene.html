@@ -52,7 +52,7 @@
   var scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0x050609, 0.02);
   var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 300);
-  new THREE.TextureLoader().load('assets/scene/nebula-bg.png', function(tx){ scene.background = tx; });
+  new THREE.TextureLoader().load('assets/scene/origin/corridor.png', function(tx){ scene.background = tx; });
 
   var Z_START = 12, Z_END = -88;
   var STATIONS = [
@@ -122,7 +122,7 @@
     a.onload=rdy; b.onload=rdy; a.src='assets/profile.png'; b.src='assets/profile-depth.png';
   })();
 
-  new THREE.TextureLoader().load('assets/scene/ai-core.png', function(tx){
+  new THREE.TextureLoader().load('assets/scene/origin/core-chamber.png', function(tx){
     var g=new THREE.Sprite(new THREE.SpriteMaterial({map:tx,transparent:true,opacity:0.75,blending:THREE.AdditiveBlending,depthWrite:false}));
     g.scale.set(15,15,1); g.position.set(0,0.5,1.4); scene.add(g);
   });

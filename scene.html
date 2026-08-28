@@ -22,6 +22,8 @@
   .hud-bl{position:absolute;bottom:30px;left:34px;font-size:11px;color:var(--dim);letter-spacing:.1em}
   #progress-read{color:var(--accent)}
   .blink{animation:bk 1.1s step-end infinite}@keyframes bk{50%{opacity:0}}
+  #poster-intro{position:fixed;inset:0;z-index:5;background:#050609 center/contain no-repeat;transition:opacity .6s;pointer-events:none}
+  #poster-intro .enter{position:absolute;bottom:5vh;left:0;right:0;text-align:center;font-family:inherit;font-size:11px;letter-spacing:.35em;color:#9db4ff;opacity:.85}
 </style>
 </head>
 <body>
@@ -35,6 +37,7 @@
   <div class="hud-tr">SECTOR <span id="sector-read">00</span> / 05<br>NAV <span id="progress-read">0.00</span></div>
   <div class="hud-bl">scroll to fly <span class="blink">&#9656;</span></div>
 </div>
+<div id="poster-intro" style="background-image:url('assets/scene/poster-nahfid.png')"><div class="enter blink">SCROLL TO BOARD &#9662;</div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
@@ -177,6 +180,7 @@
     var tm=(performance.now()-t0)/1000;
     if(window.__faceU){ window.__faceU.uTime.value=tm; window.__faceU.uProg.value=Math.min(window.__faceU.uProg.value+0.01,1);
       if(window.__facePts){ window.__facePts.rotation.y=Math.sin(tm*0.3)*0.28; } }
+    var pin=document.getElementById('poster-intro'); if(pin){ pin.style.opacity=Math.max(0,1-progress/0.05); }
     applyProgress(progress);
     renderer.render(scene, camera);
     requestAnimationFrame(loop);

@@ -247,14 +247,18 @@ a.proj:hover .proj-img img{transform:scale(1.04)}
 .proj p{color:var(--muted);font-size:.93rem}
 .live{display:inline-flex;align-items:center;gap:.35rem;color:var(--green);font-size:.8rem;font-weight:600;margin-top:auto;padding-top:1rem}
 .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
-.more{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem;max-width:960px;margin-left:auto;margin-right:auto}
-.more a,.more div{display:flex;align-items:baseline;gap:.8rem;padding:1rem .2rem;border-bottom:1px solid var(--line)}
-.more b{font-weight:600;white-space:nowrap}
-.more span{color:var(--muted);font-size:.92rem;flex:1}
-.more em{font-style:normal;color:var(--dim);transition:color .2s,transform .2s}
-.more a:hover b{color:var(--cta)}.more a:hover em{color:var(--cta);transform:translate(2px,-2px)}
-@media(max-width:900px){.work-top{grid-template-columns:1fr}.more{grid-template-columns:1fr}}
-@media(max-width:560px){.more a,.more div{flex-wrap:wrap;gap:.2rem .8rem}.more span{flex-basis:100%;order:3}}
+@media(max-width:900px){.work-top{grid-template-columns:1fr}}
+.more-label{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:3.5rem 0 1rem}
+.more{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+.mini{position:relative;display:flex;flex-direction:column;gap:.3rem;padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:12px;background:#151517;transition:border-color .2s,transform .2s,background .2s}
+a.mini:hover{border-color:#3f3f46;background:#18181b;transform:translateY(-2px)}
+.mini-tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.mini b{font-weight:600;font-size:1rem;color:var(--text)}
+.mini-d{color:var(--muted);font-size:.87rem;line-height:1.5}
+.mini em{position:absolute;top:1rem;right:1.1rem;font-style:normal;color:var(--dim);transition:color .2s,transform .2s}
+a.mini:hover em{color:var(--cta);transform:translate(2px,-2px)}
+@media(max-width:900px){.more{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.more{grid-template-columns:1fr}}
 
 /* education */
 .edu{padding:0 0 6rem}
@@ -580,7 +584,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
     <div class="sec-head rv">
       <span class="eyebrow">Work</span>
       <h2>Things I&rsquo;ve built</h2>
-      <p>Three worth a look, and the rest in one line each.</p>
+      <p>Three live products, plus the smaller builds.</p>
     </div>
     <div class="work-top">
       <a class="proj rv" href="https://nbyula.com" target="_blank" rel="noopener">
@@ -604,23 +608,24 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
       <a class="proj rv" href="https://blogllm.com" target="_blank" rel="noopener">
         <div class="proj-img"><img src="https://api.microlink.io/?url=https://blogllm.com&amp;screenshot=true&amp;meta=false&amp;embed=screenshot.url" alt="blogllm.com homepage" loading="lazy"></div>
         <div class="proj-body">
-          <span class="proj-tag">Autonomous agent</span>
+          <span class="proj-tag">Blog &middot; LLMs</span>
           <h3>blogllm.com</h3>
-          <p>Finds, summarizes and emails the day&rsquo;s LLM research. Runs by itself after setup.</p>
+          <p>A blog on the latest LLMs: new models, what changed and what they&rsquo;re actually good for.</p>
           <span class="live">Live</span>
         </div>
       </a>
     </div>
+    <p class="more-label rv">Also built</p>
     <div class="more rv">
-      <div><b>Browser filing agent</b><span>files university applications end to end</span></div>
-      <div><b>CRM messaging agent</b><span>re-engages leads on WhatsApp &amp; Instagram</span></div>
-      <div><b>Minecraft AI agents</b><span>5 agents compete in a build-off, hackathon build</span></div>
-      <div><b>ruluka.com</b><span>fashion e-commerce with Redis-cached search</span></div>
-      <a href="https://bit.ly/klsurabhi" target="_blank" rel="noopener"><b>Surabhi Fest</b><span>interactive 3D site for a university fest</span><em>&#8599;</em></a>
-      <a href="https://bit.ly/ecommerce-compare" target="_blank" rel="noopener"><b>Price compare</b><span>Flipkart vs Amazon, side by side</span><em>&#8599;</em></a>
-      <div><b>AuditX</b><span>runs CIS-benchmark security audits</span></div>
-      <div><b>Cryptojacking viz</b><span>how cryptojacking evolved, mapped with NLP</span></div>
-      <a href="https://instagram.com/gmat_nbyula" target="_blank" rel="noopener"><b>@gmat_nbyula</b><span>taught GMAT quant &amp; verbal on Instagram</span><em>&#8599;</em></a>
+      <div class="mini"><span class="mini-tag">AI agent</span><b>Browser filing agent</b><span class="mini-d">Files university applications end to end with Browser Use.</span></div>
+      <div class="mini"><span class="mini-tag">AI agent</span><b>CRM messaging agent</b><span class="mini-d">Re-engages dormant leads on WhatsApp and Instagram.</span></div>
+      <div class="mini"><span class="mini-tag">AI agent</span><b>Minecraft AI agents</b><span class="mini-d">Hackathon build: 5 agents compete in a build-off.</span></div>
+      <div class="mini"><span class="mini-tag">Web</span><b>ruluka.com</b><span class="mini-d">Fashion e-commerce with Redis-cached search.</span></div>
+      <a class="mini" href="https://bit.ly/klsurabhi" target="_blank" rel="noopener"><span class="mini-tag">Web</span><b>Surabhi Fest</b><span class="mini-d">Interactive 3D site for a university fest.</span><em aria-hidden="true">&#8599;</em></a>
+      <a class="mini" href="https://bit.ly/ecommerce-compare" target="_blank" rel="noopener"><span class="mini-tag">Web</span><b>Price compare</b><span class="mini-d">Flipkart vs Amazon prices, side by side.</span><em aria-hidden="true">&#8599;</em></a>
+      <div class="mini"><span class="mini-tag">Security</span><b>AuditX</b><span class="mini-d">Runs CIS-benchmark security audits.</span></div>
+      <div class="mini"><span class="mini-tag">Security</span><b>Cryptojacking viz</b><span class="mini-d">How cryptojacking evolved, mapped with NLP.</span></div>
+      <a class="mini" href="https://instagram.com/gmat_nbyula" target="_blank" rel="noopener"><span class="mini-tag">Teaching</span><b>@gmat_nbyula</b><span class="mini-d">Taught GMAT quant and verbal on Instagram.</span><em aria-hidden="true">&#8599;</em></a>
     </div>
   </div>
 </section>

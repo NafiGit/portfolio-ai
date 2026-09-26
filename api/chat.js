@@ -56,7 +56,7 @@ Research (5 papers)
 Projects
 - nbyula.com - production EdTech platform: AI agents, CRM, payments, ops dashboards.
 - creditmitra.in - digital lending platform he built end to end.
-- blogllm.com - autonomous agent that finds, summarizes and emails the day's LLM research.
+- blogllm.com - his blog about the latest LLMs: new model releases, what changed and what they are good for.
 - Minecraft AI agent layer - hackathon build (Emergent AI) where 5 AI agents compete in a build-off, with a custom harness for pathfinding and event tracking.
 - Others: ruluka.com (fashion e-commerce with Redis-cached search), Surabhi Fest 3D site (Three.js), Flipkart vs Amazon price comparison, AuditX (CIS-benchmark security audits), a cryptojacking-evolution visualization, Saloonz (AR haircut try-on), and GMAT teaching on Instagram @gmat_nbyula.
 

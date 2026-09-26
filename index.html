@@ -194,7 +194,8 @@ button{font:inherit}
 .jobs{display:flex;flex-direction:column;gap:1.5rem;max-width:960px;margin:0 auto}
 .job{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.8rem}
 .job-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
-.job-logo{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:#fff;flex-shrink:0}
+.job-logo{width:48px;height:48px;border-radius:12px;flex-shrink:0;object-fit:cover}
+.job-logo.cm{background:#fff;padding:5px;object-fit:contain}
 .job-head h3{font-family:var(--font-display);font-size:1.25rem;font-weight:600;line-height:1.25}
 .job-head p{color:var(--muted);font-size:.92rem}
 .job-head a:hover{text-decoration:underline}
@@ -223,8 +224,7 @@ button{font:inherit}
 .paper-img img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s}
 .paper:hover .paper-img img{transform:scale(1.04)}
 .paper-body{padding:1.3rem 1.3rem 1.4rem;display:flex;flex-direction:column;flex:1}
-.venue{align-self:flex-start;font-family:var(--font-mono);font-size:.7rem;font-weight:500;letter-spacing:.06em;padding:.2rem .55rem;border-radius:4px;color:#fff}
-.venue.ax{background:#b31b1b}.venue.ie{background:#00629b}
+.venue{align-self:flex-start;font-family:var(--font-mono);font-size:.7rem;font-weight:500;letter-spacing:.06em;padding:.22rem .6rem;border-radius:999px;color:#d4d4d8;border:1px solid var(--line);background:rgba(255,255,255,.04)}
 .paper-stat{font-family:var(--font-display);font-size:2.2rem;font-weight:700;letter-spacing:-.02em;line-height:1;margin-top:1rem}
 .paper-stat-l{color:var(--muted);font-size:.88rem;margin-top:.35rem}
 .paper h3{font-size:.98rem;font-weight:600;line-height:1.4;margin-top:1rem;color:#e4e4e7}
@@ -420,7 +420,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
     <div class="jobs">
       <article class="job rv">
         <div class="job-head">
-          <span class="job-logo" style="background:#4f46e5">N</span>
+          <img class="job-logo" src="assets/logo-nbyula.png" alt="Nbyula logo" width="48" height="48" loading="lazy">
           <div><h3>Software Development Engineer 1</h3><p><a href="https://nbyula.com" target="_blank" rel="noopener">Nbyula</a> &middot; EdTech, Bangalore</p></div>
           <time class="now">Jan 2026 &ndash; now</time>
         </div>
@@ -443,7 +443,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
 
       <article class="job rv">
         <div class="job-head">
-          <span class="job-logo" style="background:#4f46e5">N</span>
+          <img class="job-logo" src="assets/logo-nbyula.png" alt="Nbyula logo" width="48" height="48" loading="lazy">
           <div><h3>SDE Intern, AI &amp; Full-Stack</h3><p><a href="https://nbyula.com" target="_blank" rel="noopener">Nbyula</a> &middot; EdTech, Bangalore</p></div>
           <time>Dec 2024 &ndash; Jan 2026</time>
         </div>
@@ -467,7 +467,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
 
       <article class="job rv">
         <div class="job-head">
-          <span class="job-logo" style="background:#0f766e">C</span>
+          <img class="job-logo cm" src="assets/logo-creditmitra.png" alt="CreditMitra logo" width="48" height="48" loading="lazy">
           <div><h3>SDE Intern, Full-Stack</h3><p><a href="https://creditmitra.in" target="_blank" rel="noopener">CreditMitra</a> &middot; FinTech, Hyderabad</p></div>
           <time>Apr &ndash; Sep 2024</time>
         </div>

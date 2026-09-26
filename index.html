@@ -92,7 +92,7 @@ a:hover{color:var(--primary)}
 .scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#fafafa,#a1a1aa);z-index:1000;transition:width .1s linear;width:0}
 
 /* ═══════════════ NAVIGATION ═══════════════ */
-nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:0 3rem;height:60px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(7,8,15,.65);border-bottom:1px solid transparent;transition:all .4s}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:0 3rem;height:60px;display:flex;justify-content:flex-end;align-items:center;gap:1.5rem;backdrop-filter:blur(20px);background:rgba(7,8,15,.65);border-bottom:1px solid transparent;transition:all .4s}
 nav.scrolled{border-bottom-color:var(--card-border);background:rgba(7,8,15,.92)}
 .nav-left{display:flex;align-items:center;gap:1.25rem}
 .nav-logo{font-family:var(--font-display);font-weight:800;font-size:1.2rem;letter-spacing:-.02em;color:var(--text)}
@@ -141,7 +141,7 @@ nav.scrolled{border-bottom-color:var(--card-border);background:rgba(7,8,15,.92)}
 .hero-copy h1 .gradient{white-space:normal}
 .hero-copy .hero-sub{font-size:clamp(1rem,1.4vw,1.15rem);margin-bottom:1.35rem;max-width:520px}
 .hero-proof{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.9rem;opacity:0;animation:fadeInUp .8s .8s forwards}
-.hero-chip{font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);padding:.35rem .7rem;border:1px solid var(--card-border);border-radius:20px;background:rgba(255,255,255,.02)}
+.hero-chip{font-family:var(--font-body);font-weight:500;font-size:.82rem;color:var(--text);padding:.42rem .95rem;border:1px solid var(--card-border);border-radius:20px;background:rgba(255,255,255,.04);letter-spacing:.005em}
 .hero-copy h1 .gradient{background:none!important;color:var(--text)!important;-webkit-text-fill-color:currentColor!important}
 .hero-portrait{position:relative;justify-self:center;width:min(340px,72vw);aspect-ratio:1/1;opacity:0;animation:fadeInUp .8s .6s forwards}
 .hero-portrait::before{content:'';position:absolute;inset:-24%;background:radial-gradient(55% 55% at 62% 38%,rgba(129,140,248,.22),transparent 70%);filter:blur(24px);z-index:-1}
@@ -543,16 +543,12 @@ section{position:relative}
 
 <!-- Navigation -->
 <nav id="navbar">
-  <div class="nav-left">
-  </div>
   <div class="nav-links" id="navLinks">
-    <a href="#blog">Blog</a>
-    <a href="https://calendly.com/nissarnahfid/nahfid-1-1" target="_blank">Book a call</a>
+    <a href="/blog">Blog</a>
+    <a href="https://calendly.com/nissarnahfid/nahfid-1-1" target="_blank" class="nav-cta">Book a call</a>
   </div>
-  <div class="nav-right">
-    <div class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </div>
+  <div class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
   </div>
 </nav>
 
@@ -570,7 +566,7 @@ section{position:relative}
         <span class="hero-chip">Agents &middot; RLHF &middot; Harnesses</span>
       </div>
       <div class="hero-actions">
-        <a href="/assets/nahfid-nissar-resume.pdf" download="Nahfid-Nissar-Resume.pdf" class="btn btn-primary">Download résumé</a>
+        <a href="/assets/nahfid-nissar-resume.pdf" download="Nahfid-Nissar-Resume.pdf" class="btn btn-primary">Download Resume</a>
       </div>
     </div>
     <style>
@@ -716,26 +712,6 @@ section{position:relative}
 </script>
 
 <!-- Stats Bar -->
-<div class="stats-bar">
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-number" data-target="2">0</div>
-      <div class="stat-label">Conference Publications</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number" data-target="5" data-suffix="+">0<span class="suffix">+</span></div>
-      <div class="stat-label">AI Agents Built & Deployed</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number" data-target="10" data-suffix="+">0<span class="suffix">+</span></div>
-      <div class="stat-label">Shipped Products</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number" data-target="3">0</div>
-      <div class="stat-label">Companies Built For</div>
-    </div>
-  </div>
-</div>
 
 <!-- How I Build -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -755,9 +731,10 @@ section{position:relative}
         </div>
         <div class="timeline-company"><a href="https://nbyula.com" target="_blank">Nbyula</a> <span style="color:var(--text-dim)">|</span> EdTech Platform, Bangalore</div>
         <ul class="timeline-points">
-          <li>Shipped a <strong>GEPA prompt-optimization agent</strong> that audits the live Nbyula agent and opens <strong>self-authored PRs</strong> &mdash; an RLHF loop, no human in it</li>
-          <li>Built an <strong>async Document AI pipeline serving 10,000 users</strong> &mdash; classify, extract, QA, autofill</li>
-          <li>Fixed critical prod incidents: infinite loops, worker starvation, voice-AI races</li>
+          <li>Built the admissions model that gives a student their real chance at a specific university &mdash; LightGBM over <strong>388,000</strong> past decisions, scoring each university against its own admit history and validated on held-out intake cycles.</li>
+          <li>Automated the recording of university decisions that used to be read out of inboxes by hand &mdash; a classifier filters the mail, an extractor pulls the decision (rules first, model where they miss), and a resolver maps it to the right application; catches <strong>9 in 10</strong> with no false positives.</li>
+          <li>Consolidated the product's AI agents onto one serving layer &mdash; pooled capacity with automatic failover to a metered API, a shared credential store, and a single async client.</li>
+          <li>Built a self-improving prompt agent (GEPA) that mines real conversation traces, drafts rewrites, scores them on an eval set, and opens its own PR when one wins &mdash; no human in the loop.</li>
         </ul>
       </div>
 
@@ -768,11 +745,11 @@ section{position:relative}
         </div>
         <div class="timeline-company"><a href="https://nbyula.com" target="_blank">Nbyula</a> <span style="color:var(--text-dim)">|</span> EdTech Platform, Bangalore</div>
         <ul class="timeline-points">
-          <li>Built <strong>autonomous outreach agents</strong> (LangGraph + WhatsApp) that re-engage leads from CRM context</li>
-          <li>Shipped an <strong>Instagram DM agent</strong> (ManyChat) that converts social traffic to sign-ups</li>
-          <li><strong>Content-moderation pipeline</strong> (fine-tuned BERT + LLM-as-judge) that <strong>cut spam 99%</strong></li>
-          <li><strong>Autonomous browser agent</strong> (Browser Use + Claude SDK) that fills multi-step visa forms end-to-end</li>
-          <li>Drove <strong>&#8377;80K in sales</strong>; built CRM dashboards, lead management, voice AI + diarized transcription</li>
+          <li>Built the product's first AI agents &mdash; a LangGraph + WhatsApp bot that re-engages dormant leads from CRM history, an Instagram DM agent via ManyChat, and a Browser Use agent that files foreign university applications end-to-end.</li>
+          <li>Shipped the document pipeline behind <strong>10,000 users</strong> &mdash; uploads queue through BullMQ into OpenAI Batch for classification and extraction, an ONNX model on Lambda straightens crooked scans, and anything unreadable is sent back before it stalls an application.</li>
+          <li>Built the content-moderation system &mdash; a fine-tuned BERT classifier with an LLM second opinion &mdash; that cut spam <strong>99%</strong>.</li>
+          <li>Rebuilt the SOP and Essay flows around direct Razorpay checkout, driving <strong>&#8377;80K</strong> in product-led sales.</li>
+          <li>Extended the CRM with lead filtering, call and Google Meet auditing, and an Operations role so managers could see which leads were being worked.</li>
         </ul>
       </div>
 
@@ -1157,207 +1134,6 @@ section{position:relative}
   </div>
 </section>
 
-<!-- Skills -->
-<section id="blog">
-  <div class="section-inner">
-    <div class="section-label">Blog</div>
-    <div class="section-title reveal">Writing</div>
-    <p class="section-desc reveal">Curated research and notes on LLMs, autonomous agents, and low-resource-language AI.</p>
-    <div class="projects-grid reveal">
-      <a href="https://blogllm.com" target="_blank" class="project-card" data-category="ai">
-        <svg class="project-link-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        <div class="project-type">AI Blog &middot; Live</div>
-        <h3>blogllm.com</h3>
-        <p>An autonomous blog that discovers, summarizes, and emails a daily digest of new LLM research.</p>
-        <div class="project-tech"><span class="tech-tag">LLM</span><span class="tech-tag">Auto-curation</span><span class="tech-tag">Daily digest</span></div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Skills -->
-<section id="skills">
-  <div class="section-inner">
-    <div class="section-label">Technical Arsenal</div>
-    <div class="section-title reveal">Explore the Stack</div>
-    <p class="section-desc reveal">A tiny filesystem. Try <span style="font-family:var(--font-mono)">ls</span>, <span style="font-family:var(--font-mono)">cd skills</span>, or <span style="font-family:var(--font-mono)">tree</span>.</p>
-    <style>
-    .terminal-wrap{max-width:840px;margin:0 auto}
-    .terminal{background:#0c0d10;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);font-family:var(--font-mono)}
-    .term-bar{display:flex;align-items:center;gap:.5rem;padding:.7rem .9rem;background:#141519;border-bottom:1px solid var(--card-border)}
-    .term-dot{width:11px;height:11px;border-radius:50%;display:inline-block}
-    .term-dot.r{background:#ff5f57}.term-dot.y{background:#febc2e}.term-dot.g{background:#28c840}
-    .term-title{margin-left:.6rem;font-size:.74rem;color:var(--text-dim);letter-spacing:.02em}
-    .term-body{padding:1.1rem 1.15rem 1.3rem;min-height:360px;max-height:480px;overflow-y:auto;font-size:.82rem;line-height:1.75;color:#d4d4d8;cursor:text}
-    .term-body::-webkit-scrollbar{width:8px}.term-body::-webkit-scrollbar-thumb{background:#2a2d33;border-radius:8px}
-    .term-line{white-space:pre-wrap;word-break:break-word}
-    .term-out{margin:.1rem 0 .5rem}
-    .term-cmdecho{margin:.25rem 0}
-    .tok-cmd{color:#818cf8}.tok-str{color:#e5e7eb}.tok-dir{color:#818cf8;font-weight:600}.tok-ok{color:#28c840}.tok-dim{color:#71717a}.tok-cat{color:#f5f5f5;font-weight:600}
-    .term-cmdecho .tok-prompt{color:#28c840;margin-right:.5rem}
-    .term-pill{display:inline-block;margin:.15rem .3rem .15rem 0;padding:.12rem .5rem;border:1px solid rgba(129,140,248,.28);border-radius:4px;color:#c7d2fe;background:rgba(129,140,248,.07);font-size:.78rem}
-    .term-inputline{display:flex;align-items:center;gap:.5rem}
-    .term-prompt{color:#28c840;flex-shrink:0}.term-prompt .arw{color:#818cf8}
-    .term-input-wrap{position:relative;flex:1;display:flex}
-    .term-input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:#e5e7eb;font-family:var(--font-mono);font-size:.82rem;line-height:1.6;caret-color:#818cf8;padding:0}
-    .term-ghost{position:absolute;left:0;top:50%;transform:translateY(-50%);pointer-events:none;color:#52555c;white-space:pre;font-size:.82rem;line-height:1.6}
-    .term-suggest{display:none;margin:.5rem 0 .2rem;width:fit-content;max-width:100%;background:#16181d;border:1px solid #2c2f36;border-radius:6px;box-shadow:0 12px 30px rgba(0,0,0,.5);overflow:hidden}
-    .term-suggest.open{display:block}
-    .sg-row{display:flex;align-items:center;gap:.6rem;padding:.35rem .7rem;cursor:pointer;font-size:.78rem}
-    .sg-row .sg-ico{width:14px;text-align:center;color:#818cf8;flex-shrink:0}
-    .sg-row .sg-txt{color:#e5e7eb}
-    .sg-row .sg-hint{margin-left:auto;color:#6b6f78;font-size:.72rem;padding-left:1.4rem;white-space:nowrap}
-    .sg-row.sel{background:rgba(129,140,248,.16)}.sg-row.sel .sg-txt{color:#fff}
-    .term-key{display:inline-block;padding:.03rem .35rem;border:1px solid #2f333a;border-radius:3px;color:#a1a1aa;font-size:.72rem;background:rgba(255,255,255,.03)}
-    @media(max-width:600px){.term-body{font-size:.74rem;min-height:300px}.term-title{display:none}.term-input,.term-ghost{font-size:.74rem}}
-    </style>
-
-    <div class="terminal-wrap reveal">
-      <div class="terminal" id="skillTerm">
-        <div class="term-bar">
-          <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-          <span class="term-title">nahfid@portfolio</span>
-        </div>
-        <div class="term-body" id="termBody">
-          <div class="term-output" id="termOut"></div>
-          <div class="term-inputline" id="termInputLine" style="display:none">
-            <span class="term-prompt">nahfid <span id="termCwd" class="tok-dir">~</span> <span class="arw">&#10095;</span></span>
-            <span class="term-input-wrap">
-              <span class="term-ghost" id="termGhost"></span>
-              <input class="term-input" id="termInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="filesystem terminal input" />
-            </span>
-          </div>
-          <div class="term-suggest" id="termSuggest"></div>
-        </div>
-      </div>
-    </div>
-
-    <script>
-    (function(){
-      var SKILLS=[
-        {slug:'agents',label:'Agent Architecture',skills:['Agent Harnesses','Autonomous Loops','Self-Correcting Loops','Subagent Spawning','Tool Orchestration','Context Engineering','Memory Systems','Token Efficiency','RLHF Pipelines','LLM-as-a-Judge']},
-        {slug:'ai',label:'AI / ML Tooling',skills:['Langgraph','Claude Agent SDK','Browser Use','Langchain','Langfuse','OpenAI API','Vapi','PyTorch','Ollama','RAG / Vector Stores']},
-        {slug:'python',label:'Python Ecosystem',skills:['Django / DRF','FastAPI','Celery','Pandas','NumPy','Boto3','Puppeteer','Selenium','Playwright','Pytest']},
-        {slug:'js',label:'JavaScript / TypeScript',skills:['React','Next.js','Vue','Node.js','Express','Nest.js','Three.js','CANNON.js','Sentry']},
-        {slug:'cloud',label:'Cloud & Infrastructure',skills:['AWS (EC2, ECS, S3, Lambda)','CloudFront / Route53','DynamoDB','CodePipeline / CodeBuild','Docker','Nginx / Apache','Jenkins / Ansible','WAF']},
-        {slug:'data',label:'Data & Databases',skills:['MongoDB','PostgreSQL','Redis','OpenSearch','Aggregation Pipelines']},
-        {slug:'security',label:'Security & Research',skills:['Nmap','Nessus','Wireshark','Ghidra','Volatility','FTK Imager','Crunch','Solidity']}
-      ];
-      var SHIP=[
-        {slug:'agentic-systems',label:'Agentic Systems',skills:['Agent Harnesses','Autonomous Loops','Subagent Spawning','Tool Orchestration','Browser Agents','Voice AI','Multi-Channel','Debate Models']},
-        {slug:'context-memory',label:'Context & Memory',skills:['Token Efficiency','Context Engineering','RAG Pipelines','Vector Stores','Persistent Memory','RLHF Pipelines','LLM-as-a-Judge','Langfuse Tracing']},
-        {slug:'production-stack',label:'Production Stack',skills:['React / Next.js','Node / Django','MongoDB / Postgres','AWS (EC2, ECS, S3)','CI/CD + Docker','Meta Conversion API','Sentry Monitoring','Nginx / WAF']}
-      ];
-      function mk(list){var d={};list.forEach(function(x){d[x.slug+'.txt']={cat:x.label,skills:x.skills};});return d;}
-      var FS={
-        'skills':{d:mk(SKILLS)},
-        'ship':{d:mk(SHIP)},
-        'about.txt':{body:'<span class="tok-str">Nahfid Nissar</span>\nAI Engineer &amp; Researcher @ Nbyula\n\nBuilds autonomous agents, RLHF pipelines, and production ML systems.\nPublished in IEEE and on arXiv. Based in India.'},
-        'contact.txt':{body:'<span class="tok-dim">email    </span>nissarnahfid@gmail.com\n<span class="tok-dim">github   </span>github.com/NafiGit\n<span class="tok-dim">linkedin </span>linkedin.com/in/nahfid\n<span class="tok-dim">x        </span>x.com/NahfidN'},
-        'README.txt':{body:'This is Nahfid&#39;s skill shell.\n\n<span class="tok-dir">folders</span>  skills/ ship/\n<span class="tok-dir">files</span>    about.txt contact.txt\n\nMove with <span class="tok-cmd">cd</span>, list with <span class="tok-cmd">ls</span>, read with <span class="tok-cmd">cat</span>. Try: cd skills'}
-      };
-      var COMMANDS={ls:'list this folder',cd:'change folder  ·  cd <folder>',cat:'read a file  ·  cat <file>',pwd:'where am I',tree:'show the whole tree',clear:'clear the screen',help:'this list'};
-
-      var out=document.getElementById('termOut'),body=document.getElementById('termBody'),line=document.getElementById('termInputLine'),
-          input=document.getElementById('termInput'),ghost=document.getElementById('termGhost'),sug=document.getElementById('termSuggest'),
-          term=document.getElementById('skillTerm'),cwdEl=document.getElementById('termCwd');
-      var sel=-1,sugItems=[],demoRunning=false,started=false,cwd=[],history=[],hIdx=-1;
-      function histNav(dir){if(!history.length)return;hIdx=Math.max(-1,Math.min(history.length-1,hIdx+dir));input.value=hIdx<0?'':history[history.length-1-hIdx];closeSug();var v=input.value;setTimeout(function(){try{input.setSelectionRange(v.length,v.length);}catch(e){}},0);}
-      function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-      function scroll(){body.scrollTop=body.scrollHeight;}
-      function print(html,cls){var d=document.createElement('div');d.className='term-line '+(cls||'');d.innerHTML=html;out.appendChild(d);scroll();return d;}
-      function pills(a){return a.map(function(s){return '<span class="term-pill">'+esc(s)+'</span>';}).join('');}
-      function cwdStr(){return '~'+(cwd.length?'/'+cwd.join('/'):'');}
-      function setCwd(){cwdEl.textContent=cwdStr();}
-      function colorize(cmd){var p=cmd.split(' ');var h='<span class="tok-cmd">'+esc(p[0])+'</span>';if(p.length>1)h+=' <span class="tok-str">'+esc(p.slice(1).join(' '))+'</span>';return h;}
-      function echoCmd(cmd){print('<span class="tok-prompt">nahfid '+cwdStr()+' &#10095;</span>'+colorize(cmd),'term-cmdecho');}
-      function dirAt(segs){var d=FS;for(var i=0;i<segs.length;i++){var n=d[segs[i]];if(!n||!n.d)return null;d=n.d;}return d;}
-      function nodeAt(segs){if(!segs.length)return {d:FS};var d=FS,n=null;for(var i=0;i<segs.length;i++){n=d[segs[i]];if(!n)return null;if(i<segs.length-1){if(!n.d)return null;d=n.d;}}return n;}
-      function resolve(arg){var segs=(arg.charAt(0)==='/'||arg.charAt(0)==='~')?[]:cwd.slice();arg.split('/').forEach(function(p){if(!p||p==='.'||p==='~')return;if(p==='..'){segs.pop();return;}segs.push(p);});return segs;}
-      function listDir(d){var ns=Object.keys(d).sort(function(a,b){var da=d[a].d?0:1,db=d[b].d?0:1;return da-db||a.localeCompare(b);});return ns.map(function(nm){return d[nm].d?'<span class="tok-dir">'+nm+'/</span>':'<span class="tok-str">'+nm+'</span>';}).join('   ');}
-      function tree(d,pre){var ns=Object.keys(d).sort(function(a,b){var da=d[a].d?0:1,db=d[b].d?0:1;return da-db||a.localeCompare(b);});var o='';ns.forEach(function(nm,i){var last=i===ns.length-1;o+=pre+(last?'└─ ':'├─ ')+(d[nm].d?'<span class="tok-dir">'+nm+'/</span>':nm)+'\n';if(d[nm].d)o+=tree(d[nm].d,pre+(last?'   ':'│  '));});return o;}
-
-      function run(raw){
-        var cmd=(raw||'').trim();closeSug();hIdx=-1;
-        if(!cmd){print('<span class="tok-prompt">nahfid '+cwdStr()+' &#10095;</span>');return;}
-        if(history[history.length-1]!==cmd)history.push(cmd);
-        echoCmd(cmd);
-        var p=cmd.split(/\s+/),c=p[0].toLowerCase(),arg=p.slice(1).join(' ');
-        if(c==='help'){print(Object.keys(COMMANDS).map(function(k){return '  <span class="tok-cmd">'+(k+'      ').slice(0,6)+'</span><span class="tok-dim">'+COMMANDS[k]+'</span>';}).join('\n'),'term-out');}
-        else if(c==='ls'){var t=arg?resolve(arg):cwd;var d=dirAt(t);if(d){print(listDir(d),'term-out');}else{var n=nodeAt(resolve(arg));if(n&&!n.d)print('<span class="tok-str">'+esc(arg)+'</span>','term-out');else print('<span class="tok-dim">ls: no such directory: </span>'+esc(arg),'term-out');}}
-        else if(c==='cd'){if(!arg||arg==='~'||arg==='/'){cwd=[];setCwd();}else{var segs=resolve(arg);var d=dirAt(segs);if(d){cwd=segs;setCwd();}else{var n=nodeAt(segs);if(n&&!n.d)print('<span class="tok-dim">cd: not a directory: </span>'+esc(arg),'term-out');else print('<span class="tok-dim">cd: no such directory: </span>'+esc(arg),'term-out');}}}
-        else if(c==='cat'){if(!arg){print('<span class="tok-dim">usage: cat &lt;file&gt;</span>','term-out');}else{var n=nodeAt(resolve(arg));if(!n)print('<span class="tok-dim">cat: no such file: </span>'+esc(arg),'term-out');else if(n.d)print('<span class="tok-dim">cat: </span>'+esc(arg)+'<span class="tok-dim"> is a directory</span>','term-out');else if(n.skills)print('<span class="tok-cat">'+esc(n.cat)+'</span>\n'+pills(n.skills),'term-out');else print(n.body,'term-out');}}
-        else if(c==='pwd'){print(cwdStr(),'term-out');}
-        else if(c==='tree'){print('<span class="tok-dir">~</span>\n'+tree(FS,''),'term-out');}
-        else if(c==='whoami'){print(FS['about.txt'].body,'term-out');}
-        else if(c==='hire'||c==='contact'){print(FS['contact.txt'].body,'term-out');}
-        else if(c==='clear'){out.innerHTML='';}
-        else if(c==='sudo'){print('<span class="tok-dim">nahfid is not in the sudoers file. This incident will be reported. 🙂</span>','term-out');}
-        else{print('<span class="tok-dim">command not found: </span>'+esc(c)+' <span class="tok-dim">. try </span><span class="tok-cmd">help</span>','term-out');}
-      }
-
-      function computeSug(val){
-        var parts=val.split(/\s+/);
-        if(parts.length<=1){var pf=parts[0].toLowerCase();return Object.keys(COMMANDS).filter(function(k){return k.indexOf(pf)===0;}).map(function(k){return {label:k,ico:'&#9002;',kind:COMMANDS[k],complete:k+' '};});}
-        var c=parts[0].toLowerCase(),arg=parts.slice(1).join(' ');
-        if(c==='cd'||c==='ls'||c==='cat'){
-          var slash=arg.lastIndexOf('/');var base=slash>=0?arg.slice(0,slash):'';var frag=(slash>=0?arg.slice(slash+1):arg).toLowerCase();
-          var d=dirAt(base?resolve(base):cwd.slice());if(!d)return [];
-          var dirsOnly=(c==='cd');
-          return Object.keys(d).filter(function(nm){if(dirsOnly&&!d[nm].d)return false;return nm.toLowerCase().indexOf(frag)===0;}).sort().slice(0,8).map(function(nm){
-            var isdir=!!d[nm].d;var path=(base?base+'/':'')+nm+(isdir?'/':'');
-            return {label:nm+(isdir?'/':''),ico:isdir?'&#9636;':'&#9002;',kind:isdir?'folder':'file',complete:c+' '+path};
-          });
-        }
-        return [];
-      }
-      function closeSug(){sug.classList.remove('open');sug.innerHTML='';sel=-1;ghost.innerHTML='';}
-      function renderSug(val){
-        sugItems=computeSug(val);
-        if(!sugItems.length||!val.trim()){closeSug();return;}
-        if(sel>=sugItems.length)sel=sugItems.length-1;
-        sug.innerHTML=sugItems.map(function(it,i){return '<div class="sg-row'+(i===sel?' sel':'')+'" data-i="'+i+'"><span class="sg-ico">'+it.ico+'</span><span class="sg-txt">'+esc(it.label)+'</span><span class="sg-hint">'+esc(it.kind)+'</span></div>';}).join('');
-        sug.classList.add('open');
-        var top=sugItems[0];
-        if(top&&top.complete.indexOf(val)===0&&top.complete!==val)ghost.innerHTML='<span style="color:transparent">'+esc(val)+'</span>'+esc(top.complete.slice(val.length));
-        else ghost.innerHTML='';
-        scroll();
-      }
-      function accept(i){if(!sugItems.length)return;input.value=sugItems[i<0?0:i].complete;sel=-1;renderSug(input.value);}
-      input.addEventListener('keydown',function(e){
-        if(demoRunning)abortDemo();
-        if(e.key==='Tab'){e.preventDefault();if(sugItems.length)accept(sel);return;}
-        if(e.key==='ArrowRight'){if(ghost.innerHTML&&input.selectionStart===input.value.length&&sugItems.length){e.preventDefault();accept(0);}return;}
-        if(e.key==='ArrowDown'){e.preventDefault();if(sug.classList.contains('open')){sel=(sel+1)%sugItems.length;renderSug(input.value);}else{histNav(-1);}return;}
-        if(e.key==='ArrowUp'){e.preventDefault();if(sug.classList.contains('open')){sel=(sel-1+sugItems.length)%sugItems.length;renderSug(input.value);}else{histNav(1);}return;}
-        if(e.key==='Escape'){closeSug();return;}
-        if(e.key==='Enter'){e.preventDefault();if(sug.classList.contains('open')&&sel>-1){accept(sel);return;}var v=input.value;input.value='';closeSug();run(v);return;}
-      });
-      input.addEventListener('input',function(){sel=-1;hIdx=-1;renderSug(input.value);});
-      sug.addEventListener('mousedown',function(e){var r=e.target.closest?e.target.closest('.sg-row'):null;if(!r)return;e.preventDefault();accept(+r.getAttribute('data-i'));input.focus();});
-      body.addEventListener('mousedown',function(){if(demoRunning)abortDemo();});
-      body.addEventListener('click',function(){if(line.style.display!=='none')input.focus();});
-      function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
-      function abortDemo(){if(!demoRunning)return;demoRunning=false;input.value='';closeSug();input.focus();}
-      function typeInto(target){return new Promise(function(res){var i=input.value.length;(function step(){if(!demoRunning||i>target.length){res();return;}input.value=target.slice(0,i);renderSug(input.value);i++;setTimeout(step,50+Math.random()*55);})();});}
-      function demo(){
-        demoRunning=true;line.style.display='flex';var v;
-        Promise.resolve()
-          .then(function(){return sleep(400);})
-          .then(function(){return typeInto('ls');}).then(function(){return sleep(450);})
-          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(650);})
-          .then(function(){if(!demoRunning)return;return typeInto('cd skills');}).then(function(){return sleep(500);})
-          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(550);})
-          .then(function(){if(!demoRunning)return;return typeInto('ls');}).then(function(){return sleep(450);})
-          .then(function(){if(!demoRunning)return;v=input.value;input.value='';closeSug();run(v);return sleep(500);})
-          .then(function(){if(!demoRunning)return;print('<span class="tok-dim">poke around. try </span><span class="tok-cmd">cat agents.txt</span><span class="tok-dim">, </span><span class="tok-cmd">cd ../ship</span><span class="tok-dim">, or </span><span class="tok-cmd">tree</span><span class="tok-dim">. </span><span class="term-key">Tab</span><span class="tok-dim"> completes paths.</span>','term-out');demoRunning=false;input.value='';closeSug();input.focus();});
-      }
-      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;io.disconnect();print('<span class="tok-dim">skill-shell v1 · a tiny filesystem. type </span><span class="tok-cmd">ls</span><span class="tok-dim"> to look around.</span>','term-out');demo();}});},{threshold:.35,rootMargin:'0px 0px -40px 0px'});
-      io.observe(term);
-    })();
-    </script>
-  </div>
-</section>
 
 <!-- Education -->
 <section id="education" style="background:var(--surface);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border)">

@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/resume", "destination": "/assets/nahfid-nissar-resume.pdf" },
     { "source": "/daresume", "destination": "/assets/nahfid-nissar-resume.pdf" },
-    { "source": "/r", "destination": "/assets/nahfid-nissar-resume.pdf" }
+    { "source": "/r", "destination": "/assets/nahfid-nissar-resume.pdf" },
+    { "source": "/blog", "destination": "/blog.html" }
   ]
 }

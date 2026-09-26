@@ -119,14 +119,12 @@ button{font:inherit}
 .press{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--muted);padding:.4rem .9rem .4rem .75rem;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);margin-bottom:1.6rem}
 .press svg{width:16px;height:16px;color:var(--cta)}
 .press b{color:var(--text);font-weight:600}
-.press-dot{width:3px;height:3px;border-radius:50%;background:var(--dim)}
 .mark{position:relative;display:inline-block;white-space:nowrap}
 .mark::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.1em;height:.3em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M3 10C45 4 110 2 197 7' stroke='%23fbbf24' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%;clip-path:inset(0 100% 0 0);transition:clip-path .9s .35s cubic-bezier(.6,0,.2,1)}
 .rv.in .mark::after{clip-path:inset(0 0 0 0)}
 .portrait{position:relative;justify-self:center;width:min(380px,100%);margin:0}
 .portrait img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:top;border-radius:20px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.5)}
-.portrait figcaption{position:absolute;left:1rem;bottom:1rem;font-size:.82rem;color:#e4e4e7;padding:.4rem .8rem;border-radius:999px;background:rgba(17,17,17,.78);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-@media(max-width:900px){.portrait{order:-1;justify-self:start;width:min(200px,55vw)}.portrait figcaption{display:none}}
+@media(max-width:900px){.portrait{order:-1;justify-self:start;width:min(200px,55vw)}}
 
 /* proof */
 .proof{padding:3rem 0 5rem}
@@ -317,7 +315,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
 <header class="hero" id="top">
   <div class="wrap">
     <div>
-      <div class="press rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h13v16H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v10a2 2 0 0 1-2 2"/><path d="M8 8h5M8 12h5M8 16h3"/></svg>Featured in <b>ETV Bharat</b><span class="press-dot"></span>June 2026</div>
+      <div class="press rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h13v16H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v10a2 2 0 0 1-2 2"/><path d="M8 8h5M8 12h5M8 16h3"/></svg>Featured in <b>ETV Bharat</b></div>
       <h1 class="rv">I ship AI to production, <span class="mark">not demos</span></h1>
       <p class="hero-sub rv">I&rsquo;m Nahfid, an AI engineer at Nbyula. I build the agents, models and evals that <b>10,000 students</b> rely on, and publish the research behind them.</p>
       <div class="rv">
@@ -327,7 +325,6 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
     </div>
     <figure class="portrait rv">
       <img src="assets/profile.png" alt="Nahfid Nissar" width="1260" height="1242" fetchpriority="high">
-      <figcaption>Nahfid Nissar &middot; AI Engineer, Bangalore</figcaption>
     </figure>
   </div>
 </header>

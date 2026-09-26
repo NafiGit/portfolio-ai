@@ -51,7 +51,7 @@ Research (5 papers)
 - "KS-PRET-5M: A 5 Million Word, 12 Million Token Kashmiri Pretraining Corpus" - arXiv 2604.11066 (2026). The largest known Kashmiri pretraining corpus. Authors: Haq Nawaz Malik, Nahfid Nissar.
 - "Novel Attack Vector to Abuse AWS for Cryptojacking" - IEEE ICAAIC 2024. Nahfid is first author.
 - "Navigating the Cloud: A Review of Emerging Trends in Security" - IEEE ICSSAS 2024. Nahfid is first author.
-- Why Kashmiri: about 7 million speakers and almost no AI tools. The datasets and models aim to change that.
+- Why Kashmiri: about 7 million speakers and almost no open-source AI tools. The datasets and models aim to change that.
 
 Projects
 - nbyula.com - production EdTech platform: AI agents, CRM, payments, ops dashboards.

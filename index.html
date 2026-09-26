@@ -92,7 +92,7 @@ a:hover{color:var(--primary)}
 .scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#fafafa,#a1a1aa);z-index:1000;transition:width .1s linear;width:0}
 
 /* ═══════════════ NAVIGATION ═══════════════ */
-nav{position:fixed;top:16px;left:0;right:0;z-index:999;padding:0 1.5rem;display:flex;justify-content:flex-end;pointer-events:none}
+nav{position:fixed;top:16px;left:0;right:0;z-index:999;padding:0 1.5rem;display:flex;justify-content:center;pointer-events:none}
 .nav-pill{pointer-events:auto;display:flex;align-items:center;gap:.35rem;padding:.35rem .35rem .35rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(17,18,20,.6);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 8px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);transition:background .4s,border-color .4s,box-shadow .4s}
 nav.scrolled .nav-pill{background:rgba(17,18,20,.88);border-color:rgba(255,255,255,.14);box-shadow:0 12px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06)}
 .nav-link{font-size:.88rem;font-weight:500;color:var(--text-muted);padding:.45rem .8rem;border-radius:999px;transition:color .25s,background .25s}
@@ -118,10 +118,7 @@ nav.scrolled .nav-pill{background:rgba(17,18,20,.88);border-color:rgba(255,255,2
 .hero h1{font-family:var(--font-display);font-size:clamp(3rem,7vw,5.5rem);font-weight:800;line-height:1.15;letter-spacing:-.04em;margin-bottom:1.5rem;opacity:0;animation:fadeInUp .8s .5s forwards}
 .hero h1 .gradient{color:var(--text);-webkit-text-fill-color:currentColor;background:none}
 .hero-sub{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--text-muted);max-width:600px;line-height:1.7;margin-bottom:2.5rem;opacity:0;animation:fadeInUp .8s .7s forwards}
-.hero-sub .hw{color:#7d8596;transition:color .3s ease;display:inline}
-.hero-sub .hw.lit{color:var(--text)}
-.hero-sub .hw.strong-word{font-weight:600;color:#cbd5e1}
-.hero-sub .hw.strong-word.lit{color:#fff}
+.hero-sub b{font-weight:600;color:#fff}
 .hero-sub strong{color:var(--text);font-weight:600}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeInUp .8s .9s forwards}
 .btn{display:inline-flex;align-items:center;gap:.55rem;padding:.75rem 1.4rem;border-radius:999px;font-weight:600;font-size:.92rem;transition:transform .2s,background .2s,border-color .2s,box-shadow .2s;cursor:pointer;border:none;font-family:var(--font-body);letter-spacing:-.005em}
@@ -443,7 +440,7 @@ section{position:relative}
 
 /* ═══════════════ RESPONSIVE ═══════════════ */
 @media(max-width:900px){
-  nav{top:12px;padding:0 .9rem;justify-content:center}
+  nav{top:12px;padding:0 .9rem}
   .live-badge{display:none}
 
   .hero{min-height:auto;padding:5.75rem 1.25rem 2.5rem}
@@ -563,23 +560,6 @@ section{position:relative}
       <img id="faceFallback" src="assets/profile.png" alt="Nahfid Nissar, AI Engineer &amp; Researcher" width="1260" height="1242" fetchpriority="high">
     </div>
   </div>
-  <script>
-  (function(){
-    var el=document.getElementById('heroPitch'); if(!el)return;
-    var parts=el.innerHTML.split(/(<b>.*?<\/b>)/g), html='';
-    parts.forEach(function(p){
-      var bold=p.indexOf('<b>')===0, txt=p.replace(/<\/?b>/g,'');
-      txt.split(/(\s+)/).forEach(function(tok){
-        if(!tok)return;
-        if(/^\s+$/.test(tok)){html+=tok;return;}
-        html+='<span class="hw'+(bold?' strong-word':'')+'">'+tok+'</span>';
-      });
-    });
-    el.innerHTML=html;
-    var words=el.querySelectorAll('.hw'), i=0;
-    setTimeout(function step(){ if(i>=words.length)return; words[i].classList.add('lit'); i++; setTimeout(step,55); },600);
-  })();
-  </script>
   <div class="hero-scroll"><span></span></div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1548,6 +1528,8 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 @keyframes eqp{0%,100%{height:4px}50%{height:13px}}
 .section-label .lbl-bit{color:#9db4ff;font-family:var(--font-mono);opacity:.7;margin-right:.55ch;letter-spacing:.04em}
 @media(prefers-reduced-motion:reduce){#scanlines{display:none}#soundToggle.on .eq i{animation:none}}
+/* declutter: one CTA on screen — hide ambient widgets */
+#soundToggle,#scanlines,.cursor-blob,.hero-scroll,.chat-toggle{display:none!important}
 </style>
 <div id="scanlines" aria-hidden="true"></div>
 <button id="soundToggle" aria-label="Enable sound" title="Toggle sci-fi sound"><span class="eq"><i></i><i></i><i></i></span></button>

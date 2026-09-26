@@ -215,24 +215,18 @@ button{font:inherit}
 @media(max-width:760px){.tiles,.tiles.t3{grid-template-columns:1fr 1fr}.job-head{flex-wrap:wrap}.job-head time{margin-left:0;width:100%;order:3}}
 
 /* research */
-.papers{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
-.paper{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s}
-.paper:hover{transform:translateY(-4px);border-color:#3f3f46}
-.paper-img{height:170px;overflow:hidden;background:#fff;border-bottom:1px solid var(--line)}
-.paper-img img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s}
-.paper:hover .paper-img img{transform:scale(1.04)}
-.paper-body{padding:1.3rem 1.3rem 1.4rem;display:flex;flex-direction:column;flex:1}
-.venue{align-self:flex-start;display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.venue::before{content:"";width:14px;height:2px;border-radius:2px;background:var(--cta)}
-.paper-stat{font-family:var(--font-display);font-size:2.2rem;font-weight:700;letter-spacing:-.02em;line-height:1;margin-top:1rem}
-.paper-stat-l{color:var(--muted);font-size:.88rem;margin-top:.35rem}
-.paper h3{font-size:.98rem;font-weight:600;line-height:1.4;margin-top:1rem;color:#e4e4e7}
-.paper-by{font-size:.8rem;color:var(--dim);margin-top:.5rem}
-.paper-go{margin-top:auto;padding-top:1rem;font-size:.85rem;font-weight:600;color:var(--cta)}
-.paper-go .ar{display:inline-block;transition:transform .2s}.paper:hover .paper-go .ar{transform:translateX(4px)}
-.papers .paper:nth-child(4){grid-column:1/span 1}
-@media(max-width:900px){.papers{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.papers{grid-template-columns:1fr}}
+.paps{max-width:880px;margin:0 auto;border-top:1px solid var(--line)}
+.pap{display:flex;align-items:center;gap:1.6rem;padding:1.4rem .6rem;border-bottom:1px solid var(--line);transition:background .2s}
+.pap:hover{background:rgba(255,255,255,.025)}
+.pap-stat{width:112px;flex-shrink:0}
+.pap-stat b{display:block;font-family:var(--font-display);font-size:1.9rem;font-weight:700;letter-spacing:-.02em;line-height:1}
+.pap-stat small{display:block;font-size:.76rem;color:var(--dim);margin-top:.3rem}
+.pap-main{flex:1;min-width:0}
+.pap h3{font-size:1.06rem;font-weight:600;line-height:1.4;color:var(--text)}
+.pap p{font-size:.86rem;color:var(--dim);margin-top:.3rem}
+.pap-go{color:var(--dim);font-size:1.1rem;transition:color .2s,transform .2s}
+.pap:hover .pap-go{color:var(--cta);transform:translateX(4px)}
+@media(max-width:600px){.pap{gap:1rem;padding:1.2rem .2rem}.pap-stat{width:74px}.pap-stat b{font-size:1.45rem}.pap-go{display:none}}
 
 /* work */
 .work-top{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
@@ -267,8 +261,6 @@ a.mini:hover em{color:var(--cta);transform:translate(2px,-2px)}
 .edu-strip p{color:var(--muted);font-size:.9rem}
 .gpa{font-family:var(--font-display);font-size:1.6rem;font-weight:700;margin-left:auto}
 .gpa small{font-size:.85rem;color:var(--dim);font-weight:500}
-.certs{width:100%;display:flex;flex-wrap:wrap;gap:.5rem;padding-top:1rem;border-top:1px solid var(--line)}
-.certs span{font-size:.8rem;color:#d4d4d8;padding:.3rem .7rem;border:1px solid var(--line);border-radius:999px}
 @media(max-width:600px){.gpa{margin-left:0}}
 
 /* final cta */
@@ -518,62 +510,12 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
       <h2>5 papers. 3 for a language <span class="mark">AI forgot</span></h2>
       <p>Kashmiri has about 7 million speakers and almost no open-source AI tools. I co-author the datasets and models to change that.</p>
     </div>
-    <div class="papers">
-      <a class="paper rv" href="https://arxiv.org/abs/2606.23144" target="_blank" rel="noopener">
-        <div class="paper-img"><img src="assets/paper-koshurpixel.png" alt="First page of the Koshur Pixel paper" loading="lazy"></div>
-        <div class="paper-body">
-          <span class="venue ax">arXiv &middot; 2026</span>
-          <div class="paper-stat">613K</div>
-          <div class="paper-stat-l">image-text pairs for Kashmiri OCR</div>
-          <h3>Koshur Pixel: A Large-Scale Synthetic OCR Dataset for Kashmiri</h3>
-          <div class="paper-by">with H. N. Malik &amp; F. Iqbal</div>
-          <span class="paper-go">Read the paper <span class="ar">&rarr;</span></span>
-        </div>
-      </a>
-      <a class="paper rv" href="https://arxiv.org/abs/2606.15883" target="_blank" rel="noopener">
-        <div class="paper-img"><img src="assets/paper-koshur.png" alt="First page of the Koshur Diacritizer paper" loading="lazy"></div>
-        <div class="paper-body">
-          <span class="venue ax">arXiv &middot; 2026</span>
-          <div class="paper-stat">77.5%</div>
-          <div class="paper-stat-l">expert-rated accuracy, the first neural model of its kind</div>
-          <h3>Koshur Diacritizer: Byte-Level Seq2Seq for Kashmiri Diacritic Restoration</h3>
-          <div class="paper-by">with H. N. Malik &amp; F. Iqbal</div>
-          <span class="paper-go">Read the paper <span class="ar">&rarr;</span></span>
-        </div>
-      </a>
-      <a class="paper rv" href="https://arxiv.org/abs/2604.11066" target="_blank" rel="noopener">
-        <div class="paper-img"><img src="assets/paper-kspret.png" alt="First page of the KS-PRET-5M paper" loading="lazy"></div>
-        <div class="paper-body">
-          <span class="venue ax">arXiv &middot; 2026</span>
-          <div class="paper-stat">12M</div>
-          <div class="paper-stat-l">tokens in the largest known Kashmiri pretraining corpus</div>
-          <h3>KS-PRET-5M: A 5 Million Word Kashmiri Pretraining Corpus</h3>
-          <div class="paper-by">with H. N. Malik</div>
-          <span class="paper-go">Read the paper <span class="ar">&rarr;</span></span>
-        </div>
-      </a>
-      <a class="paper rv" href="https://doi.org/10.1109/ICAAIC60222.2024.10575628" target="_blank" rel="noopener">
-        <div class="paper-img"><img src="assets/paper-cryptojacking.png" alt="First page of the AWS cryptojacking paper" loading="lazy"></div>
-        <div class="paper-body">
-          <span class="venue ie">IEEE &middot; ICAAIC 2024</span>
-          <div class="paper-stat">AWS</div>
-          <div class="paper-stat-l">a new attack vector for cryptojacking, and how to stop it</div>
-          <h3>Novel Attack Vector to Abuse AWS for Cryptojacking</h3>
-          <div class="paper-by">First author</div>
-          <span class="paper-go">Read the paper <span class="ar">&rarr;</span></span>
-        </div>
-      </a>
-      <a class="paper rv" href="https://doi.org/10.1109/ICSSAS64001.2024.10760612" target="_blank" rel="noopener">
-        <div class="paper-img"><img src="assets/paper-navigating.png" alt="First page of the cloud security review paper" loading="lazy"></div>
-        <div class="paper-body">
-          <span class="venue ie">IEEE &middot; ICSSAS 2024</span>
-          <div class="paper-stat">Survey</div>
-          <div class="paper-stat-l">emerging cloud-security threats and defenses</div>
-          <h3>Navigating the Cloud: A Review of Emerging Trends in Security</h3>
-          <div class="paper-by">First author</div>
-          <span class="paper-go">Read the paper <span class="ar">&rarr;</span></span>
-        </div>
-      </a>
+    <div class="paps rv">
+      <a class="pap" href="https://arxiv.org/abs/2606.23144" target="_blank" rel="noopener"><div class="pap-stat"><b>613K</b><small>image-text pairs</small></div><div class="pap-main"><h3>Koshur Pixel: a synthetic OCR dataset for Kashmiri</h3><p>arXiv &middot; 2026 &middot; with H. N. Malik &amp; F. Iqbal</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" href="https://arxiv.org/abs/2606.15883" target="_blank" rel="noopener"><div class="pap-stat"><b>77.5%</b><small>expert accuracy</small></div><div class="pap-main"><h3>Koshur Diacritizer: the first neural model for Kashmiri diacritics</h3><p>arXiv &middot; 2026 &middot; with H. N. Malik &amp; F. Iqbal</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" href="https://arxiv.org/abs/2604.11066" target="_blank" rel="noopener"><div class="pap-stat"><b>12M</b><small>tokens</small></div><div class="pap-main"><h3>KS-PRET-5M: the largest Kashmiri pretraining corpus</h3><p>arXiv &middot; 2026 &middot; with H. N. Malik</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" href="https://doi.org/10.1109/ICAAIC60222.2024.10575628" target="_blank" rel="noopener"><div class="pap-stat"><b>1st</b><small>author</small></div><div class="pap-main"><h3>A new attack vector for cryptojacking on AWS</h3><p>IEEE ICAAIC &middot; 2024</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" href="https://doi.org/10.1109/ICSSAS64001.2024.10760612" target="_blank" rel="noopener"><div class="pap-stat"><b>1st</b><small>author</small></div><div class="pap-main"><h3>Navigating the Cloud: a review of emerging security trends</h3><p>IEEE ICSSAS &middot; 2024</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -639,12 +581,6 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
         <p>KL University &middot; Cybersecurity &amp; Blockchain &middot; 2021&ndash;2025</p>
       </div>
       <div class="gpa">9.1<small> / 10 CGPA</small></div>
-      <div class="certs">
-        <span>AWS Cloud Practitioner</span>
-        <span>Ethical Hacking, IIT Kharagpur</span>
-        <span>Red Hat Enterprise App Dev</span>
-        <span>SAS Statistical Business Analyst</span>
-      </div>
     </div>
   </div>
 </section>

@@ -1,5 +1,7 @@
 {
   "rewrites": [
-    { "source": "/daresume", "destination": "/assets/resume.pdf" }
+    { "source": "/resume", "destination": "/assets/nahfid-nissar-resume.pdf" },
+    { "source": "/daresume", "destination": "/assets/nahfid-nissar-resume.pdf" },
+    { "source": "/r", "destination": "/assets/nahfid-nissar-resume.pdf" }
   ]
 }

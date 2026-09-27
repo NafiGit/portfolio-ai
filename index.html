@@ -86,6 +86,7 @@ button{font:inherit}
 /* shared */
 .wrap{max-width:1140px;margin:0 auto;padding:0 1.5rem}
 .sec{padding:7rem 0}
+@media(max-width:760px){.sec{padding:4.5rem 0}.sec-head{margin-bottom:2.4rem}}
 .sec-head{text-align:center;max-width:720px;margin:0 auto 3.5rem}
 .eyebrow{display:inline-block;font-family:var(--font-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cta);margin-bottom:1rem}
 .sec-head h2{font-family:var(--font-display);font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;line-height:1.1;letter-spacing:-.03em}
@@ -124,19 +125,23 @@ button{font:inherit}
 .rv.in .mark::after{clip-path:inset(0 0 0 0)}
 .portrait{position:relative;justify-self:center;width:min(380px,100%);margin:0}
 .portrait img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:top;border-radius:20px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.5)}
-@media(max-width:900px){.portrait{order:-1;justify-self:start;width:min(200px,55vw)}}
+@media(max-width:900px){.portrait{order:-1;justify-self:center;width:min(180px,50vw)}.hero .wrap>div:not(.portrait){text-align:center}.hero-sub{margin-left:auto;margin-right:auto}.cta-note{justify-content:center;text-align:left}}
 
 /* proof */
 .proof{padding:3rem 0 5rem}
+@media(max-width:600px){.proof{padding:1rem 0 3rem}.pc-rows b{flex-basis:4.6rem;font-size:1.35rem}}
 .proof-wrap{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-.proof-card{background:#ececec;color:#18181b;border-radius:6px;padding:1.4rem 1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.pc-head{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:.95rem}
-.pc-badge{font-style:normal;font-size:.72rem;font-weight:700;color:#15803d;background:#bbf7d0;border:1px solid #86efac;border-radius:4px;padding:.05rem .4rem}
-.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem 1rem;margin:1.3rem 0 1.2rem}
-.pc-grid b{display:block;font-size:1.7rem;font-weight:700;letter-spacing:-.02em;line-height:1.1}
-.pc-grid span{font-size:.8rem;color:#52525b}
-.pc-foot{display:flex;justify-content:space-between;font-size:.8rem;color:#71717a;border-top:1px solid #d4d4d8;padding-top:.8rem}
-.pc-foot a{color:#4f46e5;font-weight:600}
+.proof-card{background:#f4f4f5;color:#18181b;border-radius:14px;padding:1.3rem 1.4rem 1.1rem;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.pc-head{display:flex;align-items:center;gap:.75rem;padding-bottom:1rem;border-bottom:1px solid #e4e4e7}
+.pc-head img{width:36px;height:36px;border-radius:9px}
+.pc-head b{display:block;font-weight:700;font-size:1rem;line-height:1.2}
+.pc-head span{display:block;font-size:.8rem;color:#71717a}
+.pc-badge{margin-left:auto;font-style:normal;font-size:.74rem;font-weight:600;color:#3f3f46;background:#e4e4e7;border-radius:999px;padding:.25rem .65rem;white-space:nowrap}
+.pc-rows{list-style:none}
+.pc-rows li{display:flex;align-items:baseline;gap:1rem;padding:.85rem 0;border-bottom:1px solid #e4e4e7}
+.pc-rows b{flex:0 0 5.4rem;font-family:var(--font-display);font-size:1.55rem;font-weight:700;letter-spacing:-.02em;line-height:1}
+.pc-rows span{font-size:.9rem;color:#52525b;line-height:1.45}
+.pc-foot{display:inline-block;margin-top:.9rem;font-size:.85rem;font-weight:600;color:#18181b;text-decoration:underline;text-decoration-color:var(--cta);text-decoration-thickness:2px;text-underline-offset:4px}
 .proof-quote>svg{width:46px;height:40px;color:#16a34a}
 .proof-quote p{font-size:1.3rem;line-height:1.55;color:#e4e4e7;margin:1rem 0 1.4rem}
 .ask-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.4rem 1.1rem .4rem .4rem;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);color:var(--text);font-weight:600;font-size:.95rem;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
@@ -149,6 +154,7 @@ button{font:inherit}
 
 /* pain */
 .pain{padding:3rem 0 6rem}
+@media(max-width:600px){.pain{padding:2rem 0 3.5rem}.pain-box{padding:2.4rem 1.2rem;font-size:.98rem;line-height:1.75}.pain-box p{margin-bottom:.35rem}}
 .pain-box{max-width:720px;margin:0 auto;background:#1f0f0a;border-radius:14px;padding:3.5rem 2rem;text-align:center;font-size:clamp(1.05rem,2vw,1.3rem);line-height:2;color:#d4d4d8}
 .pain-box .r{color:var(--red);font-weight:600}
 .pain-box p{opacity:0;transform:translateX(-12px);transition:opacity .5s,transform .5s}
@@ -186,7 +192,7 @@ button{font:inherit}
 .note-body ol li::marker{color:var(--dim)}
 .note-link{color:var(--text);text-decoration:underline;text-decoration-color:var(--cta);text-underline-offset:4px;text-decoration-thickness:2px}
 .note-sign{font-family:var(--font-hand);font-size:1.9rem;color:#e4e4e7}
-@media(max-width:760px){.note-top{grid-template-columns:1fr}.note-card{max-width:260px}.trav-tip{width:260px;left:0;transform:translate(0,6px)}.trav:hover .trav-tip,.trav:focus .trav-tip,.trav.show .trav-tip{transform:none}.trav-tip::after{left:2rem}.note{font-size:1.05rem}}
+@media(max-width:760px){.note{padding:3rem 1.5rem 3.5rem}.note-top{grid-template-columns:1fr}.note-card{max-width:240px;margin:0 auto;width:100%}.trav-tip{width:260px;left:0;transform:translate(0,6px)}.trav:hover .trav-tip,.trav:focus .trav-tip,.trav.show .trav-tip{transform:none}.trav-tip::after{left:2rem}.note{font-size:1.05rem}}
 
 /* experience */
 .jobs{display:flex;flex-direction:column;gap:1.5rem;max-width:960px;margin:0 auto}
@@ -212,17 +218,18 @@ button{font:inherit}
 .job summary:hover{color:var(--text)}
 .job details ul{margin:1rem 0 0 1.1rem;display:flex;flex-direction:column;gap:.55rem;color:var(--muted);font-size:.93rem}
 .job details li::marker{color:var(--dim)}
-@media(max-width:760px){.tiles,.tiles.t3{grid-template-columns:1fr 1fr}.job-head{flex-wrap:wrap}.job-head time{margin-left:0;width:100%;order:3}}
+@media(max-width:760px){.tiles,.tiles.t3{grid-template-columns:1fr;gap:.5rem}.tile{display:flex;align-items:baseline;gap:1rem;padding:.9rem 1rem}.tile b{flex:0 0 5.6rem;font-size:1.5rem}.tile span{margin-top:0}.job{padding:1.3rem}.job-head{flex-wrap:wrap}.job-head time{margin-left:0;width:100%;order:3}}
 
 /* research */
 .paps{max-width:880px;margin:0 auto;border-top:1px solid var(--line)}
 .pap{display:flex;align-items:center;gap:1.6rem;padding:1.4rem .6rem;border-bottom:1px solid var(--line);transition:background .2s}
-.pap:hover{background:rgba(255,255,255,.025)}
 .pap-stat{width:112px;flex-shrink:0}
 .pap-stat b{display:block;font-family:var(--font-display);font-size:1.9rem;font-weight:700;letter-spacing:-.02em;line-height:1}
 .pap-stat small{display:block;font-size:.76rem;color:var(--dim);margin-top:.3rem}
 .pap-main{flex:1;min-width:0}
 .pap h3{font-size:1.06rem;font-weight:600;line-height:1.4;color:var(--text)}
+.pap-t{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;text-decoration-thickness:1.5px;transition:text-decoration-color .2s}
+.pap-t:hover{text-decoration-color:var(--cta)}
 .pap p{font-size:.86rem;color:var(--dim);margin-top:.3rem}
 .pap-go{color:var(--dim);font-size:1.1rem;transition:color .2s,transform .2s}
 .pap:hover .pap-go{color:var(--cta);transform:translateX(4px)}
@@ -257,6 +264,11 @@ a.mini:hover em{color:var(--cta);transform:translate(2px,-2px)}
 @media(max-width:900px){.more{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.more{grid-template-columns:1fr}}
 
+.blogllm-tile{position:relative;display:flex;flex-direction:column;background:#0a0a0a}
+.bl-logo{font-family:Georgia,'Times New Roman',serif;font-size:.95rem;letter-spacing:.12em;color:#e8c9a8;background:#3b1f1f;align-self:flex-start;margin:.9rem 1rem;padding:.15rem .5rem}
+.bl-band{flex:1;margin:0 0 1.4rem 1rem;background:#ffd600;display:flex;flex-direction:column;justify-content:center;padding:0 1.4rem;border-radius:4px 0 0 4px}
+.bl-band b{font-family:var(--font-display);font-size:1.45rem;font-weight:700;color:#111;line-height:1.15}
+.bl-band small{font-size:.85rem;color:#3f3f00;margin-top:.4rem}
 /* education */
 .edu{padding:0 0 6rem}
 .edu-strip{max-width:960px;margin:0 auto;display:flex;align-items:center;flex-wrap:wrap;gap:1rem 2rem;padding:1.5rem 1.8rem;border:1px solid var(--line);border-radius:16px;background:var(--card)}
@@ -325,6 +337,17 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
 .chat-send.ready:active{transform:scale(.94)}
 .chat-foot{text-align:center;font-size:.7rem;color:#55555c;margin-top:.5rem}
 @media(max-width:520px){.chat-panel{left:0;right:0;bottom:0;width:100%;max-width:none;height:min(78vh,600px);border-radius:18px 18px 0 0;border-bottom:none}}
+@media(max-width:600px){.final .cta-note{display:block;text-align:center}.final .cta-note svg{display:inline-block;vertical-align:-3px;margin-right:.35rem}}
+/* phone overrides (keep last) */
+@media(max-width:900px){.hero .cta-note{display:block;text-align:center}.hero .cta-note svg{display:inline-block;vertical-align:-3px;margin-right:.35rem}}
+@media(max-width:600px){
+  .pain-box{padding:2.2rem 1.1rem;font-size:.95rem;line-height:1.6}
+  .pain-box p{margin-bottom:.55rem;text-wrap:balance}
+  .pain-sum{font-size:1.08em}
+  .proof-quote{text-align:center}
+  .proof-quote p{font-size:1.15rem}
+  .scribble{justify-content:center;margin-left:0}
+}
 </style>
 </head>
 <body>
@@ -353,14 +376,18 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
   <div class="wrap">
     <div class="proof-wrap">
       <div class="proof-card rv">
-        <div class="pc-head">Nbyula <em class="pc-badge">live</em></div>
-        <div class="pc-grid">
-          <div><b>9 in 10</b><span>university decisions recorded automatically, zero false positives</span></div>
-          <div><b>10,000</b><span>users on the document pipeline</span></div>
-          <div><b>&minus;99%</b><span>spam after moderation shipped</span></div>
-          <div><b>&#8377;80K</b><span>sales from a rebuilt checkout</span></div>
+        <div class="pc-head">
+          <img src="assets/logo-nbyula.png" alt="" width="36" height="36" loading="lazy">
+          <div><b>Nbyula</b><span>AI engineer</span></div>
+          <em class="pc-badge">Dec 2024 &ndash; now</em>
         </div>
-        <div class="pc-foot"><a href="#experience">See how &darr;</a><span>Dec 2024 &ndash; now</span></div>
+        <ul class="pc-rows">
+          <li><b>10,000</b><span>students use the document system I built</span></li>
+          <li><b>&minus;99%</b><span>spam after my moderation model shipped</span></li>
+          <li><b>9 in 10</b><span>admission results logged from email automatically, with no wrong entries</span></li>
+          <li><b>&#8377;80K</b><span>in sales from a checkout I rebuilt</span></li>
+        </ul>
+        <a class="pc-foot" href="#experience">See how I built them <span aria-hidden="true">&darr;</span></a>
       </div>
       <div class="proof-quote rv">
         <svg viewBox="0 0 46 40" fill="currentColor" aria-hidden="true"><path d="M0 40V24C0 10 6 2 18 0l2 5c-7 2-10 7-10 13h9v22zM26 40V24C26 10 32 2 44 0l2 5c-7 2-10 7-10 13h9v22z"/></svg>
@@ -441,7 +468,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
         </div>
         <div class="tiles">
           <div class="tile"><b>388K</b><span>past decisions behind my admissions model</span></div>
-          <div class="tile"><b>9 in 10</b><span>university decisions auto-recorded, zero false positives</span></div>
+          <div class="tile"><b>9 in 10</b><span>admission results logged from email automatically, with no wrong entries</span></div>
           <div class="tile"><b>1</b><span>serving layer for every AI agent, with failover</span></div>
           <div class="tile"><b>0</b><span>humans in the prompt loop. My agent opens its own PRs</span></div>
         </div>
@@ -515,11 +542,11 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
     </div>
     <div class="pap-preview" id="papPreview" aria-hidden="true"><img alt=""></div>
     <div class="paps rv">
-      <a class="pap" data-preview="assets/paper-koshurpixel-hd.jpg" href="https://arxiv.org/abs/2606.23144" target="_blank" rel="noopener"><div class="pap-stat"><b>613K</b><small>image-text pairs</small></div><div class="pap-main"><h3>Koshur Pixel: a synthetic OCR dataset for Kashmiri</h3><p>arXiv &middot; 2026 &middot; with H. N. Malik &amp; F. Iqbal</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
-      <a class="pap" data-preview="assets/paper-koshur-hd.jpg" href="https://arxiv.org/abs/2606.15883" target="_blank" rel="noopener"><div class="pap-stat"><b>77.5%</b><small>expert accuracy</small></div><div class="pap-main"><h3>Koshur Diacritizer: the first neural model for Kashmiri diacritics</h3><p>arXiv &middot; 2026 &middot; with H. N. Malik &amp; F. Iqbal</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
-      <a class="pap" data-preview="assets/paper-kspret-hd.jpg" href="https://arxiv.org/abs/2604.11066" target="_blank" rel="noopener"><div class="pap-stat"><b>12M</b><small>tokens</small></div><div class="pap-main"><h3>KS-PRET-5M: the largest Kashmiri pretraining corpus</h3><p>arXiv &middot; 2026 &middot; with H. N. Malik</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
-      <a class="pap" data-preview="assets/paper-cryptojacking.png" href="https://doi.org/10.1109/ICAAIC60222.2024.10575628" target="_blank" rel="noopener"><div class="pap-stat"><b>1st</b><small>author</small></div><div class="pap-main"><h3>A new attack vector for cryptojacking on AWS</h3><p>IEEE ICAAIC &middot; 2024</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
-      <a class="pap" data-preview="assets/paper-navigating.png" href="https://doi.org/10.1109/ICSSAS64001.2024.10760612" target="_blank" rel="noopener"><div class="pap-stat"><b>1st</b><small>author</small></div><div class="pap-main"><h3>Navigating the Cloud: a review of emerging security trends</h3><p>IEEE ICSSAS &middot; 2024</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" data-preview="assets/paper-koshurpixel-hd.jpg" href="https://arxiv.org/abs/2606.23144" target="_blank" rel="noopener"><div class="pap-stat"><b>613K</b><small>image-text pairs</small></div><div class="pap-main"><h3><span class="pap-t">Koshur Pixel: a synthetic OCR dataset for Kashmiri</span></h3><p>arXiv &middot; 2026 &middot; with H. N. Malik &amp; F. Iqbal</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" data-preview="assets/paper-koshur-hd.jpg" href="https://arxiv.org/abs/2606.15883" target="_blank" rel="noopener"><div class="pap-stat"><b>77.5%</b><small>expert accuracy</small></div><div class="pap-main"><h3><span class="pap-t">Koshur Diacritizer: the first neural model for Kashmiri diacritics</span></h3><p>arXiv &middot; 2026 &middot; with H. N. Malik &amp; F. Iqbal</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" data-preview="assets/paper-kspret-hd.jpg" href="https://arxiv.org/abs/2604.11066" target="_blank" rel="noopener"><div class="pap-stat"><b>12M</b><small>tokens</small></div><div class="pap-main"><h3><span class="pap-t">KS-PRET-5M: the largest Kashmiri pretraining corpus</span></h3><p>arXiv &middot; 2026 &middot; with H. N. Malik</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" data-preview="assets/paper-cryptojacking.png" href="https://doi.org/10.1109/ICAAIC60222.2024.10575628" target="_blank" rel="noopener"><div class="pap-stat"><b>1st</b><small>author</small></div><div class="pap-main"><h3><span class="pap-t">A new attack vector for cryptojacking on AWS</span></h3><p>IEEE ICAAIC &middot; 2024</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
+      <a class="pap" data-preview="assets/paper-navigating.png" href="https://doi.org/10.1109/ICSSAS64001.2024.10760612" target="_blank" rel="noopener"><div class="pap-stat"><b>1st</b><small>author</small></div><div class="pap-main"><h3><span class="pap-t">Navigating the Cloud: a review of emerging security trends</span></h3><p>IEEE ICSSAS &middot; 2024</p></div><span class="pap-go" aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -534,7 +561,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
     </div>
     <div class="work-top">
       <a class="proj rv" href="https://nbyula.com" target="_blank" rel="noopener">
-        <div class="proj-img"><img src="assets/preview-nbyula.png" alt="nbyula.com homepage" loading="lazy"></div>
+        <div class="proj-img"><img src="assets/shot-nbyula.jpg" alt="nbyula.com homepage" width="1600" height="1000" loading="lazy"></div>
         <div class="proj-body">
           <span class="proj-tag">Production &middot; EdTech</span>
           <h3>nbyula.com</h3>
@@ -542,7 +569,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
         </div>
       </a>
       <a class="proj rv" href="https://creditmitra.in" target="_blank" rel="noopener">
-        <div class="proj-img"><img src="https://api.microlink.io/?url=https://creditmitra.in&amp;screenshot=true&amp;meta=false&amp;embed=screenshot.url" alt="creditmitra.in homepage" loading="lazy"></div>
+        <div class="proj-img"><img src="assets/shot-creditmitra.jpg" alt="creditmitra.in homepage" width="1600" height="1000" loading="lazy"></div>
         <div class="proj-body">
           <span class="proj-tag">Production &middot; FinTech</span>
           <h3>creditmitra.in</h3>
@@ -550,7 +577,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
         </div>
       </a>
       <a class="proj rv" href="https://blogllm.com" target="_blank" rel="noopener">
-        <div class="proj-img"><img src="https://api.microlink.io/?url=https://blogllm.com&amp;screenshot=true&amp;meta=false&amp;embed=screenshot.url" alt="blogllm.com homepage" loading="lazy"></div>
+        <div class="proj-img blogllm-tile" role="img" aria-label="blogllm.com"><span class="bl-logo">BLOGLLM</span><div class="bl-band"><b>Latest LLMs, explained</b><small>New models, what changed, what they&rsquo;re good for</small></div></div>
         <div class="proj-body">
           <span class="proj-tag">Blog &middot; LLMs</span>
           <h3>blogllm.com</h3>
@@ -689,9 +716,10 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
     box.style.left = x + 'px'; box.style.top = y + 'px';
   };
   document.querySelectorAll('.pap[data-preview]').forEach(function(row){
-    row.addEventListener('mouseenter', function(e){ img.src = row.getAttribute('data-preview'); place(e); box.classList.add('on'); });
-    row.addEventListener('mousemove', place);
-    row.addEventListener('mouseleave', function(){ box.classList.remove('on'); });
+    var t = row.querySelector('.pap-t');
+    t.addEventListener('mouseenter', function(e){ img.src = row.getAttribute('data-preview'); place(e); box.classList.add('on'); });
+    t.addEventListener('mousemove', place);
+    t.addEventListener('mouseleave', function(){ box.classList.remove('on'); });
   });
 })();
 

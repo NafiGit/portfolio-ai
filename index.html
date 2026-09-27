@@ -127,23 +127,25 @@ button{font:inherit}
 @media(max-width:900px){.portrait{order:-1;justify-self:start;width:min(200px,55vw)}}
 
 /* proof */
-.proof{padding:4rem 0 5rem}
-.results{display:grid;grid-template-columns:repeat(4,1fr);max-width:1040px;margin:0 auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.res{padding:2rem 1.6rem;border-left:1px solid var(--line)}
-.res:first-child{border-left:none}
-.res b{display:block;font-family:var(--font-display);font-size:clamp(2.4rem,4vw,3.3rem);font-weight:700;letter-spacing:-.03em;line-height:1}
-.res span{display:block;color:var(--muted);font-size:.95rem;line-height:1.5;margin-top:.8rem;max-width:22ch}
-.ask{text-align:center;margin-top:3.5rem}
-.ask p{font-size:1.15rem;color:#e4e4e7;margin-bottom:1.1rem}
-.ask-row{display:inline-flex;align-items:center;gap:.8rem}
+.proof{padding:3rem 0 5rem}
+.proof-wrap{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.proof-card{background:#ececec;color:#18181b;border-radius:6px;padding:1.4rem 1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.pc-head{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:.95rem}
+.pc-badge{font-style:normal;font-size:.72rem;font-weight:700;color:#15803d;background:#bbf7d0;border:1px solid #86efac;border-radius:4px;padding:.05rem .4rem}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem 1rem;margin:1.3rem 0 1.2rem}
+.pc-grid b{display:block;font-size:1.7rem;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.pc-grid span{font-size:.8rem;color:#52525b}
+.pc-foot{display:flex;justify-content:space-between;font-size:.8rem;color:#71717a;border-top:1px solid #d4d4d8;padding-top:.8rem}
+.pc-foot a{color:#4f46e5;font-weight:600}
+.proof-quote>svg{width:46px;height:40px;color:#16a34a}
+.proof-quote p{font-size:1.3rem;line-height:1.55;color:#e4e4e7;margin:1rem 0 1.4rem}
 .ask-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.4rem 1.1rem .4rem .4rem;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);color:var(--text);font-weight:600;font-size:.95rem;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
 .ask-btn:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.32);transform:translateY(-1px)}
 .ask-btn img{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:top}
-.scribble{display:flex;align-items:center;gap:.2rem;color:var(--muted);text-align:left}
+.scribble{display:flex;align-items:flex-start;gap:.3rem;margin:.4rem 0 0 2.2rem;color:var(--muted)}
 .scribble svg{width:46px;height:40px;flex-shrink:0}
-.scribble span{font-family:var(--font-hand);font-size:1.3rem;line-height:1.15;color:#d4d4d8}
-@media(max-width:820px){.results{grid-template-columns:1fr 1fr}.res:nth-child(3){border-left:none}.res:nth-child(n+3){border-top:1px solid var(--line)}}
-@media(max-width:560px){.res{padding:1.4rem 1rem}.ask-row{flex-direction:column}.scribble svg{display:none}.scribble span{text-align:center}}
+.scribble span{font-family:var(--font-hand);font-size:1.35rem;line-height:1.15;color:#d4d4d8;margin-top:1.2rem}
+@media(max-width:820px){.proof-wrap{grid-template-columns:1fr}}
 
 /* pain */
 .pain{padding:3rem 0 6rem}
@@ -349,22 +351,23 @@ footer{border-top:1px solid var(--line);padding:4rem 0 3rem}
 <!-- Proof -->
 <section class="proof" aria-label="Results">
   <div class="wrap">
-    <div class="sec-head rv" style="margin-bottom:2.8rem">
-      <span class="eyebrow">Results</span>
-      <h2>Real users, real numbers</h2>
-    </div>
-    <div class="results rv">
-      <div class="res"><b>10,000</b><span>students use the document system I built</span></div>
-      <div class="res"><b>99%</b><span>less spam after my moderation model shipped</span></div>
-      <div class="res"><b>9 in 10</b><span>admission results logged automatically, with no wrong entries</span></div>
-      <div class="res"><b>&#8377;80K</b><span>in sales from one checkout I rebuilt</span></div>
-    </div>
-    <div class="ask rv">
-      <p>Still curious? Ask my AI anything about my work.</p>
-      <div class="ask-row">
+    <div class="proof-wrap">
+      <div class="proof-card rv">
+        <div class="pc-head">Nbyula <em class="pc-badge">live</em></div>
+        <div class="pc-grid">
+          <div><b>9 in 10</b><span>university decisions recorded automatically, zero false positives</span></div>
+          <div><b>10,000</b><span>users on the document pipeline</span></div>
+          <div><b>&minus;99%</b><span>spam after moderation shipped</span></div>
+          <div><b>&#8377;80K</b><span>sales from a rebuilt checkout</span></div>
+        </div>
+        <div class="pc-foot"><a href="#experience">See how &darr;</a><span>Dec 2024 &ndash; now</span></div>
+      </div>
+      <div class="proof-quote rv">
+        <svg viewBox="0 0 46 40" fill="currentColor" aria-hidden="true"><path d="M0 40V24C0 10 6 2 18 0l2 5c-7 2-10 7-10 13h9v22zM26 40V24C26 10 32 2 44 0l2 5c-7 2-10 7-10 13h9v22z"/></svg>
+        <p>Don&rsquo;t take my word for it. Ask my AI anything about my work, and it answers from my real resume.</p>
         <button type="button" class="ask-btn" data-open-chat><img src="assets/profile.png" alt="" width="30" height="30" loading="lazy">Ask about Nahfid</button>
         <div class="scribble" aria-hidden="true">
-          <svg viewBox="0 0 60 50" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M56 30C44 34 26 32 8 20"/><path d="M6 30 7 18l12-1"/></svg>
+          <svg viewBox="0 0 60 50" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M56 46C40 44 20 34 8 8"/><path d="M4 18 8 7l10 6"/></svg>
           <span>Try this &#10024;<br>(it knows my whole resume)</span>
         </div>
       </div>
